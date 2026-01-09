@@ -2,11 +2,48 @@
 
 import React from "react";
 import KPI from "../../components/KPI";
+import DataTable, { Column } from "../../components/DataTable";
 import { 
-  LuArrowRight, 
-  LuShoppingBag, 
   LuCoins,
+  LuShoppingBag
 } from "react-icons/lu";
+
+const salesColumns: Column[] = [
+  {
+    key: "orderInfo",
+    label: "Commande",
+    render: (_, sale) => (
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center border border-zinc-100">
+          <LuShoppingBag className="w-4 h-4 text-zinc-400" />
+        </div>
+        <div>
+          <p className="font-bold text-zinc-900">{sale.orderNumber}</p>
+          <p className="text-xs text-zinc-400">{sale.time} • {sale.paymentMethod}</p>
+        </div>
+      </div>
+    )
+  },
+  {
+    key: "amount",
+    label: "Montant",
+    render: (amount, sale) => (
+      <div className="text-right">
+        <p className="font-bold text-zinc-900">{amount}</p>
+        <p className="text-[10px] text-emerald-600 font-bold uppercase tracking-wider">{sale.status}</p>
+      </div>
+    )
+  }
+];
+
+const salesData = [
+  { orderNumber: "#84921", time: "18:45", paymentMethod: "Comptant", amount: "124,00 €", status: "Payé" },
+  { orderNumber: "#84922", time: "17:32", paymentMethod: "Carte", amount: "89,50 €", status: "Payé" },
+  { orderNumber: "#84923", time: "16:15", paymentMethod: "Comptant", amount: "156,00 €", status: "Payé" },
+  { orderNumber: "#84924", time: "15:28", paymentMethod: "Carte", amount: "67,90 €", status: "Payé" },
+  { orderNumber: "#84925", time: "14:12", paymentMethod: "Comptant", amount: "203,00 €", status: "Payé" },
+  { orderNumber: "#84926", time: "13:45", paymentMethod: "Carte", amount: "45,00 €", status: "Payé" }
+];
 
 export default function DashboardPage() {
   return (
@@ -19,33 +56,12 @@ export default function DashboardPage() {
       
           {/* COLONNE GAUCHE : VENTES RÉCENTES */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-4xl border border-zinc-200 shadow-sm overflow-hidden">
-              <div className="p-6 border-b border-zinc-100 flex justify-between items-center">
-                <h2 className="text-lg font-bold text-zinc-900">Ventes récentes</h2>
-                <button className="text-zinc-400 text-sm font-bold flex items-center gap-1 hover:text-zinc-900 transition-colors">
-                  Voir tout <LuArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-              
-              <div className="divide-y divide-zinc-50">
-                {[1, 2, 3, 4, 5, 6].map((order) => (
-                  <div key={order} className="p-5 flex items-center justify-between hover:bg-zinc-50/80 transition-colors cursor-pointer group">
-                    <div className="flex items-center gap-4">
-                      <div className="w-11 h-11 rounded-2xl bg-zinc-50 flex items-center justify-center border border-zinc-100 group-hover:bg-white transition-colors">
-                        <LuShoppingBag className="w-5 h-5 text-zinc-400 group-hover:text-zinc-900" />
-                      </div>
-                      <div>
-                        <p className="font-bold text-zinc-900 text-[15px]">Commande #8492{order}</p>
-                        <p className="text-xs text-zinc-400 font-medium italic">18:45 • Comptant</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-bold text-zinc-900 text-[15px]">124 000 F</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <DataTable
+              columns={salesColumns}
+              data={salesData}
+              title="Ventes récentes"
+              showViewAll={true}
+            />
           </div>
 
           {/* COLONNE DROITE : CAISSE & ALERTES */}
