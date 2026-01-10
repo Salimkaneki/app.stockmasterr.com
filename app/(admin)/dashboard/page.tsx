@@ -60,7 +60,7 @@ export default function DashboardPage() {
           <h1 className="text-5xl font-medium tracking-tighter text-zinc-900 mb-2 font-['Google_Sans']">
             Dashboard<span className="text-zinc-200">.</span>
           </h1>
-          <p className="text-zinc-400 text-sm font-medium">Analyse consolidée de votre activité en temps réel.</p>
+          <p className="text-zinc-400 text-base font-medium">Analyse consolidée de votre activité en temps réel.</p>
         </div>
       </div>
 
@@ -72,8 +72,8 @@ export default function DashboardPage() {
           {/* SECTION PRINCIPALE (8/12) */}
           <div className="lg:col-span-8">
             <div className="flex items-end justify-between mb-10">
-              <h2 className="text-xs font-black uppercase tracking-[0.3em] text-zinc-900">Ventes Récentes</h2>
-              <button className="text-[11px] font-bold text-zinc-400 hover:text-zinc-900 flex items-center gap-2 transition-all group">
+              <h2 className="text-sm font-black uppercase tracking-[0.3em] text-zinc-900">Ventes Récentes</h2>
+              <button className="text-sm font-bold text-zinc-400 hover:text-zinc-900 flex items-center gap-2 transition-all group">
                 VOIR TOUT <LuArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>

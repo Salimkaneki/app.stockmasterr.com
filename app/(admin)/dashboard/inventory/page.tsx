@@ -88,15 +88,15 @@ export default function InventoryPage() {
       <div className="border-b border-zinc-100 px-8 py-10">
         <div className="max-w-350 mx-auto flex justify-between items-end">
           <div>
-            <h1 className="text-xl font-bold tracking-tight">Inventaire</h1>
-            <p className="text-zinc-400 text-sm mt-1 font-['Google_Sans']">Gestion des stocks et catalogue produits.</p>
+            <h1 className="text-2xl font-bold tracking-tight">Inventaire</h1>
+            <p className="text-zinc-400 text-base mt-1 font-['Google_Sans']">Gestion des stocks et catalogue produits.</p>
           </div>
           <div className="flex gap-3">
-            <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
+            <button className="flex items-center gap-2 px-4 py-2 text-base font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
               <LuDownload className="w-4 h-4" />
               Exporter
             </button>
-            <button className="bg-zinc-900 text-white px-5 py-2 rounded-lg text-sm font-bold hover:bg-zinc-800 transition-all shadow-sm flex items-center gap-2">
+            <button className="bg-zinc-900 text-white px-5 py-2 rounded-lg text-base font-bold hover:bg-zinc-800 transition-all shadow-sm flex items-center gap-2">
               <LuPlus className="w-4 h-4" />
               Créer un article
             </button>
@@ -113,7 +113,7 @@ export default function InventoryPage() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`text-sm font-bold pb-4 -mb-4.25 transition-colors relative font-['Google_Sans'] ${
+                className={`text-base font-bold pb-4 -mb-4.25 transition-colors relative font-['Google_Sans'] ${
                   activeTab === tab ? "text-zinc-900" : "text-zinc-400 hover:text-zinc-600"
                 }`}
               >
@@ -128,7 +128,7 @@ export default function InventoryPage() {
             <input 
               type="text" 
               placeholder="Nom, SKU..." 
-              className="pl-6 pr-4 py-1 text-sm outline-none bg-transparent placeholder:text-zinc-300 w-48 focus:w-64 transition-all font-['Google_Sans']"
+              className="pl-6 pr-4 py-2 text-base outline-none bg-transparent placeholder:text-zinc-300 w-48 focus:w-64 transition-all font-['Google_Sans']"
             />
           </div>
         </div>
