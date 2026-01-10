@@ -1,11 +1,13 @@
 "use client";
 
 import React from "react";
-import { LuArrowRight } from "react-icons/lu";
+import { LuArrowRight, LuInbox } from "react-icons/lu";
 
 export interface Column {
   key: string;
   label: string;
+  align?: "left" | "center" | "right";
+  width?: string;
   render?: (value: any, row: any) => React.ReactNode;
 }
 
@@ -13,68 +15,105 @@ interface DataTableProps {
   columns: Column[];
   data: any[];
   title?: string;
+  isLoading?: boolean;
   showViewAll?: boolean;
   onViewAll?: () => void;
+  onRowClick?: (row: any) => void;
   emptyMessage?: string;
   className?: string;
+  variant?: "default" | "clean";
 }
 
 export default function DataTable({
   columns,
   data,
   title,
+  isLoading = false,
   showViewAll = false,
   onViewAll,
+  onRowClick,
   emptyMessage = "Aucune donnée disponible",
-  className = ""
+  className = "",
+  variant = "default",
 }: DataTableProps) {
+  
+  // Style minimaliste : fond blanc pur ou transparent
+  const baseStyles = variant === "default" 
+    ? "bg-white rounded-xl border border-zinc-100 shadow-sm overflow-hidden" 
+    : "w-full";
+
+  if (isLoading) {
+    return (
+      <div className={`${baseStyles} ${className} p-8 space-y-4`}>
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="h-12 bg-zinc-50 animate-pulse rounded-lg w-full" />
+        ))}
+      </div>
+    );
+  }
+
   if (data.length === 0) {
     return (
-      <div className={`bg-white rounded-4xl border border-zinc-200 shadow-sm p-8 ${className}`}>
-        {title && <h2 className="text-lg font-bold text-zinc-900 mb-4">{title}</h2>}
-        <p className="text-zinc-500 text-center py-8">{emptyMessage}</p>
+      <div className="py-20 flex flex-col items-center justify-center text-center">
+        <LuInbox className="w-8 h-8 text-zinc-200 mb-3" />
+        <p className="text-zinc-400 text-sm font-medium font-['Google_Sans']">{emptyMessage}</p>
       </div>
     );
   }
 
   return (
-    <div className={`bg-white rounded-4xl border border-zinc-200 shadow-sm overflow-hidden ${className}`}>
+    <div className={`${baseStyles} ${className}`}>
+      {/* Title section (seulement si présent) */}
       {title && (
-        <div className="p-6 border-b border-zinc-100 flex justify-between items-center">
-          <h2 className="text-lg font-bold text-zinc-900">{title}</h2>
+        <div className="px-6 py-5 flex justify-between items-center">
+          <h2 className="text-md font-bold text-zinc-900 tracking-tight font-['Google_Sans']">{title}</h2>
           {showViewAll && (
-            <button
-              onClick={onViewAll}
-              className="text-zinc-400 text-sm font-bold flex items-center gap-1 hover:text-zinc-900 transition-colors"
-            >
-              Voir tout <LuArrowRight className="w-4 h-4" />
+            <button onClick={onViewAll} className="text-xs font-bold text-zinc-400 hover:text-zinc-900 flex items-center gap-1 transition-colors">
+              VOIR TOUT <LuArrowRight className="w-3 h-3" />
             </button>
           )}
         </div>
       )}
 
       <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-zinc-50/50 border-b border-zinc-200">
-            <tr>
+        <table className="w-full border-spacing-0">
+          <thead>
+            <tr className="border-b border-zinc-100">
               {columns.map((column) => (
                 <th
                   key={column.key}
-                  className="text-left p-4 text-[11px] font-bold text-zinc-500 uppercase tracking-widest"
+                  className={`
+                    px-6 py-4 text-[11px] font-black text-zinc-400 uppercase tracking-[0.15em]
+                    ${column.align === 'right' ? 'text-right' : column.align === 'center' ? 'text-center' : 'text-left'}
+                  `}
+                  style={{ width: column.width }}
                 >
                   {column.label}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-zinc-100">
+          <tbody className="divide-y divide-zinc-50">
             {data.map((row, index) => (
-              <tr key={index} className="hover:bg-zinc-50/50 transition-colors">
+              <tr 
+                key={index} 
+                onClick={() => onRowClick && onRowClick(row)}
+                className={`
+                  group transition-all
+                  ${onRowClick ? "cursor-pointer hover:bg-zinc-50/50" : "hover:bg-zinc-50/30"}
+                `}
+              >
                 {columns.map((column) => (
-                  <td key={column.key} className="p-4 text-sm text-zinc-900">
+                  <td 
+                    key={column.key} 
+                    className={`
+                      px-6 py-5 text-[13px] text-zinc-600 font-medium
+                      ${column.align === 'right' ? 'text-right' : column.align === 'center' ? 'text-center' : 'text-left'}
+                    `}
+                  >
                     {column.render
                       ? column.render(row[column.key], row)
-                      : row[column.key]
+                      : <span className="font-['Google_Sans'] text-zinc-900">{row[column.key]}</span>
                     }
                   </td>
                 ))}

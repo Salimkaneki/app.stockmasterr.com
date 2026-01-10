@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { 
   LuLayoutDashboard, LuShoppingCart, LuUsers, 
@@ -45,8 +46,9 @@ export default function Sidebar() {
         {menuItems.map((item) => {
           const isActive = pathname === item.href;
           return (
-            <div
+            <Link
               key={item.name}
+              href={item.href}
               className={`
                 group flex items-center gap-3 px-4 py-3 rounded-lg text-[16px] font-medium transition-colors cursor-pointer
                 ${isActive 
@@ -60,7 +62,7 @@ export default function Sidebar() {
                 strokeWidth={isActive ? 2.5 : 2} 
               />
               <span>{item.name}</span>
-            </div>
+            </Link>
           );
         })}
       </nav>
