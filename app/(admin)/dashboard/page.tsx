@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import KPI from "../../components/KPI";
-import DataTable, { Column } from "../../components/DataTable";
+import KPI from "../../../components/KPI";
+import DataTable, { Column } from "../../../components/DataTable";
 import { LuCoins, LuArrowRight, LuCircleDot } from "react-icons/lu";
 
 // --- COLONNES SALES (ULTRA-NETTES) ---

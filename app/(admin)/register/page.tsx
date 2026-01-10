@@ -3,7 +3,7 @@
 import { useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { LuArrowRight, LuArrowLeft, LuCheck, LuTerminal } from "react-icons/lu";
-import { Input, Select, FileInput } from "../../components/ui";
+import { Input, Select, FileInput } from "../../../components/ui";
 
 function RegisterForm() {
   const searchParams = useSearchParams();

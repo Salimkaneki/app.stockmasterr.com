@@ -12,7 +12,7 @@ import {
   LuShield,
   LuImage
 } from "react-icons/lu";
-import { Input, Select, FileInput, Checkbox } from "../../../components/ui";
+import { Input, Select, FileInput, Checkbox } from "../../../../components/ui";
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("Général");
