@@ -56,7 +56,7 @@ export default function DataTable({
     return (
       <div className="py-20 flex flex-col items-center justify-center text-center">
         <LuInbox className="w-8 h-8 text-zinc-200 mb-3" />
-        <p className="text-zinc-400 text-sm font-medium font-['Google_Sans']">{emptyMessage}</p>
+        <p className="text-zinc-400 text-base font-medium font-['Google_Sans']">{emptyMessage}</p>
       </div>
     );
   }
@@ -66,10 +66,10 @@ export default function DataTable({
       {/* Title section (seulement si présent) */}
       {title && (
         <div className="px-6 py-5 flex justify-between items-center">
-          <h2 className="text-md font-bold text-zinc-900 tracking-tight font-['Google_Sans']">{title}</h2>
+          <h2 className="text-lg font-semibold text-zinc-900 tracking-tight font-['Google_Sans']">{title}</h2>
           {showViewAll && (
-            <button onClick={onViewAll} className="text-xs font-bold text-zinc-400 hover:text-zinc-900 flex items-center gap-1 transition-colors">
-              VOIR TOUT <LuArrowRight className="w-3 h-3" />
+            <button onClick={onViewAll} className="text-sm font-bold text-zinc-400 hover:text-zinc-900 flex items-center gap-2 transition-colors">
+              VOIR TOUT <LuArrowRight className="w-4 h-4" />
             </button>
           )}
         </div>
@@ -83,7 +83,7 @@ export default function DataTable({
                 <th
                   key={column.key}
                   className={`
-                    px-6 py-4 text-[11px] font-black text-zinc-400 uppercase tracking-[0.15em]
+                    px-6 py-4 text-[12px] font-semibold text-zinc-500 uppercase tracking-[0.12em]
                     ${column.align === 'right' ? 'text-right' : column.align === 'center' ? 'text-center' : 'text-left'}
                   `}
                   style={{ width: column.width }}
@@ -107,7 +107,7 @@ export default function DataTable({
                   <td 
                     key={column.key} 
                     className={`
-                      px-6 py-5 text-[13px] text-zinc-600 font-medium
+                      px-6 py-5 text-[15px] text-zinc-600 font-medium
                       ${column.align === 'right' ? 'text-right' : column.align === 'center' ? 'text-center' : 'text-left'}
                     `}
                   >
