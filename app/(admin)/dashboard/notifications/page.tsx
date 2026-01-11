@@ -2,55 +2,42 @@
 
 import React, { useState } from "react";
 import { 
-  LuCheckCheck, 
-  LuSearch, 
-  LuTrash2, 
-  LuZap,
-  LuShoppingBag,
-  LuPackage,
-  LuTriangle,
-  LuMoveHorizontal,
-  LuArrowUpRight
+  LuCheckCheck, LuTrash2, LuZap, LuShoppingBag, 
+  LuPackage, LuTriangle, LuArrowRight, LuFilter
 } from "react-icons/lu";
 import { PageHeader, ActionButton } from "@/components/ui";
 
 const notificationsData = [
   {
     id: 1,
-    type: "inventory",
-    title: "Stock critique",
-    message: "Le produit 'Clavier Mécanique RGB' est descendu sous le seuil d'alerte (2 unités restantes).",
+    category: "INVENTAIRE",
+    title: "Seuil critique atteint",
+    message: "Le stock de 'MacBook Pro M3' est épuisé. 0 unités restantes en rayon.",
     time: "À l'instant",
     read: false,
-    icon: <LuPackage className="w-5 h-5" />
+    type: "inventory",
+    icon: <LuPackage className="w-4 h-4" />
   },
   {
     id: 2,
-    type: "sale",
-    title: "Vente enregistrée",
-    message: "Une nouvelle transaction de 125 000 F CFA a été validée sur le terminal 01.",
-    time: "Il y a 12 min",
+    category: "COMMERCE",
+    title: "Nouvelle vente",
+    message: "Transaction de 850 000 F CFA validée par Caisse 02.",
+    time: "14:20",
     read: false,
-    icon: <LuShoppingBag className="w-5 h-5" />
+    type: "sale",
+    icon: <LuShoppingBag className="w-4 h-4" />
   },
   {
     id: 3,
+    category: "SYSTÈME",
+    title: "Sauvegarde terminée",
+    message: "La synchronisation cloud v2.1 a été effectuée sans erreur.",
+    time: "12:05",
+    read: true,
     type: "system",
-    title: "Mise à jour v2.1.0",
-    message: "Le système a été mis à jour avec succès. Les nouvelles fonctionnalités sont prêtes.",
-    time: "Il y a 1 heure",
-    read: true,
-    icon: <LuZap className="w-5 h-5" />
+    icon: <LuZap className="w-4 h-4" />
   },
-  {
-    id: 4,
-    type: "alert",
-    title: "Sécurité",
-    message: "Tentative de connexion bloquée depuis une adresse IP non répertoriée (Dakar, SN).",
-    time: "Il y a 3 heures",
-    read: true,
-    icon: <LuTriangle className="w-5 h-5" />
-  }
 ];
 
 export default function NotificationsPage() {
@@ -59,31 +46,30 @@ export default function NotificationsPage() {
   return (
     <div className="bg-white min-h-screen pb-20 font-sans text-zinc-900">
       
-      {/* HEADER : PLUS AÉRÉ */}
       <PageHeader
-        title="Journal d'activité"
-        description="Historique complet des événements de votre boutique."
+        title="Journal"
+        description="L'essentiel de votre activité, sans bruit."
       >
-        <div className="flex items-center gap-3">
-          <button className="p-2 text-zinc-400 hover:text-zinc-900 transition-colors">
-            <LuSearch className="w-5 h-5" />
-          </button>
-          <div className="w-px h-6 bg-zinc-100 mx-2" />
-          <ActionButton variant="secondary" icon={<LuCheckCheck className="w-4 h-4" />}>
-            Tout marquer
-          </ActionButton>
+        <div className="flex items-center gap-2">
+           <button className="p-2 text-zinc-400 hover:text-zinc-900 transition-colors">
+              <LuFilter className="w-5 h-5" />
+           </button>
+           <div className="w-px h-6 bg-zinc-100 mx-2" />
+           <ActionButton variant="secondary" icon={<LuCheckCheck className="w-4 h-4" />}>
+             Tout marquer
+           </ActionButton>
         </div>
       </PageHeader>
 
-      <div className="max-w-4xl mx-auto px-8 mt-16">
+      <div className="max-w-3xl mx-auto px-8 mt-16">
         
-        {/* TABS MINIMALISTES */}
-        <div className="flex gap-10 border-b border-zinc-100 mb-12">
-          {["Toutes", "Non lues", "Alertes"].map((tab) => (
+        {/* TABS ULTRA-FINS */}
+        <div className="flex gap-8 mb-16 border-b border-zinc-50">
+          {["Toutes", "Alertes", "Système"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`pb-4 text-[13px] font-black uppercase tracking-[0.2em] transition-all relative ${
+              className={`pb-4 text-[11px] font-black uppercase tracking-[0.25em] transition-all relative ${
                 activeTab === tab ? "text-zinc-900" : "text-zinc-300 hover:text-zinc-500"
               }`}
             >
@@ -93,60 +79,63 @@ export default function NotificationsPage() {
           ))}
         </div>
 
-        {/* LISTE TYPE "TIMELINE" */}
-        <div className="relative space-y-0 border-l border-zinc-100 ml-4">
+        {/* LISTE DE LECTURE ÉPURÉE */}
+        <div className="space-y-0">
           {notificationsData.map((notif) => (
             <div 
               key={notif.id}
-              className={`group relative pl-12 pb-12 transition-all ${notif.read ? 'opacity-50' : 'opacity-100'}`}
+              className={`group relative flex items-start gap-8 py-8 border-b border-zinc-50 transition-all
+                ${notif.read ? 'opacity-40' : 'opacity-100'}
+              `}
             >
-              {/* POINT SUR LA LIGNE */}
-              <div className={`absolute -left-1.25 top-1 w-2.5 h-2.5 rounded-full border-2 border-white transition-all duration-500 ${
-                notif.read ? 'bg-zinc-300' : 'bg-zinc-900 scale-125'
-              }`} />
+              {/* INDICATEUR DE LECTURE MINIMAL (Point Indigo) */}
+              {!notif.read && (
+                <div className="absolute -left-6 top-9.5 w-2 h-2 bg-indigo-600 rounded-full" />
+              )}
 
-              <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
-                <div className="flex gap-6 items-start">
-                  {/* ICONE SANS FOND LOURD */}
-                  <div className={`mt-1 transition-colors ${
-                    notif.type === 'inventory' ? 'text-hardware' : 
-                    notif.type === 'sale' ? 'text-commerce' : 
-                    notif.type === 'alert' ? 'text-rose-500' : 'text-zinc-900'
-                  }`}>
-                    {notif.icon}
-                  </div>
+              {/* DATE / TEMPS (Colonne fixe pour l'alignement) */}
+              <div className="w-20 pt-1">
+                <span className="text-[11px] font-mono font-bold text-zinc-400 uppercase tracking-tighter">
+                  {notif.time}
+                </span>
+              </div>
 
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-3">
-                      <span className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest">{notif.time}</span>
-                      {!notif.read && <span className="bg-zinc-900 text-white text-[8px] px-1.5 py-0.5 rounded font-black uppercase tracking-tighter">New</span>}
-                    </div>
-                    <h3 className="text-lg font-black tracking-tight leading-none group-hover:underline decoration-zinc-200 underline-offset-4 cursor-pointer">
-                      {notif.title}
-                    </h3>
-                    <p className="text-zinc-500 text-sm font-medium leading-relaxed max-w-xl">
-                      {notif.message}
-                    </p>
-                  </div>
+              {/* CONTENU PRINCIPAL */}
+              <div className="flex-1 space-y-2">
+                <div className="flex items-center gap-3">
+                  <span className={`text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest
+                    ${notif.type === 'inventory' ? 'bg-rose-50 text-rose-600' : ''}
+                    ${notif.type === 'sale' ? 'bg-indigo-50 text-indigo-600' : ''}
+                    ${notif.type === 'system' ? 'bg-zinc-100 text-zinc-600' : ''}
+                  `}>
+                    {notif.category}
+                  </span>
                 </div>
+                
+                <h3 className="text-[17px] font-black tracking-tight text-zinc-900">
+                  {notif.title}
+                </h3>
+                
+                <p className="text-zinc-500 text-[15px] leading-relaxed font-medium max-w-xl">
+                  {notif.message}
+                </p>
+              </div>
 
-                {/* ACTIONS DISCRÈTES AU BOUT DE LA LIGNE */}
-                <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all translate-x-2 group-hover:translate-x-0">
-                  <button className="flex items-center gap-2 px-4 py-2 bg-zinc-50 rounded-lg text-xs font-bold hover:bg-zinc-900 hover:text-white transition-all">
-                    Détails <LuArrowUpRight className="w-3 h-3" />
-                  </button>
-                  <button className="p-2 text-zinc-300 hover:text-rose-500 transition-colors">
-                    <LuTrash2 className="w-4 h-4" />
-                  </button>
-                </div>
+              {/* ACTION DISCRÈTE AU SURVOL */}
+              <div className="opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 pt-1">
+                <button className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-zinc-400 hover:text-zinc-900 transition-colors">
+                  Ouvrir <LuArrowRight className="w-3 h-3" />
+                </button>
               </div>
             </div>
           ))}
         </div>
 
-        {/* FIN DE FIL */}
-        <div className="ml-4 pl-12 border-l border-zinc-100 py-4">
-           <p className="text-[10px] font-black text-zinc-300 uppercase tracking-[0.3em]">Fin de l'historique récent</p>
+        {/* FOOTER */}
+        <div className="mt-20 flex justify-center">
+          <button className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-300 hover:text-zinc-900 transition-colors">
+            Charger l'historique ancien
+          </button>
         </div>
 
       </div>
