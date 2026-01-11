@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import DataTable, { Column } from "../../../../components/DataTable";
+import { DataTable, Column } from "../../../../components/data";
 import {
   LuPlus,
   LuSearch,

@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import DataTable, { Column } from "../../../../components/DataTable";
+import { DataTable, Column } from "../../../../components/data";
+import { PageHeader, ActionButton, StatusBadge } from "../../../../components/ui";
 import {
   LuPlus,
   LuSearch,
@@ -35,18 +36,7 @@ const customerColumns: Column[] = [
   {
     key: "status",
     label: "Statut",
-    render: (status) => {
-      const styles: any = {
-        "Actif": "bg-emerald-50 text-emerald-700 border-emerald-100",
-        "Nouveau": "bg-blue-50 text-blue-700 border-blue-100",
-        "Inactif": "bg-zinc-50 text-zinc-400 border-zinc-200",
-      };
-      return (
-        <span className={`px-2.5 py-1 rounded-full text-xs font-black border uppercase tracking-widest font-['Google_Sans'] ${styles[status]}`}>
-          {status}
-        </span>
-      );
-    }
+    render: (status) => <StatusBadge status={status} />
   },
   {
     key: "totalOrders",
@@ -84,25 +74,17 @@ export default function CustomersPage() {
   return (
     <div className="bg-white min-h-screen pb-20 font-sans text-zinc-900">
       
-      {/* HEADER MINIMALISTE */}
-      <div className="border-b border-zinc-100 px-8 py-10">
-        <div className="max-w-350 mx-auto flex justify-between items-end">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Clients</h1>
-            <p className="text-zinc-400 text-base mt-1 font-['Google_Sans']">Gestion de la base client et fidélisation.</p>
-          </div>
-          <div className="flex gap-3">
-            <button className="flex items-center gap-2 px-4 py-2 text-base font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
-              <LuMail className="w-4 h-4" />
-              Campagne Email
-            </button>
-            <button className="bg-zinc-900 text-white px-5 py-2 rounded-lg text-base font-bold hover:bg-zinc-800 transition-all shadow-sm flex items-center gap-2">
-              <LuUserPlus className="w-4 h-4" />
-              Nouveau Client
-            </button>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        title="Clients"
+        description="Gestion de la base client et fidélisation."
+      >
+        <ActionButton variant="secondary" icon={<LuMail className="w-4 h-4" />}>
+          Campagne Email
+        </ActionButton>
+        <ActionButton variant="primary" icon={<LuUserPlus className="w-4 h-4" />}>
+          Nouveau Client
+        </ActionButton>
+      </PageHeader>
 
       <div className="max-w-350 mx-auto px-8 mt-12">
         
