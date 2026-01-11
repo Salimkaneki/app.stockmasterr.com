@@ -96,10 +96,10 @@ export default function InventoryPage() {
               <LuDownload className="w-4 h-4" />
               Exporter
             </button>
-            <button className="bg-zinc-900 text-white px-5 py-2 rounded-lg text-base font-bold hover:bg-zinc-800 transition-all shadow-sm flex items-center gap-2">
+            <a href="/dashboard/inventory/new" className="bg-zinc-900 text-white px-5 py-2 rounded-lg text-base font-bold hover:bg-zinc-800 transition-all shadow-sm flex items-center gap-2">
               <LuPlus className="w-4 h-4" />
               Créer un article
-            </button>
+            </a>
           </div>
         </div>
       </div>
