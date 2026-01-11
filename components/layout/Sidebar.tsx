@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { 
   LuLayoutDashboard, LuShoppingCart, LuUsers, 
   LuSettings, LuPackage, LuReceipt,
-  LuChevronsUpDown, LuBell
+  LuChevronsUpDown, LuBell, LuUserCheck
 } from "react-icons/lu";
 
 interface MenuItem {
@@ -20,7 +20,9 @@ const menuItems: MenuItem[] = [
   { name: "Inventaire", href: "/dashboard/inventory", icon: LuPackage },
   { name: "Ventes", href: "/dashboard/sales", icon: LuShoppingCart },
   { name: "Clients", href: "/dashboard/customers", icon: LuUsers },
+  { name: "Personnel", href: "/dashboard/staff", icon: LuUserCheck },
   { name: "Factures", href: "/dashboard/invoices", icon: LuReceipt },
+  { name: "Notifications", href: "/dashboard/notifications", icon: LuBell },
 ];
 
 export default function Sidebar() {
