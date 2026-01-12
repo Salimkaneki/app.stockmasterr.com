@@ -86,6 +86,7 @@ export default function CustomersPage() {
             Nouveau Client
           </ActionButton>
         </div>
+        
 
       </PageHeader>
 
