@@ -78,12 +78,15 @@ export default function CustomersPage() {
         title="Clients"
         description="Gestion de la base client et fidélisation."
       >
-        <ActionButton variant="secondary" icon={<LuMail className="w-4 h-4" />}>
-          Campagne Email
-        </ActionButton>
-        <ActionButton variant="primary" icon={<LuUserPlus className="w-4 h-4" />}>
-          Nouveau Client
-        </ActionButton>
+        <div className="flex gap-3">
+          <ActionButton variant="secondary" icon={<LuMail className="w-4 h-4" />}>
+            Campagne Email
+          </ActionButton>
+          <ActionButton variant="primary" icon={<LuUserPlus className="w-4 h-4" />}>
+            Nouveau Client
+          </ActionButton>
+        </div>
+
       </PageHeader>
 
       <div className="max-w-350 mx-auto px-8 mt-12">

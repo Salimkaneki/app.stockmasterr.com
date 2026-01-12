@@ -79,81 +79,59 @@ const staffData = [
   { id: 5, name: "Lucas Bernard", email: "lb@commerce.com", initials: "LB", role: "Caissier", status: "Actif", sales: "380,000", avatar: null },
 ];
 
+// ... (imports restants identiques)
+import { LuSearch } from "react-icons/lu"; // Remplacer LuPhone par LuSearch
+
 export default function StaffPage() {
   const [activeTab, setActiveTab] = useState("Tous les membres");
 
   return (
     <div className="bg-white min-h-screen pb-20 font-sans text-zinc-900">
-
       <PageHeader
         title="Personnel"
         description="Gestion des membres de l'équipe et suivi des performances."
       >
-        <ActionButton variant="secondary" icon={<LuMail className="w-4 h-4" />}>
-          Message Équipe
-        </ActionButton>
-        <ActionButton variant="primary" icon={<LuUserPlus className="w-4 h-4" />}>
-          Nouveau Membre
-        </ActionButton>
+        <div className="flex gap-3">
+          <ActionButton variant="secondary" icon={<LuMail className="w-4 h-4" />}>
+            Message Équipe
+          </ActionButton>
+          <ActionButton variant="primary" icon={<LuUserPlus className="w-4 h-4" />}>
+            Nouveau Membre
+          </ActionButton>
+        </div>
       </PageHeader>
 
-      <div className="max-w-400 mx-auto px-8 mt-12">
-
-        {/* STATS RAPIDES */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <div className="border border-zinc-100 p-6 rounded-lg">
-            <div className="flex items-center gap-2 mb-4 text-zinc-400">
-              <LuCircle className="w-4 h-4" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em]">Membres Actifs</span>
+      <div className="max-w-350 mx-auto px-8 mt-12">
+        
+        {/* GRILLE DE STATISTIQUES (KPI CARDS) */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+          {[
+            { label: "Membres Actifs", val: "12", growth: "+2 ce mois", icon: <LuCircle /> },
+            { label: "Ventes Équipe", val: "3,240K", growth: "+15%", icon: <LuActivity /> },
+            { label: "Performance", val: "87%", growth: "+5%", icon: <LuShieldCheck /> },
+            { label: "Recrutements", val: "3", growth: "Trimestre", icon: <LuUserPlus /> },
+          ].map((kpi, i) => (
+            <div key={i} className="border border-zinc-100 p-6 rounded-2xl hover:border-zinc-200 transition-colors">
+              <div className="flex items-center gap-2 mb-4 text-zinc-400">
+                {React.cloneElement(kpi.icon as React.ReactElement<React.SVGProps<SVGSVGElement>>, { className: "w-3.5 h-3.5" })}
+                <span className="text-[10px] font-black uppercase tracking-widest">{kpi.label}</span>
+              </div>
+              <div className="flex items-baseline gap-2">
+                <h3 className="text-2xl font-bold font-mono tracking-tighter">{kpi.val}</h3>
+                <span className="text-[10px] font-bold text-emerald-500 uppercase">{kpi.growth}</span>
+              </div>
             </div>
-            <div className="flex items-baseline gap-3">
-              <h3 className="text-3xl font-medium font-mono tracking-tighter text-zinc-900">12</h3>
-              <span className="text-[11px] font-bold text-emerald-500 uppercase tracking-widest">+2 ce mois</span>
-            </div>
-          </div>
-
-          <div className="border border-zinc-100 p-6 rounded-lg">
-            <div className="flex items-center gap-2 mb-4 text-zinc-400">
-              <LuActivity className="w-4 h-4" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em]">Ventes Équipe</span>
-            </div>
-            <div className="flex items-baseline gap-3">
-              <h3 className="text-3xl font-medium font-mono tracking-tighter text-zinc-900">3,240K</h3>
-              <span className="text-[11px] font-bold text-emerald-500 uppercase tracking-widest">+15% vs mois dernier</span>
-            </div>
-          </div>
-
-          <div className="border border-zinc-100 p-6 rounded-lg">
-            <div className="flex items-center gap-2 mb-4 text-zinc-400">
-              <LuShieldCheck className="w-4 h-4" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em]">Performance Moy.</span>
-            </div>
-            <div className="flex items-baseline gap-3">
-              <h3 className="text-3xl font-medium font-mono tracking-tighter text-zinc-900">87%</h3>
-              <span className="text-[11px] font-bold text-emerald-500 uppercase tracking-widest">+5% ce trimestre</span>
-            </div>
-          </div>
-
-          <div className="border border-zinc-100 p-6 rounded-lg">
-            <div className="flex items-center gap-2 mb-4 text-zinc-400">
-              <LuUserPlus className="w-4 h-4" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em]">Nouveaux Recrutements</span>
-            </div>
-            <div className="flex items-baseline gap-3">
-              <h3 className="text-3xl font-medium font-mono tracking-tighter text-zinc-900">3</h3>
-              <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest">Ce trimestre</span>
-            </div>
-          </div>
+          ))}
         </div>
 
-        {/* FILTRES */}
+        {/* FILTRES & RECHERCHE */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-zinc-100 pb-4">
           <div className="flex gap-8">
             {["Tous les membres", "Actifs", "En congé", "Administrateurs"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`text-base font-bold pb-4 -mb-4.25 transition-colors relative font-['Google_Sans'] ${
+                className={`text-sm font-bold pb-4 -mb-4.5 transition-all relative ${
                   activeTab === tab ? "text-zinc-900" : "text-zinc-400 hover:text-zinc-600"
                 }`}
               >
@@ -163,23 +141,24 @@ export default function StaffPage() {
             ))}
           </div>
 
-          <div className="relative group">
-            <LuPhone className="absolute left-0 top-1/2 -translate-y-1/2 text-zinc-300 group-focus-within:text-zinc-900 transition-colors w-4 h-4" />
+          <div className="relative group border-b border-transparent focus-within:border-zinc-900 transition-all">
+            <LuSearch className="absolute left-0 top-1/2 -translate-y-1/2 text-zinc-300 group-focus-within:text-zinc-900 w-4 h-4" />
             <input
               type="text"
-              placeholder="Rechercher un membre..."
-              className="pl-6 pr-4 py-2 text-base outline-none bg-transparent placeholder:text-zinc-300 w-48 focus:w-64 transition-all font-['Google_Sans']"
+              placeholder="Rechercher..."
+              className="pl-7 pr-4 py-2 text-sm outline-none bg-transparent placeholder:text-zinc-300 w-48 focus:w-64 transition-all"
             />
           </div>
         </div>
 
-        {/* TABLEAU DU PERSONNEL */}
-        <DataTable
-          columns={staffColumns}
-          data={staffData}
-          className="border border-zinc-100 rounded-lg overflow-hidden"
-        />
-
+        {/* TABLEAU */}
+        <div className="rounded-2xl border border-zinc-100 overflow-hidden shadow-sm">
+          <DataTable
+            columns={staffColumns}
+            data={staffData}
+            variant="clean"
+          />
+        </div>
       </div>
     </div>
   );

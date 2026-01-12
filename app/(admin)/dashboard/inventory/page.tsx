@@ -10,6 +10,7 @@ import {
   LuImage,
   LuBox
 } from "react-icons/lu";
+import { PageHeader } from "../../../../components/ui";
 
 // --- CONFIGURATION DES COLONNES ---
 const inventoryColumns: Column[] = [
@@ -84,25 +85,21 @@ export default function InventoryPage() {
   return (
     <div className="bg-white min-h-screen pb-20 font-sans text-zinc-900">
       
-      {/* HEADER MINIMALISTE */}
-      <div className="border-b border-zinc-100 px-8 py-10">
-        <div className="max-w-350 mx-auto flex justify-between items-end">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Inventaire</h1>
-            <p className="text-zinc-400 text-base mt-1 font-['Google_Sans']">Gestion des stocks et catalogue produits.</p>
-          </div>
-          <div className="flex gap-3">
-            <button className="flex items-center gap-2 px-4 py-2 text-base font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
-              <LuDownload className="w-4 h-4" />
-              Exporter
-            </button>
-            <a href="/dashboard/inventory/new" className="bg-zinc-900 text-white px-5 py-2 rounded-lg text-base font-bold hover:bg-zinc-800 transition-all shadow-sm flex items-center gap-2">
-              <LuPlus className="w-4 h-4" />
-              Créer un article
-            </a>
-          </div>
+      <PageHeader
+        title="Inventaire"
+        description="Gestion des stocks et catalogue produits."
+      >
+        <div className="flex gap-3">
+          <button className="flex items-center gap-2 px-4 py-2 text-base font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
+            <LuDownload className="w-4 h-4" />
+            Exporter
+          </button>
+          <a href="/dashboard/inventory/new" className="bg-zinc-900 text-white px-5 py-2 rounded-lg text-base font-bold hover:bg-zinc-800 transition-all shadow-sm flex items-center gap-2">
+            <LuPlus className="w-4 h-4" />
+            Créer un article
+          </a>
         </div>
-      </div>
+      </PageHeader>
 
       <div className="max-w-350 mx-auto px-8 mt-12">
         

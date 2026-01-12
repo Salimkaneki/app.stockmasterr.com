@@ -9,6 +9,7 @@ import {
   LuChevronRight,
   LuShoppingCart,
 } from "react-icons/lu";
+import { PageHeader } from "../../../../components/ui";
 
 // --- CONFIGURATION DES COLONNES (Style Minimaliste) ---
 const salesColumns: Column[] = [
@@ -80,25 +81,21 @@ export default function SalesPage() {
   return (
     <div className="bg-white min-h-screen pb-20 font-sans text-zinc-900">
       
-      {/* HEADER MINIMALISTE */}
-      <div className="border-b border-zinc-100 px-8 py-10">
-        <div className="max-w-350 mx-auto flex justify-between items-end">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight font-['Google_Sans']">Ventes</h1>
-            <p className="text-zinc-400 text-base mt-1 font-['Google_Sans']">Suivi des commandes et flux de revenus.</p>
-          </div>
-          <div className="flex gap-3">
-            <button className="flex items-center gap-2 px-4 py-2 text-base font-medium text-zinc-600 hover:text-zinc-900 transition-colors font-['Google_Sans']">
-              <LuDownload className="w-4 h-4" />
-              Exporter (.csv)
-            </button>
-            <button className="bg-zinc-900 text-white px-5 py-2 rounded-lg text-base font-bold hover:bg-zinc-800 transition-all shadow-sm flex items-center gap-2 font-['Google_Sans']">
-              <LuPlus className="w-4 h-4" />
-              Nouvelle Vente
-            </button>
-          </div>
+      <PageHeader
+        title="Ventes"
+        description="Suivi des commandes et flux de revenus."
+      >
+        <div className="flex gap-3">
+          <button className="flex items-center gap-2 px-4 py-2 text-base font-medium text-zinc-600 hover:text-zinc-900 transition-colors font-['Google_Sans']">
+            <LuDownload className="w-4 h-4" />
+            Exporter (.csv)
+          </button>
+          <button className="bg-zinc-900 text-white px-5 py-2 rounded-lg text-base font-bold hover:bg-zinc-800 transition-all shadow-sm flex items-center gap-2 font-['Google_Sans']">
+            <LuPlus className="w-4 h-4" />
+            Nouvelle Vente
+          </button>
         </div>
-      </div>
+      </PageHeader>
 
       <div className="max-w-350 mx-auto px-8 mt-12">
         

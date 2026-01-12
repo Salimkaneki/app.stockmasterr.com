@@ -1,14 +1,14 @@
 // Composants de formulaire
-export * from "./forms";
+export { Input, Select, FileInput, Dropdown, Textarea, Checkbox, Radio } from "./forms";
 
 // Composants de mise en page
-export * from "./layout";
+export { PageHeader, FormSection, InfoCard } from "./layout";
 
 // Composants de feedback utilisateur
-export * from "./feedback";
+export { EmptyState, LoadingSpinner, StatusBadge } from "./feedback";
 
 // Composants d'action
-export * from "./actions";
+export { ActionButton, SearchBar } from "./actions";
 
 // Composants produits
-export * from "./products";
+export { ProductCard } from "./products";

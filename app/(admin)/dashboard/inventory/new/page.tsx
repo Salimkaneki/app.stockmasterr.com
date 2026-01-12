@@ -14,6 +14,7 @@ import {
 
 // Import de vos composants personnalisés
 import { Input, Select, Textarea, FileInput, Radio } from "@/components/ui";
+import { PageHeader } from "@/components/ui";
 
 export default function InventoryCreatePage() {
   const [category, setCategory] = useState("");
@@ -29,28 +30,19 @@ export default function InventoryCreatePage() {
   return (
     <div className="bg-white min-h-screen pb-20 font-sans text-zinc-900">
       
-      {/* HEADER MINIMALISTE AVEC RETOUR */}
-      <div className="border-b border-zinc-100 px-8 py-10">
-        <div className="max-w-350 mx-auto flex justify-between items-end">
-          <div>
-            <Link 
-              href="/inventory" 
-              className="flex items-center gap-2 text-zinc-400 hover:text-zinc-900 transition-colors mb-4 text-sm font-medium"
-            >
-              <LuArrowLeft className="w-4 h-4" />
-              Retour à l'inventaire
-            </Link>
-            <h1 className="text-2xl font-bold tracking-tight">Nouvel Article</h1>
-            <p className="text-zinc-400 text-base mt-1 font-['Google_Sans']">Ajouter un produit au catalogue et définir son stock initial.</p>
-          </div>
-          <div className="flex gap-3">
-            <button className="bg-zinc-900 text-white px-8 py-2.5 rounded-lg text-base font-bold hover:bg-zinc-800 transition-all shadow-sm flex items-center gap-2">
-              <LuSave className="w-4 h-4" />
-              Enregistrer l'article
-            </button>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        title="Nouvel Article"
+        description="Ajouter un produit au catalogue et définir son stock initial."
+        backLink={{
+          href: "/dashboard/inventory",
+          label: "Retour à l'inventaire"
+        }}
+      >
+        <button className="bg-zinc-900 text-white px-8 py-2.5 rounded-lg text-base font-bold hover:bg-zinc-800 transition-all shadow-sm flex items-center gap-2">
+          <LuSave className="w-4 h-4" />
+          Enregistrer l'article
+        </button>
+      </PageHeader>
 
       <div className="max-w-5xl mx-auto px-8 mt-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
