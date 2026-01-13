@@ -1,15 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
-import { 
-  LuArrowLeft, 
-  LuSave, 
+import {
   LuInfo, 
   LuPackage, 
   LuTag, 
   LuDollarSign, 
-  LuLayers 
+  LuLayers,
+  LuSave
 } from "react-icons/lu";
 
 // Import de vos composants personnalisés
@@ -40,7 +38,7 @@ export default function InventoryCreatePage() {
       >
         <button className="bg-zinc-900 text-white px-8 py-2.5 rounded-lg text-base font-bold hover:bg-zinc-800 transition-all shadow-sm flex items-center gap-2">
           <LuSave className="w-4 h-4" />
-          Enregistrer l'article
+          Enregistrer l&apos;article
         </button>
       </PageHeader>
 
@@ -165,7 +163,7 @@ export default function InventoryCreatePage() {
                 </div>
               </div>
               <p className="mt-6 text-[11px] text-zinc-500 italic leading-relaxed">
-                L'article sera immédiatement ajouté à la liste de l'inventaire après validation.
+                L&apos;article sera immédiatement ajouté à la liste de l&apos;inventaire après validation.
               </p>
             </div>
           </div>

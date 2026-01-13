@@ -12,7 +12,7 @@ import {
 } from "react-icons/lu";
 
 export default function HighVisibilityCashier() {
-  const [cart, setCart] = useState([
+  const [cart] = useState([
     { id: 1, name: "Clavier Mécanique RGB", price: 45000, qty: 1, category: "Hardware" },
   ]);
 

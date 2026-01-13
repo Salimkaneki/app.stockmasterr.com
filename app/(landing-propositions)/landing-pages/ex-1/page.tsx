@@ -51,7 +51,7 @@ export default function LandingPage() {
                 </p>
                 <div className="flex gap-4">
                     <Link href="/dashboard" className="flex items-center gap-3 bg-zinc-900 text-white px-8 py-4 rounded-sm text-[10px] font-black uppercase tracking-[0.2em] group transition-all hover:bg-black">
-                        Lancer l'interface <LuArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        Lancer l&apos;interface <LuArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                 </div>
             </div>
@@ -92,7 +92,7 @@ export default function LandingPage() {
                     </div>
                     <h3 className="text-sm font-black uppercase tracking-widest">Flux financier</h3>
                     <p className="text-zinc-500 text-sm leading-relaxed font-['Google_Sans']">
-                        Suivez chaque transaction, de l'encaissement à la banque. Rapports de fin de journée automatisés.
+                        Suivez chaque transaction, de l&apos;encaissement à la banque. Rapports de fin de journée automatisés.
                     </p>
                 </div>
                 <div className="space-y-4">
@@ -101,7 +101,7 @@ export default function LandingPage() {
                     </div>
                     <h3 className="text-sm font-black uppercase tracking-widest">Sync d'inventaire</h3>
                     <p className="text-zinc-500 text-sm leading-relaxed font-['Google_Sans']">
-                        Vos stocks sont mis à jour instantanément sur tous vos points de vente. Ne vendez jamais ce que vous n'avez plus.
+                        Vos stocks sont mis à jour instantanément sur tous vos points de vente. Ne vendez jamais ce que vous n&apos;avez plus.
                     </p>
                 </div>
                 <div className="space-y-4">
@@ -118,7 +118,7 @@ export default function LandingPage() {
 
         {/* SECTION "THE DASHBOARD" - IMMERSION */}
         <section className="py-40 px-8 md:px-16 max-w-7xl mx-auto text-center">
-            <h2 className="text-4xl font-black uppercase tracking-tighter mb-8 italic">L'intelligence en temps réel.</h2>
+            <h2 className="text-4xl font-black uppercase tracking-tighter mb-8 italic">L&apos;intelligence en temps réel.</h2>
             <div className="relative mx-auto max-w-5xl group">
                 <div className="absolute inset-0 bg-linear-to-b from-zinc-200/50 to-transparent blur-3xl rounded-full -z-10 opacity-50" />
                 <div className="bg-white border border-zinc-200 rounded-xl overflow-hidden shadow-2xl transition-transform duration-700 group-hover:scale-[1.01]">

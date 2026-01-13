@@ -7,52 +7,44 @@ import {
   LuSearch,
   LuDownload,
   LuChevronRight,
-  LuFilter,
-  LuFileText
+  LuReceipt,
+  LuClock,
+  LuCheck,
+  LuX
 } from "react-icons/lu";
-import { PageHeader } from "../../../../components/ui";
+import { PageHeader, ActionButton, StatusBadge } from "../../../../components/ui";
 
 const invoiceColumns: Column[] = [
   {
     key: "number",
     label: "Référence",
-    render: (val) => <span className="font-semibold text-zinc-900 font-['Google_Sans']">{val}</span>
+    render: (val) => <span className="font-semibold text-zinc-900 font-['Google_Sans']">{val as string}</span>
   },
   {
     key: "client",
     label: "Bénéficiaire",
     render: (_, row) => (
       <div className="flex flex-col">
-        <span className="text-zinc-900 font-medium font-['Google_Sans'] text-base">{row.clientName}</span>
-        <span className="text-xs text-zinc-400 uppercase tracking-tighter font-['Google_Sans']">{row.category}</span>
+        <span className="text-zinc-900 font-medium font-['Google_Sans'] text-base">{(row as any).clientName}</span>
+        <span className="text-xs text-zinc-400 uppercase tracking-tighter font-['Google_Sans']">{(row as any).category}</span>
       </div>
     )
   },
   {
     key: "status",
     label: "État",
-    render: (status) => {
-      const dotColor = 
-        status === "Payée" ? "bg-zinc-900" : 
-        status === "En attente" ? "bg-zinc-300" : "bg-zinc-400";
-      return (
-        <div className="flex items-center gap-2">
-          <div className={`w-1.5 h-1.5 rounded-full ${dotColor}`} />
-          <span className="text-xs font-medium text-zinc-600 font-['Google_Sans']">{status}</span>
-        </div>
-      );
-    }
+    render: (status) => <StatusBadge status={status as string} />
   },
   {
     key: "date",
     label: "Échéance",
-    render: (val) => <span className="text-zinc-500 text-xs font-['Google_Sans']">{val}</span>
+    render: (val) => <span className="text-zinc-500 text-xs font-['Google_Sans']">{val as string}</span>
   },
   {
     key: "amount",
     label: "Total",
     align: "right",
-    render: (val) => <span className="font-medium text-zinc-900 font-['Google_Sans']">{val} €</span>
+    render: (val) => <span className="font-medium text-zinc-900 font-['Google_Sans']">{val as string} €</span>
   },
   {
     key: "actions",
@@ -83,19 +75,38 @@ export default function InvoicesPage() {
         description="Historique des transactions et documents."
       >
         <div className="flex gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 text-base font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
-            <LuDownload className="w-4 h-4" />
+          <ActionButton variant="secondary" icon={<LuDownload className="w-4 h-4" />}>
             Exporter (.csv)
-          </button>
-          <button className="bg-zinc-900 text-white px-5 py-2 rounded-lg text-base font-bold hover:bg-zinc-800 transition-all shadow-sm flex items-center gap-2">
-            <LuPlus className="w-4 h-4" />
+          </ActionButton>
+          <ActionButton variant="primary" icon={<LuPlus className="w-4 h-4" />}>
             Nouvelle Facture
-          </button>
+          </ActionButton>
         </div>
       </PageHeader>
 
       <div className="max-w-350 mx-auto px-8 mt-12">
-        
+
+        {/* GRILLE DE STATISTIQUES (KPI CARDS) */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+          {[
+            { label: "Total Encaissé", val: "42,890 €", growth: "+12%", icon: <LuCheck />, color: "text-emerald-600" },
+            { label: "En Attente", val: "2,150 €", growth: "3 factures", icon: <LuClock />, color: "text-amber-600" },
+            { label: "Moyenne", val: "890 €", growth: "Par facture", icon: <LuReceipt />, color: "text-blue-600" },
+            { label: "Ce Mois", val: "8,450 €", growth: "+8%", icon: <LuReceipt />, color: "text-zinc-600" },
+          ].map((kpi, i) => (
+            <div key={i} className="border border-zinc-100 p-6 rounded-2xl hover:border-zinc-200 transition-colors">
+              <div className="flex items-center gap-2 mb-4 text-zinc-400">
+                {React.cloneElement(kpi.icon as React.ReactElement<React.SVGProps<SVGSVGElement>>, { className: "w-3.5 h-3.5" })}
+                <span className="text-[10px] font-black uppercase tracking-widest">{kpi.label}</span>
+              </div>
+              <div className="flex items-baseline gap-2">
+                <h3 className="text-2xl font-bold font-mono tracking-tighter">{kpi.val}</h3>
+                <span className={`text-[10px] font-bold uppercase ${kpi.color}`}>{kpi.growth}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
         {/* FILTRES DISCRETS */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-zinc-100 pb-4">
           <div className="flex gap-8">

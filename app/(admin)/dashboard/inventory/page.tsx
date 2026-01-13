@@ -23,8 +23,8 @@ const inventoryColumns: Column[] = [
           <LuImage className="w-4 h-4 text-zinc-300" />
         </div>
         <div className="flex flex-col">
-          <span className="font-bold text-zinc-900 text-base font-['Google_Sans']">{item.name}</span>
-          <span className="text-xs text-zinc-400 uppercase font-medium tracking-wider">{item.category}</span>
+          <span className="font-bold text-zinc-900 text-base font-['Google_Sans']">{(item as any).name}</span>
+          <span className="text-xs text-zinc-400 uppercase font-medium tracking-wider">{(item as any).category}</span>
         </div>
       </div>
     )
@@ -32,13 +32,14 @@ const inventoryColumns: Column[] = [
   {
     key: "sku",
     label: "SKU",
-    render: (val) => <span className="text-sm font-mono text-zinc-500 uppercase">{val}</span>
+    render: (val) => <span className="text-sm font-mono text-zinc-500 uppercase">{val as string}</span>
   },
   {
     key: "status",
     label: "État Stock",
     render: (status, item) => {
-      const colors: any = {
+      const statusValue = status as string;
+      const colors: Record<string, string> = {
         "En stock": "bg-emerald-50 text-emerald-700 border-emerald-100",
         "Critique": "bg-amber-50 text-amber-700 border-amber-100",
         "Faible": "bg-orange-50 text-orange-700 border-orange-100",
@@ -46,10 +47,10 @@ const inventoryColumns: Column[] = [
       };
       return (
         <div className="flex flex-col gap-1.5">
-          <span className={`w-fit px-2.5 py-1 rounded-full text-xs font-black border uppercase tracking-wider ${colors[status]}`}>
-            {status}
+          <span className={`w-fit px-2.5 py-1 rounded-full text-xs font-black border uppercase tracking-wider ${colors[statusValue]}`}>
+            {statusValue}
           </span>
-          <span className="text-xs font-medium text-zinc-400 ml-1">{item.stock} unités</span>
+          <span className="text-xs font-medium text-zinc-400 ml-1">{(item as any).stock} unités</span>
         </div>
       );
     }
@@ -58,7 +59,7 @@ const inventoryColumns: Column[] = [
     key: "price",
     label: "Prix de vente",
     align: "right",
-    render: (val) => <span className="font-medium text-zinc-900 font-['Google_Sans']">{val} F CFA</span>
+    render: (val) => <span className="font-medium text-zinc-900 font-['Google_Sans']">{val as string} F CFA</span>
   },
   {
     key: "actions",

@@ -3,8 +3,8 @@
 import React from "react";
 import Link from "next/link";
 import { 
-  LuArrowRight, LuZap, LuActivity, LuLayoutGrid, 
-  LuShield, LuMousePointer2, LuGlobe, LuCpu 
+  LuArrowRight, LuZap, LuActivity, 
+  LuShield, LuGlobe, LuCpu 
 } from "react-icons/lu";
 
 export default function LandingPage() {
@@ -79,10 +79,10 @@ export default function LandingPage() {
                     </div>
                     <div className="p-8 font-mono text-[10px] space-y-2">
                         <p className="text-blue-600">{"{"}</p>
-                        <p className="pl-4 text-zinc-400">"status": <span className="text-blue-600">"synchronized"</span>,</p>
-                        <p className="pl-4 text-zinc-400">"location": <span className="text-blue-600">"Lomé_Main_Store"</span>,</p>
-                        <p className="pl-4 text-zinc-400">"inventory": 2405,</p>
-                        <p className="pl-4 text-zinc-400">"last_sale": <span className="text-blue-600">"just now"</span></p>
+                        <p className="pl-4 text-zinc-400">&quot;status&quot;: <span className="text-blue-600">&quot;synchronized&quot;</span>,</p>
+                        <p className="pl-4 text-zinc-400">&quot;location&quot;: <span className="text-blue-600">&quot;Lomé_Main_Store&quot;</span>,</p>
+                        <p className="pl-4 text-zinc-400">&quot;inventory&quot;: 2405,</p>
+                        <p className="pl-4 text-zinc-400">&quot;last_sale&quot;: <span className="text-blue-600">&quot;just now&quot;</span></p>
                         <p className="text-blue-600">{"}"}</p>
                     </div>
                 </div>
@@ -99,7 +99,7 @@ export default function LandingPage() {
             ].map((item, i) => (
                 <div key={i} className="group cursor-default">
                     <div className="text-blue-600 mb-6 transition-transform group-hover:-translate-y-2">
-                        {React.cloneElement(item.icon as React.ReactElement, { size: 24, strokeWidth: 1.5 } as any)}
+                        {React.cloneElement(item.icon as React.ReactElement, { size: 24, strokeWidth: 1.5 } as React.SVGProps<SVGSVGElement>)}
                     </div>
                     <h3 className="text-xs font-black uppercase tracking-[0.3em] mb-3">{item.title}</h3>
                     <p className="text-zinc-400 text-xs leading-relaxed uppercase">{item.desc}</p>
@@ -114,7 +114,7 @@ export default function LandingPage() {
                 <div className="relative z-10">
                     <h2 className="text-4xl md:text-6xl font-black tracking-tightest mb-12 uppercase">Connecter votre shop.</h2>
                     <Link href="/dashboard" className="inline-flex items-center gap-4 bg-white text-blue-600 px-12 py-5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:scale-110 transition-transform shadow-xl">
-                        Démarrer l'infrastructure <LuArrowRight className="w-4 h-4" />
+                        Démarrer l&apos;infrastructure <LuArrowRight className="w-4 h-4" />
                     </Link>
                 </div>
                 {/* Décoration de fond */}

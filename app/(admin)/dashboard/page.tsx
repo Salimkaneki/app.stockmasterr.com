@@ -2,7 +2,7 @@
 
 import React from "react";
 import { KPI, DataTable, Column } from "../../../components/data";
-import { LuCoins, LuArrowRight, LuCircleDot } from "react-icons/lu";
+import { LuArrowRight, LuCircleDot } from "react-icons/lu";
 
 // --- COLONNES SALES (ULTRA-NETTES) ---
 const salesColumns: Column[] = [
@@ -11,15 +11,15 @@ const salesColumns: Column[] = [
     label: "Flux",
     render: (_, sale) => (
       <div className="flex flex-col py-1">
-        <span className="text-[15px] font-bold text-zinc-900 font-['Google_Sans'] tracking-tight">{sale.orderNumber}</span>
-        <span className="text-[11px] text-zinc-400 font-medium uppercase tracking-widest">{sale.time}</span>
+        <span className="text-[15px] font-bold text-zinc-900 font-['Google_Sans'] tracking-tight">{(sale as any).orderNumber}</span>
+        <span className="text-[11px] text-zinc-400 font-medium uppercase tracking-widest">{(sale as any).time}</span>
       </div>
     )
   },
   {
     key: "customer",
     label: "Client",
-    render: (val) => <span className="text-[14px] text-zinc-500 font-['Google_Sans']">{val}</span>
+    render: (val) => <span className="text-[14px] text-zinc-500 font-['Google_Sans']">{val as string}</span>
   },
   {
     key: "status",
@@ -27,7 +27,7 @@ const salesColumns: Column[] = [
     render: (status) => (
       <div className="flex items-center gap-2">
         <div className="w-1 h-1 rounded-full bg-emerald-500" />
-        <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">{status}</span>
+        <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">{status as string}</span>
       </div>
     )
   },
@@ -37,7 +37,7 @@ const salesColumns: Column[] = [
     align: "right",
     render: (val) => (
       <div className="font-mono font-medium text-[16px] text-zinc-900 tracking-tighter">
-        {val} <span className="text-[10px] text-zinc-300 ml-0.5">F</span>
+        {val as string} <span className="text-[10px] text-zinc-300 ml-0.5">F</span>
       </div>
     )
   }

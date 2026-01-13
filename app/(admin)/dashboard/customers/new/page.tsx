@@ -2,14 +2,14 @@
 
 import React, { useState } from "react";
 import { 
-  LuUserPlus, 
-  LuMail, 
-  LuPhone, 
+
   LuMapPin, 
   LuBuilding2, 
   LuShieldCheck,
   LuHistory,
-  LuSave
+  LuSave,
+  LuPhone,
+  LuMail
 } from "react-icons/lu";
 
 // Import de vos nouveaux composants de structure

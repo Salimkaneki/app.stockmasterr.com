@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { 
-  LuCheckCheck, LuTrash2, LuZap, LuShoppingBag, 
-  LuPackage, LuTriangle, LuArrowRight, LuFilter
+  LuCheckCheck, LuZap, LuShoppingBag, 
+  LuPackage, LuArrowRight, LuFilter
 } from "react-icons/lu";
 import { PageHeader, ActionButton } from "@/components/ui";
 
@@ -134,7 +134,7 @@ export default function NotificationsPage() {
         {/* FOOTER */}
         <div className="mt-20 flex justify-center">
           <button className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-300 hover:text-zinc-900 transition-colors">
-            Charger l'historique ancien
+            Charger l&apos;historique ancien
           </button>
         </div>
 

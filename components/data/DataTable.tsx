@@ -3,28 +3,28 @@
 import React from "react";
 import { LuArrowRight, LuInbox } from "react-icons/lu";
 
-export interface Column {
+export interface Column<T = Record<string, unknown>> {
   key: string;
   label: string;
   align?: "left" | "center" | "right";
   width?: string;
-  render?: (value: any, row: any) => React.ReactNode;
+  render?: (value: unknown, row: T) => React.ReactNode;
 }
 
-interface DataTableProps {
-  columns: Column[];
-  data: any[];
+interface DataTableProps<T = Record<string, unknown>> {
+  columns: Column<T>[];
+  data: T[];
   title?: string;
   isLoading?: boolean;
   showViewAll?: boolean;
   onViewAll?: () => void;
-  onRowClick?: (row: any) => void;
+  onRowClick?: (row: T) => void;
   emptyMessage?: string;
   className?: string;
   variant?: "default" | "clean";
 }
 
-export default function DataTable({
+export default function DataTable<T = Record<string, unknown>>({
   columns,
   data,
   title,
@@ -113,7 +113,7 @@ export default function DataTable({
                   >
                     {column.render
                       ? column.render(row[column.key], row)
-                      : <span className="font-['Google_Sans'] text-zinc-900">{row[column.key]}</span>
+                      : <span className="font-['Google_Sans'] text-zinc-900">{row[column.key] as string}</span>
                     }
                   </td>
                 ))}

@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { 
   LuShoppingCart, 
   LuPlus, 
-  LuTrash2, 
   LuUser, 
   LuCreditCard, 
   LuBanknote,
@@ -13,7 +12,7 @@ import {
 } from "react-icons/lu";
 
 // Import de vos composants UI
-import { Input, Select, Radio } from "@/components/ui";
+import { Input, Radio } from "@/components/ui";
 import { PageHeader } from "@/components/ui/layout";
 
 export default function NewSalesPage() {

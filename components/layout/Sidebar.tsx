@@ -12,7 +12,7 @@ import {
 interface MenuItem {
   name: string;
   href: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
 }
 
 const menuItems: MenuItem[] = [

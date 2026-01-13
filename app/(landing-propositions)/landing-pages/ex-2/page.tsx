@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { 
-  LuArrowRight, LuShoppingBag, 
+  LuArrowRight, 
   LuSmartphone, LuLayers, LuArrowUpRight, LuCheck, 
   LuScanBarcode, LuPrinter, LuWifi, LuGlobe, LuChevronDown, LuPlay, LuCreditCard 
 } from "react-icons/lu";

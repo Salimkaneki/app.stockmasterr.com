@@ -16,15 +16,15 @@ const salesColumns: Column[] = [
   {
     key: "orderNumber",
     label: "Référence",
-    render: (val) => <span className="font-semibold text-zinc-900 font-['Google_Sans']">{val}</span>
+    render: (val) => <span className="font-semibold text-zinc-900 font-['Google_Sans']">{val as string}</span>
   },
   {
     key: "customer",
     label: "Client",
     render: (_, row) => (
       <div className="flex flex-col">
-        <span className="text-zinc-900 font-medium font-['Google_Sans'] text-base">{row.customer}</span>
-        <span className="text-xs text-zinc-400 uppercase tracking-tighter font-['Google_Sans']">{row.date}</span>
+        <span className="text-zinc-900 font-medium font-['Google_Sans'] text-base">{(row as any).customer}</span>
+        <span className="text-xs text-zinc-400 uppercase tracking-tighter font-['Google_Sans']">{(row as any).date}</span>
       </div>
     )
   },
@@ -32,7 +32,8 @@ const salesColumns: Column[] = [
     key: "status",
     label: "État",
     render: (status) => {
-      const statusStyles: any = {
+      const statusValue = status as string;
+      const statusStyles: Record<string, string> = {
         "Payé": "bg-emerald-50 text-emerald-700 border-emerald-100",
         "Terminées": "bg-emerald-50 text-emerald-700 border-emerald-100",
         "En cours": "bg-amber-50 text-amber-700 border-amber-100",
@@ -40,8 +41,8 @@ const salesColumns: Column[] = [
       };
 
       return (
-        <span className={`px-2.5 py-1 rounded-full text-xs font-black border uppercase tracking-widest font-['Google_Sans'] ${statusStyles[status] || "bg-zinc-50 text-zinc-500 border-zinc-200"}`}>
-          {status}
+        <span className={`px-2.5 py-1 rounded-full text-xs font-black border uppercase tracking-widest font-['Google_Sans'] ${statusStyles[statusValue] || "bg-zinc-50 text-zinc-500 border-zinc-200"}`}>
+          {statusValue}
         </span>
       );
     }
@@ -49,13 +50,13 @@ const salesColumns: Column[] = [
   {
     key: "paymentMethod",
     label: "Méthode",
-    render: (val) => <span className="text-zinc-500 text-xs font-['Google_Sans']">{val}</span>
+    render: (val) => <span className="text-zinc-500 text-xs font-['Google_Sans']">{val as string}</span>
   },
   {
     key: "amount",
     label: "Montant",
     align: "right",
-    render: (val) => <span className="font-medium text-zinc-900 font-['Google_Sans']">{val}</span>
+    render: (val) => <span className="font-medium text-zinc-900 font-['Google_Sans']">{val as string}</span>
   },
   {
     key: "actions",
@@ -137,7 +138,7 @@ export default function SalesPage() {
         <div className="mt-20 pt-8 border-t border-zinc-100 flex justify-between items-center text-zinc-400">
             <div className="flex gap-12">
                 <div>
-                    <p className="text-[13px] font-bold uppercase tracking-widest mb-1 font-['Google_Sans']">Chiffre d'affaires</p>
+                    <p className="text-[13px] font-bold uppercase tracking-widest mb-1 font-['Google_Sans']">Chiffre d&apos;affaires</p>
                     <p className="text-zinc-900 text-2xl font-mono font-medium">2,847.90 €</p>
                 </div>
                 <div>

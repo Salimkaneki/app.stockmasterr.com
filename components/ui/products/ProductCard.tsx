@@ -6,7 +6,6 @@ export interface ProductCardProps {
   sku?: string;
   category?: string;
   inStock?: boolean;
-  image?: string;
   onClick?: () => void;
   className?: string;
 }
@@ -17,7 +16,6 @@ export function ProductCard({
   sku,
   category,
   inStock = true,
-  image,
   onClick,
   className = ""
 }: ProductCardProps) {

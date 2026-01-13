@@ -93,7 +93,7 @@ export default function NotificationsDetailsPage() {
                   {notification.fullDetails}
                 </p>
                 <button className="mt-10 flex items-center gap-3 bg-zinc-900 text-white px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-widest hover:shadow-xl hover:shadow-zinc-200 transition-all">
-                    Agir sur l'inventaire <LuExternalLink className="w-4 h-4" />
+                    Agir sur l&apos;inventaire <LuExternalLink className="w-4 h-4" />
                 </button>
               </div>
             </section>

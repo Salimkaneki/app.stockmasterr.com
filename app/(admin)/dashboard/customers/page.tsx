@@ -6,7 +6,6 @@ import { PageHeader, ActionButton, StatusBadge } from "../../../../components/ui
 import {
   LuPlus,
   LuSearch,
-  LuDownload,
   LuChevronRight,
   LuUserPlus,
   LuMail
@@ -20,15 +19,15 @@ const customerColumns: Column[] = [
     render: (_, customer) => (
       <div className="flex items-center gap-4">
         <div className="w-10 h-10 rounded-full bg-zinc-50 border border-zinc-100 flex items-center justify-center overflow-hidden shrink-0">
-          {customer.avatar ? (
-            <img src={customer.avatar} alt="" className="w-full h-full object-cover" />
+          {(customer as any).avatar ? (
+            <img src={(customer as any).avatar} alt="" className="w-full h-full object-cover" />
           ) : (
-            <span className="text-xs font-black text-zinc-400 font-['Google_Sans']">{customer.initials}</span>
+            <span className="text-xs font-black text-zinc-400 font-['Google_Sans']">{(customer as any).initials}</span>
           )}
         </div>
         <div className="flex flex-col">
-          <span className="text-zinc-900 font-medium font-['Google_Sans'] text-base">{customer.name}</span>
-          <span className="text-xs text-zinc-400 font-['Google_Sans']">{customer.email}</span>
+          <span className="text-zinc-900 font-medium font-['Google_Sans'] text-base">{(customer as any).name}</span>
+          <span className="text-xs text-zinc-400 font-['Google_Sans']">{(customer as any).email}</span>
         </div>
       </div>
     )
@@ -36,19 +35,19 @@ const customerColumns: Column[] = [
   {
     key: "status",
     label: "Statut",
-    render: (status) => <StatusBadge status={status} />
+    render: (status) => <StatusBadge status={status as string} />
   },
   {
     key: "totalOrders",
     label: "Commandes",
     align: "center",
-    render: (val) => <span className="font-mono font-medium text-zinc-900">{val}</span>
+    render: (val) => <span className="font-mono font-medium text-zinc-900">{val as string}</span>
   },
   {
     key: "spent",
     label: "Dépenses",
     align: "right",
-    render: (val) => <span className="font-medium text-zinc-900 font-['Google_Sans']">{val} €</span>
+    render: (val) => <span className="font-medium text-zinc-900 font-['Google_Sans']">{val as string} €</span>
   },
   {
     key: "actions",

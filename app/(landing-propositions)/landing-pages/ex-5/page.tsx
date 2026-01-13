@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { 
-  LuArrowRight, LuCheck, LuTrendingUp, LuBox, 
+  LuCheck, LuTrendingUp, LuBox, 
   LuSmartphone, LuCreditCard, LuZap, LuActivity, 
-  LuLayoutGrid, LuChevronDown, LuUsers, LuChartBar, LuShieldCheck
+  LuLayoutGrid, LuChevronDown, LuUsers, LuChartBar
 } from "react-icons/lu";
 
 export default function LandingPage() {

@@ -3,8 +3,8 @@
 import React from "react";
 import Link from "next/link";
 import { 
-  LuArrowRight, LuPlus, LuShoppingBag, LuActivity, 
-  LuBox, LuSmartphone, LuTrendingUp, LuTimer 
+  LuArrowRight, LuPlus, LuShoppingBag, 
+  LuSmartphone
 } from "react-icons/lu";
 
 export default function LandingPage() {

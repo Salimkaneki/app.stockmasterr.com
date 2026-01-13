@@ -7,7 +7,7 @@ export interface RadioProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
 }
 
 const Radio = forwardRef<HTMLInputElement, RadioProps>(
-  ({ className = "", label, error, helperText, ...props }, ref) => {
+  ({ label, error, helperText, ...props }, ref) => {
     return (
       <div className="space-y-2">
         <label className="flex items-center gap-3 cursor-pointer group">

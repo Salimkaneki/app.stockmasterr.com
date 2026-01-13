@@ -10,10 +10,40 @@ import {
   LuTruck,
   LuBell,
   LuShield,
-  LuImage
+  LuImage,
+  LuSettings,
+  LuCheck,
+  LuTriangleAlert,
+  LuLock
 } from "react-icons/lu";
 import { Input, Select, FileInput, Checkbox } from "../../../../components/ui";
 import { PageHeader } from "../../../../components/ui";
+import { ActionButton } from "../../../../components/ui";
+
+interface KPICardProps {
+  title: string;
+  value: string | number;
+  trend: number;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+const KPICard = ({ title, value, trend, icon: Icon }: KPICardProps) => {
+  const isPositive = trend > 0;
+  return (
+    <div className="group py-2">
+      <div className="flex items-center gap-2 mb-4 text-zinc-400">
+        <Icon className="w-4 h-4" />
+        <span className="text-[10px] font-black uppercase tracking-[0.2em]">{title}</span>
+      </div>
+      <div className="flex items-baseline gap-3">
+        <h3 className="text-4xl font-medium font-mono tracking-tighter text-zinc-900">{value}</h3>
+        <div className={`flex items-center text-[11px] font-bold ${isPositive ? "text-emerald-500" : "text-rose-500"}`}>
+          {isPositive ? "+" : ""}{trend}%
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("Général");
@@ -35,16 +65,26 @@ export default function SettingsPage() {
         description="Configuration globale de votre écosystème."
       >
         <div className="flex gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors font-['Google_Sans']">
-            <LuDownload className="w-4 h-4" />
+          <ActionButton variant="outline" size="sm" icon={<LuDownload className="w-4 h-4" />}>
             Exporter Config
-          </button>
-          <button className="bg-zinc-900 text-white px-5 py-2 rounded-lg text-sm font-bold hover:bg-zinc-800 transition-all shadow-sm flex items-center gap-2 font-['Google_Sans']">
-            <LuSave className="w-4 h-4" />
+          </ActionButton>
+          <ActionButton variant="primary" size="sm" icon={<LuSave className="w-4 h-4" />}>
             Sauvegarder
-          </button>
+          </ActionButton>
         </div>
       </PageHeader>
+
+      {/* KPI CARDS */}
+      <div className="border-b border-zinc-100 bg-white">
+        <div className="max-w-350 mx-auto px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            <KPICard title="Paramètres" value="87%" trend={5.2} icon={LuSettings} />
+            <KPICard title="Synchronisé" value="100%" trend={0} icon={LuCheck} />
+            <KPICard title="Alertes" value="3" trend={-25} icon={LuTriangleAlert} />
+            <KPICard title="Sécurité" value="A+" trend={10} icon={LuLock} />
+          </div>
+        </div>
+      </div>
 
       <div className="max-w-350 mx-auto px-8 mt-12">
         
@@ -135,7 +175,7 @@ export default function SettingsPage() {
 
           {activeTab === "Notifications" && (
             <section className="space-y-6">
-              <h3 className="text-base font-black uppercase tracking-[0.2em] text-zinc-400 mb-6">Préférences d'alertes</h3>
+              <h3 className="text-base font-black uppercase tracking-[0.2em] text-zinc-400 mb-6">Préférences d&apos;alertes</h3>
               {[
                 { title: "Commandes clients", desc: "Recevoir un mail pour chaque vente", active: true },
                 { title: "Stocks", desc: "Alerte automatique si rupture proche", active: true },

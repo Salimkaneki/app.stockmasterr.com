@@ -21,15 +21,15 @@ const staffColumns: Column[] = [
     render: (_, member) => (
       <div className="flex items-center gap-4">
         <div className="w-10 h-10 rounded-full bg-zinc-50 border border-zinc-100 flex items-center justify-center overflow-hidden shrink-0">
-          {member.avatar ? (
-            <img src={member.avatar} alt="" className="w-full h-full object-cover" />
+          {(member as any).avatar ? (
+            <img src={(member as any).avatar} alt="" className="w-full h-full object-cover" />
           ) : (
-            <span className="text-xs font-black text-zinc-400 font-['Google_Sans']">{member.initials}</span>
+            <span className="text-xs font-black text-zinc-400 font-['Google_Sans']">{(member as any).initials}</span>
           )}
         </div>
         <div className="flex flex-col">
-          <span className="text-zinc-900 font-medium font-['Google_Sans'] text-base">{member.name}</span>
-          <span className="text-xs text-zinc-400 font-['Google_Sans']">{member.email}</span>
+          <span className="text-zinc-900 font-medium font-['Google_Sans'] text-base">{(member as any).name}</span>
+          <span className="text-xs text-zinc-400 font-['Google_Sans']">{(member as any).email}</span>
         </div>
       </div>
     )
@@ -40,14 +40,14 @@ const staffColumns: Column[] = [
     render: (role) => (
       <div className="flex items-center gap-2">
         <LuShieldCheck className="w-3 h-3 text-zinc-400" />
-        <span className="text-sm text-zinc-600 font-['Google_Sans']">{role}</span>
+        <span className="text-sm text-zinc-600 font-['Google_Sans']">{role as string}</span>
       </div>
     )
   },
   {
     key: "status",
     label: "Statut",
-    render: (status) => <StatusBadge status={status} />
+    render: (status) => <StatusBadge status={status as string} />
   },
   {
     key: "sales",
@@ -55,7 +55,7 @@ const staffColumns: Column[] = [
     align: "right",
     render: (val) => (
       <div className="font-mono font-medium text-zinc-900 text-base">
-        {val} <span className="text-xs text-zinc-300">F</span>
+        {val as string} <span className="text-xs text-zinc-300">F</span>
       </div>
     )
   },
