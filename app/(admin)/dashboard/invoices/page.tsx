@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { DataTable, Column } from "../../../../components/data";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { DataTable, Column, KPI } from "../../../../components/data";
 import {
   LuPlus,
   LuSearch,
@@ -12,7 +13,7 @@ import {
   LuCheck,
   LuX
 } from "react-icons/lu";
-import { PageHeader, ActionButton, StatusBadge } from "../../../../components/ui";
+import { PageHeader, ActionButton, StatusBadge, TabNavigation, SkeletonTable, PageLayout } from "../../../../components/ui";
 
 const invoiceColumns: Column[] = [
   {
@@ -66,10 +67,58 @@ const invoiceData = [
 
 export default function InvoicesPage() {
   const [activeTab, setActiveTab] = useState("Tous");
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Simulation du chargement initial
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Simulation du chargement lors du changement d'onglet
+  const handleTabChange = (tab: string) => {
+    setIsLoading(true);
+    setActiveTab(tab);
+    // Petit délai pour simuler le chargement des données filtrées
+    setTimeout(() => setIsLoading(false), 300);
+  };
+
+  // Simulation du chargement lors de la recherche
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    if (query.length > 0) {
+      setIsLoading(true);
+      // Petit délai pour simuler la recherche
+      setTimeout(() => setIsLoading(false), 200);
+    }
+  };
+
+  const filteredData = invoiceData.filter(item =>
+    item.number.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.clientName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Filtrage par statut selon l'onglet actif
+  const getFilteredByStatus = (data: typeof invoiceData) => {
+    switch (activeTab) {
+      case "Payés":
+        return data.filter(item => item.status === "Payée");
+      case "En attente":
+        return data.filter(item => item.status === "En attente");
+      case "Archives":
+        return data.filter(item => item.status === "Annulée");
+      default:
+        return data;
+    }
+  };
+
+  const displayData = getFilteredByStatus(filteredData);
 
   return (
-    <div className="bg-white min-h-screen pb-20 font-sans text-zinc-900">
-      
+    <PageLayout>
+
       <PageHeader
         title="Facturation"
         description="Historique des transactions et documents."
@@ -84,62 +133,49 @@ export default function InvoicesPage() {
         </div>
       </PageHeader>
 
+      {/* KPI SECTION */}
+      <KPI />
+
       <div className="max-w-350 mx-auto px-8 mt-12">
 
-        {/* GRILLE DE STATISTIQUES (KPI CARDS) */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
-          {[
-            { label: "Total Encaissé", val: "42,890 €", growth: "+12%", icon: <LuCheck />, color: "text-emerald-600" },
-            { label: "En Attente", val: "2,150 €", growth: "3 factures", icon: <LuClock />, color: "text-amber-600" },
-            { label: "Moyenne", val: "890 €", growth: "Par facture", icon: <LuReceipt />, color: "text-blue-600" },
-            { label: "Ce Mois", val: "8,450 €", growth: "+8%", icon: <LuReceipt />, color: "text-zinc-600" },
-          ].map((kpi, i) => (
-            <div key={i} className="border border-zinc-100 p-6 rounded-2xl hover:border-zinc-200 transition-colors">
-              <div className="flex items-center gap-2 mb-4 text-zinc-400">
-                {React.cloneElement(kpi.icon as React.ReactElement<React.SVGProps<SVGSVGElement>>, { className: "w-3.5 h-3.5" })}
-                <span className="text-[10px] font-black uppercase tracking-widest">{kpi.label}</span>
-              </div>
-              <div className="flex items-baseline gap-2">
-                <h3 className="text-2xl font-bold font-mono tracking-tighter">{kpi.val}</h3>
-                <span className={`text-[10px] font-bold uppercase ${kpi.color}`}>{kpi.growth}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
         {/* FILTRES DISCRETS */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-zinc-100 pb-4">
-          <div className="flex gap-8">
-            {["Tous", "Payés", "En attente", "Archives"].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`text-base font-bold pb-4 -mb-4.25 transition-colors relative ${
-                  activeTab === tab ? "text-zinc-900" : "text-zinc-400 hover:text-zinc-600"
-                }`}
-              >
-                {tab}
-                {activeTab === tab && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-zinc-900" />}
-              </button>
-            ))}
-          </div>
-          
-          <div className="relative group">
-            <LuSearch className="absolute left-0 top-1/2 -translate-y-1/2 text-zinc-300 group-focus-within:text-zinc-900 transition-colors w-4 h-4" />
-            <input 
-              type="text" 
-              placeholder="Rechercher..." 
-              className="pl-6 pr-4 py-2 text-base outline-none bg-transparent placeholder:text-zinc-300 w-48 focus:w-64 transition-all"
-            />
-          </div>
-        </div>
-
-        {/* TABLEAU */}
-        <DataTable 
-          columns={invoiceColumns} 
-          data={invoiceData} 
-          variant="clean"
+        <TabNavigation
+          tabs={["Tous", "Payés", "En attente", "Archives"]}
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+          searchQuery={searchQuery}
+          onSearchChange={handleSearchChange}
+          searchPlaceholder="Rechercher..."
         />
+
+        {/* TABLEAU OU SKELETON */}
+        <AnimatePresence mode="wait">
+          {isLoading ? (
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <SkeletonTable rows={5} columns={5} />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="table"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <DataTable
+                columns={invoiceColumns}
+                data={displayData}
+                variant="clean"
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* FOOTER DE PAGE DISCRET */}
         <div className="mt-20 pt-8 border-t border-zinc-100 flex justify-between items-center text-zinc-400">
@@ -158,6 +194,6 @@ export default function InvoicesPage() {
             </div>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }

@@ -96,6 +96,78 @@ Indicateur de chargement.
 <LoadingSpinner size="md" text="Chargement..." />
 ```
 
+## Nouveaux Composants Animés (Framer Motion)
+
+### Modal & ConfirmModal
+Composants modaux élégants avec animations fluides.
+
+```tsx
+// Modal de base
+<Modal
+  isOpen={isOpen}
+  onClose={() => setIsOpen(false)}
+  title="Nouveau Client"
+  size="lg"
+>
+  <form>
+    {/* Contenu du formulaire */}
+  </form>
+</Modal>
+
+// Modal de confirmation
+<ConfirmModal
+  isOpen={isConfirmOpen}
+  onClose={() => setIsConfirmOpen(false)}
+  onConfirm={handleDelete}
+  title="Confirmer la suppression"
+  message="Cette action est irréversible."
+  type="danger"
+/>
+```
+
+### Toast System
+Système de notifications toast avec animations.
+
+```tsx
+import { toast } from "@/components/ui";
+
+// Types de toast disponibles
+toast.success("Opération réussie !");
+toast.error("Erreur survenue");
+toast.warning("Attention requise");
+toast.info("Information importante");
+
+// Toast personnalisé
+toast.show({
+  message: "Action requise",
+  type: "warning",
+  duration: 5000,
+  action: {
+    label: "Annuler",
+    onClick: () => console.log("Annulé")
+  }
+});
+```
+
+### Skeleton Components
+Composants de chargement skeleton pour améliorer la perception des performances.
+
+```tsx
+// Skeletons spécialisés
+<SkeletonText lines={3} />
+<SkeletonCard />
+<SkeletonTable rows={5} columns={4} />
+<SkeletonAvatar size={40} />
+
+// Skeleton personnalisé
+<Skeleton
+  variant="rectangular"
+  width={200}
+  height={100}
+  className="rounded-lg"
+/>
+```
+
 ## Migration recommandée
 
 1. **PageHeader** : Remplacer tous les headers de pages dashboard
@@ -104,3 +176,6 @@ Indicateur de chargement.
 4. **InfoCard** : Utiliser pour tous les widgets d'information
 5. **SearchBar** : Pour toutes les barres de recherche
 6. **FormSection** : Pour structurer les formulaires complexes
+7. **Modal/ConfirmModal** : Remplacer toutes les modals personnalisées
+8. **Toast** : Implémenter pour toutes les notifications utilisateur
+9. **Skeleton** : Ajouter aux états de chargement de toutes les listes/tableaux

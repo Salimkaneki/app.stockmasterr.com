@@ -1,17 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
-import { DataTable, Column } from "../../../../components/data";
-import { PageHeader, ActionButton, StatusBadge } from "../../../../components/ui";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { DataTable, Column, KPI } from "../../../../components/data";
+import { PageHeader, ActionButton, StatusBadge, SkeletonTable, TabNavigation, PageLayout, UserProfile } from "../../../../components/ui";
 import {
-  LuUserPlus,
-  LuShieldCheck,
-  LuActivity,
-  LuMoveHorizontal,
-  LuMail,
-  LuPhone,
-  LuCircle
-} from "react-icons/lu";
+  UserPlus,
+  ShieldCheck,
+  Activity,
+  MoveHorizontal,
+  Mail,
+  Phone,
+  Circle,
+  Search
+} from "lucide-react";
 
 // --- CONFIGURATION DES COLONNES PERSONNEL ---
 const staffColumns: Column[] = [
@@ -19,19 +21,12 @@ const staffColumns: Column[] = [
     key: "user",
     label: "Membre",
     render: (_, member) => (
-      <div className="flex items-center gap-4">
-        <div className="w-10 h-10 rounded-full bg-zinc-50 border border-zinc-100 flex items-center justify-center overflow-hidden shrink-0">
-          {(member as any).avatar ? (
-            <img src={(member as any).avatar} alt="" className="w-full h-full object-cover" />
-          ) : (
-            <span className="text-xs font-black text-zinc-400 font-['Google_Sans']">{(member as any).initials}</span>
-          )}
-        </div>
-        <div className="flex flex-col">
-          <span className="text-zinc-900 font-medium font-['Google_Sans'] text-base">{(member as any).name}</span>
-          <span className="text-xs text-zinc-400 font-['Google_Sans']">{(member as any).email}</span>
-        </div>
-      </div>
+      <UserProfile
+        name={(member as any).name}
+        email={(member as any).email}
+        initials={(member as any).initials}
+        avatar={(member as any).avatar}
+      />
     )
   },
   {
@@ -39,7 +34,7 @@ const staffColumns: Column[] = [
     label: "Rôle",
     render: (role) => (
       <div className="flex items-center gap-2">
-        <LuShieldCheck className="w-3 h-3 text-zinc-400" />
+        <ShieldCheck className="w-3 h-3 text-zinc-400" />
         <span className="text-sm text-zinc-600 font-['Google_Sans']">{role as string}</span>
       </div>
     )
@@ -65,7 +60,7 @@ const staffColumns: Column[] = [
     align: "right",
     render: () => (
       <button className="p-2 hover:bg-zinc-100 rounded-lg transition-colors group">
-        <LuMoveHorizontal className="w-4 h-4 text-zinc-300 group-hover:text-zinc-900" />
+        <MoveHorizontal className="w-4 h-4 text-zinc-300 group-hover:text-zinc-900" />
       </button>
     )
   }
@@ -79,87 +74,122 @@ const staffData = [
   { id: 5, name: "Lucas Bernard", email: "lb@commerce.com", initials: "LB", role: "Caissier", status: "Actif", sales: "380,000", avatar: null },
 ];
 
-// ... (imports restants identiques)
-import { LuSearch } from "react-icons/lu"; // Remplacer LuPhone par LuSearch
-
 export default function StaffPage() {
   const [activeTab, setActiveTab] = useState("Tous les membres");
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Simulation du chargement des données
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Simulation du chargement lors du changement d'onglet
+  const handleTabChange = (tab: string) => {
+    setIsLoading(true);
+    setActiveTab(tab);
+    // Petit délai pour simuler le chargement des données filtrées
+    setTimeout(() => setIsLoading(false), 300);
+  };
+
+  // Simulation du chargement lors de la recherche
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    if (query.length > 0) {
+      setIsLoading(true);
+      // Petit délai pour simuler la recherche
+      setTimeout(() => setIsLoading(false), 200);
+    }
+  };
+
+  const filteredData = staffData.filter(item =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.role.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Filtrage par statut selon l'onglet actif
+  const getFilteredByStatus = (data: typeof staffData) => {
+    switch (activeTab) {
+      case "Actifs":
+        return data.filter(item => item.status === "Actif");
+      case "En congé":
+        return data.filter(item => item.status === "En congé");
+      case "Administrateurs":
+        return data.filter(item => item.role === "Administrateur" || item.role === "Manager");
+      default:
+        return data;
+    }
+  };
+
+  const displayData = getFilteredByStatus(filteredData);
 
   return (
-    <div className="bg-white min-h-screen pb-20 font-sans text-zinc-900">
+    <PageLayout>
       <PageHeader
         title="Personnel"
         description="Gestion des membres de l'équipe et suivi des performances."
       >
         <div className="flex gap-3">
-          <ActionButton variant="secondary" icon={<LuMail className="w-4 h-4" />}>
+          <ActionButton variant="secondary" icon={<Mail className="w-4 h-4" />}>
             Message Équipe
           </ActionButton>
-          <ActionButton variant="primary" icon={<LuUserPlus className="w-4 h-4" />}>
+          <ActionButton variant="primary" icon={<UserPlus className="w-4 h-4" />}>
             Nouveau Membre
           </ActionButton>
         </div>
       </PageHeader>
 
+      {/* KPI SECTION */}
+      <KPI />
+
       <div className="max-w-350 mx-auto px-8 mt-12">
-        
-        {/* GRILLE DE STATISTIQUES (KPI CARDS) */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
-          {[
-            { label: "Membres Actifs", val: "12", growth: "+2 ce mois", icon: <LuCircle /> },
-            { label: "Ventes Équipe", val: "3,240K", growth: "+15%", icon: <LuActivity /> },
-            { label: "Performance", val: "87%", growth: "+5%", icon: <LuShieldCheck /> },
-            { label: "Recrutements", val: "3", growth: "Trimestre", icon: <LuUserPlus /> },
-          ].map((kpi, i) => (
-            <div key={i} className="border border-zinc-100 p-6 rounded-2xl hover:border-zinc-200 transition-colors">
-              <div className="flex items-center gap-2 mb-4 text-zinc-400">
-                {React.cloneElement(kpi.icon as React.ReactElement<React.SVGProps<SVGSVGElement>>, { className: "w-3.5 h-3.5" })}
-                <span className="text-[10px] font-black uppercase tracking-widest">{kpi.label}</span>
-              </div>
-              <div className="flex items-baseline gap-2">
-                <h3 className="text-2xl font-bold font-mono tracking-tighter">{kpi.val}</h3>
-                <span className="text-[10px] font-bold text-emerald-500 uppercase">{kpi.growth}</span>
-              </div>
-            </div>
-          ))}
-        </div>
 
         {/* FILTRES & RECHERCHE */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-zinc-100 pb-4">
-          <div className="flex gap-8">
-            {["Tous les membres", "Actifs", "En congé", "Administrateurs"].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`text-sm font-bold pb-4 -mb-4.5 transition-all relative ${
-                  activeTab === tab ? "text-zinc-900" : "text-zinc-400 hover:text-zinc-600"
-                }`}
-              >
-                {tab}
-                {activeTab === tab && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-zinc-900" />}
-              </button>
-            ))}
-          </div>
+        <TabNavigation
+          tabs={["Tous les membres", "Actifs", "En congé", "Administrateurs"]}
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+          searchQuery={searchQuery}
+          onSearchChange={handleSearchChange}
+          searchPlaceholder="Rechercher..."
+        />
 
-          <div className="relative group border-b border-transparent focus-within:border-zinc-900 transition-all">
-            <LuSearch className="absolute left-0 top-1/2 -translate-y-1/2 text-zinc-300 group-focus-within:text-zinc-900 w-4 h-4" />
-            <input
-              type="text"
-              placeholder="Rechercher..."
-              className="pl-7 pr-4 py-2 text-sm outline-none bg-transparent placeholder:text-zinc-300 w-48 focus:w-64 transition-all"
-            />
-          </div>
-        </div>
-
-        {/* TABLEAU */}
-        <div className="rounded-2xl border border-zinc-100 overflow-hidden shadow-sm">
-          <DataTable
-            columns={staffColumns}
-            data={staffData}
-            variant="clean"
-          />
-        </div>
+        {/* TABLEAU OU SKELETON */}
+        <AnimatePresence mode="wait">
+          {isLoading ? (
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <SkeletonTable rows={6} columns={5} />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="table"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="rounded-2xl border border-zinc-100 overflow-hidden shadow-sm">
+                <DataTable
+                  columns={staffColumns}
+                  data={displayData}
+                  variant="clean"
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-    </div>
+    </PageLayout>
   );
 }

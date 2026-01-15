@@ -1,47 +1,72 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  LuSave,
-  LuDownload,
-  LuSearch,
-  LuStore,
-  LuCreditCard,
-  LuTruck,
-  LuBell,
-  LuShield,
-  LuImage,
-  LuSettings,
-  LuCheck,
-  LuTriangleAlert,
-  LuLock
-} from "react-icons/lu";
+  Save,
+  Download,
+  Search,
+  Store,
+  CreditCard,
+  Truck,
+  Bell,
+  Shield,
+  Image,
+  Settings,
+  Check,
+  TriangleAlert,
+  Lock
+} from "lucide-react";
 import { Input, Select, FileInput, Checkbox } from "../../../../components/ui";
 import { PageHeader } from "../../../../components/ui";
 import { ActionButton } from "../../../../components/ui";
+import { PageLayout } from "../../../../components/ui";
 
 interface KPICardProps {
   title: string;
   value: string | number;
   trend: number;
   icon: React.ComponentType<{ className?: string }>;
+  index?: number;
 }
 
-const KPICard = ({ title, value, trend, icon: Icon }: KPICardProps) => {
+const KPICard = ({ title, value, trend, icon: Icon, index = 0 }: KPICardProps) => {
   const isPositive = trend > 0;
   return (
-    <div className="group py-2">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="group py-2"
+    >
       <div className="flex items-center gap-2 mb-4 text-zinc-400">
-        <Icon className="w-4 h-4" />
+        <motion.div
+          whileHover={{ scale: 1.1, rotate: 5 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        >
+          <Icon className="w-4 h-4" />
+        </motion.div>
         <span className="text-[10px] font-black uppercase tracking-[0.2em]">{title}</span>
       </div>
       <div className="flex items-baseline gap-3">
-        <h3 className="text-4xl font-medium font-mono tracking-tighter text-zinc-900">{value}</h3>
-        <div className={`flex items-center text-[11px] font-bold ${isPositive ? "text-emerald-500" : "text-rose-500"}`}>
+        <motion.h3
+          className="text-4xl font-medium font-mono tracking-tighter text-zinc-900"
+          initial={{ scale: 0.8 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+        >
+          {value}
+        </motion.h3>
+        <motion.div
+          className={`flex items-center text-[11px] font-bold ${isPositive ? "text-emerald-500" : "text-rose-500"}`}
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4 }}
+        >
           {isPositive ? "+" : ""}{trend}%
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -50,25 +75,25 @@ export default function SettingsPage() {
   const [currency, setCurrency] = useState("FCFA");
 
   const tabs = [
-    { key: "Général", icon: LuStore },
-    { key: "Paiement", icon: LuCreditCard },
-    { key: "Livraison", icon: LuTruck },
-    { key: "Notifications", icon: LuBell },
-    { key: "Sécurité", icon: LuShield }
+    { key: "Général", icon: Store },
+    { key: "Paiement", icon: CreditCard },
+    { key: "Livraison", icon: Truck },
+    { key: "Notifications", icon: Bell },
+    { key: "Sécurité", icon: Shield }
   ];
 
   return (
-    <div className="bg-white min-h-screen pb-20 font-sans text-zinc-900">
-      
+    <PageLayout>
+
       <PageHeader
         title="Paramètres"
         description="Configuration globale de votre écosystème."
       >
         <div className="flex gap-3">
-          <ActionButton variant="outline" size="sm" icon={<LuDownload className="w-4 h-4" />}>
-            Exporter Config
+          <ActionButton variant="outline" size="sm" icon={<Download className="w-4 h-4" />}>
+            Exporter
           </ActionButton>
-          <ActionButton variant="primary" size="sm" icon={<LuSave className="w-4 h-4" />}>
+          <ActionButton variant="primary" size="sm" icon={<Save className="w-4 h-4" />}>
             Sauvegarder
           </ActionButton>
         </div>
@@ -78,10 +103,10 @@ export default function SettingsPage() {
       <div className="border-b border-zinc-100 bg-white">
         <div className="max-w-350 mx-auto px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-            <KPICard title="Paramètres" value="87%" trend={5.2} icon={LuSettings} />
-            <KPICard title="Synchronisé" value="100%" trend={0} icon={LuCheck} />
-            <KPICard title="Alertes" value="3" trend={-25} icon={LuTriangleAlert} />
-            <KPICard title="Sécurité" value="A+" trend={10} icon={LuLock} />
+            <KPICard title="Paramètres" value="87%" trend={5.2} icon={Settings} index={0} />
+            <KPICard title="Synchronisé" value="100%" trend={0} icon={Check} index={1} />
+            <KPICard title="Alertes" value="3" trend={-25} icon={TriangleAlert} index={2} />
+            <KPICard title="Sécurité" value="A+" trend={10} icon={Lock} index={3} />
           </div>
         </div>
       </div>
@@ -89,35 +114,69 @@ export default function SettingsPage() {
       <div className="max-w-350 mx-auto px-8 mt-12">
         
         {/* FILTRES DISCRETS (TABS - Identique à Facturation) */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-12 border-b border-zinc-100 pb-4">
+        <motion.div
+          className="flex flex-col md:flex-row justify-between items-center mb-12 border-b border-zinc-100 pb-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+        >
           <div className="flex gap-8">
-            {tabs.map((tab) => (
-              <button
+            {tabs.map((tab, index) => (
+              <motion.button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
                 className={`text-base font-bold pb-4 -mb-4.25 transition-colors relative font-['Google_Sans'] flex items-center gap-2 ${
                   activeTab === tab.key ? "text-zinc-900" : "text-zinc-400 hover:text-zinc-600"
                 }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.8 + index * 0.1 }}
               >
-                <tab.icon className="w-4 h-4" />
+                <motion.div
+                  animate={{
+                    rotate: activeTab === tab.key ? 360 : 0,
+                    scale: activeTab === tab.key ? 1.1 : 1
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <tab.icon className="w-4 h-4" />
+                </motion.div>
                 {tab.key}
-                {activeTab === tab.key && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-zinc-900" />}
-              </button>
+                {activeTab === tab.key && (
+                  <motion.div
+                    className="absolute bottom-0 left-0 w-full h-0.5 bg-zinc-900"
+                    layoutId="activeTab"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                )}
+              </motion.button>
             ))}
           </div>
           
           <div className="relative group">
-            <LuSearch className="absolute left-0 top-1/2 -translate-y-1/2 text-zinc-300 group-focus-within:text-zinc-900 transition-colors w-4 h-4" />
+            <Search className="absolute left-0 top-1/2 -translate-y-1/2 text-zinc-300 group-focus-within:text-zinc-900 transition-colors w-4 h-4" />
             <input 
               type="text" 
               placeholder="Rechercher un réglage..." 
               className="pl-6 pr-4 py-2 text-base outline-none bg-transparent placeholder:text-zinc-300 w-48 focus:w-64 transition-all font-['Google_Sans']"
             />
           </div>
-        </div>
+        </motion.div>
 
         {/* CONTENU DES PARAMÈTRES (Aéré et Propre) */}
-        <div className="max-w-4xl space-y-16 animate-in fade-in duration-500">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="max-w-4xl space-y-16"
+          >
           
           {activeTab === "Général" && (
             <>
@@ -193,7 +252,8 @@ export default function SettingsPage() {
               ))}
             </section>
           )}
-        </div>
+        </motion.div>
+      </AnimatePresence>
 
         {/* FOOTER DE PAGE (KPIs/Statut - Identique à Inventaire) */}
         <div className="mt-20 pt-8 border-t border-zinc-100 flex justify-between items-center text-zinc-400">
@@ -216,6 +276,6 @@ export default function SettingsPage() {
             </div>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }

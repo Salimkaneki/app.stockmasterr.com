@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { DataTable, Column } from "../../../../components/data";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { DataTable, Column, KPI } from "../../../../components/data";
 import { 
   LuSearch, 
   LuPlus, 
@@ -10,7 +11,7 @@ import {
   LuImage,
   LuBox
 } from "react-icons/lu";
-import { PageHeader } from "../../../../components/ui";
+import { PageHeader, TabNavigation, SkeletonTable, PageLayout } from "../../../../components/ui";
 
 // --- CONFIGURATION DES COLONNES ---
 const inventoryColumns: Column[] = [
@@ -82,10 +83,58 @@ const inventoryData = [
 
 export default function InventoryPage() {
   const [activeTab, setActiveTab] = useState("Tous les articles");
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Simulation du chargement initial
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Simulation du chargement lors du changement d'onglet
+  const handleTabChange = (tab: string) => {
+    setIsLoading(true);
+    setActiveTab(tab);
+    // Petit délai pour simuler le chargement des données filtrées
+    setTimeout(() => setIsLoading(false), 300);
+  };
+
+  // Simulation du chargement lors de la recherche
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    if (query.length > 0) {
+      setIsLoading(true);
+      // Petit délai pour simuler la recherche
+      setTimeout(() => setIsLoading(false), 200);
+    }
+  };
+
+  const filteredData = inventoryData.filter(item =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.sku.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Filtrage par statut selon l'onglet actif
+  const getFilteredByStatus = (data: typeof inventoryData) => {
+    switch (activeTab) {
+      case "En stock":
+        return data.filter(item => item.status === "En stock");
+      case "Alertes stock":
+        return data.filter(item => item.status === "Critique" || item.status === "Faible");
+      case "Ruptures":
+        return data.filter(item => item.status === "Rupture");
+      default:
+        return data;
+    }
+  };
+
+  const displayData = getFilteredByStatus(filteredData);
 
   return (
-    <div className="bg-white min-h-screen pb-20 font-sans text-zinc-900">
-      
+    <PageLayout>
+
       <PageHeader
         title="Inventaire"
         description="Gestion des stocks et catalogue produits."
@@ -102,41 +151,49 @@ export default function InventoryPage() {
         </div>
       </PageHeader>
 
+      {/* KPI SECTION */}
+      <KPI />
+
       <div className="max-w-350 mx-auto px-8 mt-12">
         
         {/* FILTRES DISCRETS (TABS) */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-zinc-100 pb-4">
-          <div className="flex gap-8">
-            {["Tous les articles", "En stock", "Alertes stock", "Ruptures"].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`text-base font-bold pb-4 -mb-4.25 transition-colors relative font-['Google_Sans'] ${
-                  activeTab === tab ? "text-zinc-900" : "text-zinc-400 hover:text-zinc-600"
-                }`}
-              >
-                {tab}
-                {activeTab === tab && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-zinc-900" />}
-              </button>
-            ))}
-          </div>
-          
-          <div className="relative group">
-            <LuSearch className="absolute left-0 top-1/2 -translate-y-1/2 text-zinc-300 group-focus-within:text-zinc-900 transition-colors w-4 h-4" />
-            <input 
-              type="text" 
-              placeholder="Nom, SKU..." 
-              className="pl-6 pr-4 py-2 text-base outline-none bg-transparent placeholder:text-zinc-300 w-48 focus:w-64 transition-all font-['Google_Sans']"
-            />
-          </div>
-        </div>
-
-        {/* TABLEAU */}
-        <DataTable 
-          columns={inventoryColumns} 
-          data={inventoryData} 
-          variant="clean"
+        <TabNavigation
+          tabs={["Tous les articles", "En stock", "Alertes stock", "Ruptures"]}
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+          searchQuery={searchQuery}
+          onSearchChange={handleSearchChange}
+          searchPlaceholder="Nom, SKU..."
         />
+
+        {/* TABLEAU OU SKELETON */}
+        <AnimatePresence mode="wait">
+          {isLoading ? (
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <SkeletonTable rows={5} columns={5} />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="table"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <DataTable
+                columns={inventoryColumns}
+                data={displayData}
+                variant="clean"
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* FOOTER DE PAGE DISCRET */}
         <div className="mt-20 pt-8 border-t border-zinc-100 flex justify-between items-center text-zinc-400">
@@ -159,6 +216,6 @@ export default function InventoryPage() {
             </div>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }

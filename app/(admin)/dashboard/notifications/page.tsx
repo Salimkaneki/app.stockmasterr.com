@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
-import { 
-  LuCheckCheck, LuZap, LuShoppingBag, 
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { DataTable, Column, KPI } from "@/components/data";
+import {
+  LuCheckCheck, LuZap, LuShoppingBag,
   LuPackage, LuArrowRight, LuFilter
 } from "react-icons/lu";
-import { PageHeader, ActionButton } from "@/components/ui";
+import { PageHeader, ActionButton, TabNavigation, SkeletonTable, PageLayout } from "@/components/ui";
 
 const notificationsData = [
   {
@@ -42,10 +44,56 @@ const notificationsData = [
 
 export default function NotificationsPage() {
   const [activeTab, setActiveTab] = useState("Toutes");
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Simulation du chargement initial
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Simulation du chargement lors du changement d'onglet
+  const handleTabChange = (tab: string) => {
+    setIsLoading(true);
+    setActiveTab(tab);
+    // Petit délai pour simuler le chargement des données filtrées
+    setTimeout(() => setIsLoading(false), 300);
+  };
+
+  // Simulation du chargement lors de la recherche
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    if (query.length > 0) {
+      setIsLoading(true);
+      // Petit délai pour simuler la recherche
+      setTimeout(() => setIsLoading(false), 200);
+    }
+  };
+
+  const filteredData = notificationsData.filter(item =>
+    item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.message.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Filtrage par type selon l'onglet actif
+  const getFilteredByType = (data: typeof notificationsData) => {
+    switch (activeTab) {
+      case "Alertes":
+        return data.filter(item => item.type === "inventory" || item.type === "sale");
+      case "Système":
+        return data.filter(item => item.type === "system");
+      default:
+        return data;
+    }
+  };
+
+  const displayData = getFilteredByType(filteredData);
 
   return (
-    <div className="bg-white min-h-screen pb-20 font-sans text-zinc-900">
-      
+    <PageLayout>
+
       <PageHeader
         title="Journal"
         description="L'essentiel de votre activité, sans bruit."
@@ -61,27 +109,41 @@ export default function NotificationsPage() {
         </div>
       </PageHeader>
 
+      {/* KPI SECTION */}
+      <KPI />
+
       <div className="max-w-3xl mx-auto px-8 mt-16">
         
         {/* TABS ULTRA-FINS */}
-        <div className="flex gap-8 mb-16 border-b border-zinc-50">
-          {["Toutes", "Alertes", "Système"].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`pb-4 text-[11px] font-black uppercase tracking-[0.25em] transition-all relative ${
-                activeTab === tab ? "text-zinc-900" : "text-zinc-300 hover:text-zinc-500"
-              }`}
-            >
-              {tab}
-              {activeTab === tab && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-zinc-900" />}
-            </button>
-          ))}
-        </div>
+        <TabNavigation
+          tabs={["Toutes", "Alertes", "Système"]}
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+          className="mb-16 border-b border-zinc-50"
+        />
 
-        {/* LISTE DE LECTURE ÉPURÉE */}
-        <div className="space-y-0">
-          {notificationsData.map((notif) => (
+        {/* LISTE DE LECTURE ÉPURÉE OU SKELETON */}
+        <AnimatePresence mode="wait">
+          {isLoading ? (
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <SkeletonTable rows={6} columns={1} />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="list"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="space-y-0">
+                {displayData.map((notif) => (
             <div 
               key={notif.id}
               className={`group relative flex items-start gap-8 py-8 border-b border-zinc-50 transition-all
@@ -130,6 +192,9 @@ export default function NotificationsPage() {
             </div>
           ))}
         </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* FOOTER */}
         <div className="mt-20 flex justify-center">
@@ -139,6 +204,6 @@ export default function NotificationsPage() {
         </div>
 
       </div>
-    </div>
+    </PageLayout>
   );
 }

@@ -12,10 +12,12 @@ import {
   LuMail
 } from "react-icons/lu";
 
-// Import de vos nouveaux composants de structure
+// Import de vos composants de structure
 import { PageHeader, ActionButton } from "@/components/ui";
 // Import de vos composants de formulaire
 import { Input, Select, Textarea, FileInput, Radio } from "@/components/ui";
+// Import du composant FormSection
+import { FormSection } from "@/components/ui";
 
 export default function NewCustomerPage() {
   const [customerType, setCustomerType] = useState("Particulier");
@@ -53,12 +55,7 @@ export default function NewCustomerPage() {
           <div className="lg:col-span-2 space-y-10">
             
             {/* SECTION : TYPE DE COMPTE */}
-            <section className="space-y-6">
-              <div className="flex items-center gap-2 pb-2 border-b border-zinc-50">
-                <LuBuilding2 className="w-4 h-4 text-zinc-400" />
-                <h2 className="font-bold text-sm uppercase tracking-widest text-zinc-500">Nature du Client</h2>
-              </div>
-              
+            <FormSection title="Nature du Client" icon={<LuBuilding2 className="w-4 h-4" />}>
               <div className="grid grid-cols-2 gap-4">
                 <Radio 
                   label="Particulier" 
@@ -81,37 +78,28 @@ export default function NewCustomerPage() {
                   onChange={setCategory} 
                 />
               </div>
-            </section>
+            </FormSection>
 
             {/* SECTION : CONTACT & LOCALISATION */}
-            <section className="space-y-6">
-              <div className="flex items-center gap-2 pb-2 border-b border-zinc-50">
-                <LuPhone className="w-4 h-4 text-zinc-400" />
-                <h2 className="font-bold text-sm uppercase tracking-widest text-zinc-500">Coordonnées</h2>
-              </div>
-              
+            <FormSection title="Coordonnées" icon={<LuPhone className="w-4 h-4" />}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Input label="Email" placeholder="client@exemple.com" startIcon={<LuMail className="w-4 h-4" />} />
                 <Input label="Téléphone" placeholder="+228 -- -- -- --" startIcon={<LuPhone className="w-4 h-4" />} />
               </div>
 
               <Input label="Adresse de livraison" placeholder="Rue, Quartier, Ville" startIcon={<LuMapPin className="w-4 h-4" />} />
-            </section>
+            </FormSection>
 
-            <section className="space-y-6">
+            <FormSection title="Notes & Préférences">
               <Textarea label="Notes & Préférences" placeholder="Préférences de facturation, remises habituelles..." rows={3} />
-            </section>
+            </FormSection>
           </div>
 
           {/* COLONNE DROITE : FIDÉLITÉ & RÉSUMÉ */}
           <div className="space-y-8">
-            <section className="space-y-6">
-              <div className="flex items-center gap-2 pb-2 border-b border-zinc-50">
-                <LuShieldCheck className="w-4 h-4 text-zinc-400" />
-                <h2 className="font-bold text-sm uppercase tracking-widest text-zinc-500">Paramètres</h2>
-              </div>
+            <FormSection title="Paramètres" icon={<LuShieldCheck className="w-4 h-4" />}>
               <FileInput label="Photo / Logo" helperText="Maximum 2MB" />
-            </section>
+            </FormSection>
 
             {/* CARD DE RÉSUMÉ SOMBRE */}
             <div className="bg-zinc-900 rounded-2xl p-6 text-white shadow-xl">

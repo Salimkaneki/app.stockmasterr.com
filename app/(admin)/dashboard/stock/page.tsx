@@ -1,17 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
-import { DataTable, Column } from "../../../../components/data";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { DataTable, Column, KPI } from "../../../../components/data";
 import {
-  LuPlus,
-  LuSearch,
-  LuDownload,
-  LuChevronRight,
-  LuTriangleAlert,
-  LuPackage,
-  LuRefreshCw,
-} from "react-icons/lu";
-import { PageHeader, ActionButton, SearchBar, StatusBadge } from "../../../../components/ui";
+  Plus,
+  Search,
+  Download,
+  ChevronRight,
+  TriangleAlert,
+  Package,
+  RefreshCw,
+} from "lucide-react";
+import { PageHeader, ActionButton, SearchBar, StatusBadge, SkeletonTable, TabNavigation, PageLayout } from "../../../../components/ui";
 
 // --- CONFIGURATION DES COLONNES STOCK ---
 const stockColumns: Column[] = [
@@ -41,7 +42,7 @@ const stockColumns: Column[] = [
           <span className={`font-medium font-['Google_Sans'] ${isLow ? "text-rose-600" : "text-zinc-900"}`}>
             {quantity} unités
           </span>
-          {isLow && <LuTriangleAlert className="w-3 h-3 text-rose-500" />}
+          {isLow && <TriangleAlert className="w-3 h-3 text-rose-500" />}
         </div>
       );
     }
@@ -63,7 +64,7 @@ const stockColumns: Column[] = [
     align: "right",
     render: () => (
       <button className="p-2 hover:bg-zinc-100 rounded-lg transition-colors group">
-        <LuChevronRight className="w-4 h-4 text-zinc-300 group-hover:text-zinc-900" />
+        <ChevronRight className="w-4 h-4 text-zinc-300 group-hover:text-zinc-900" />
       </button>
     )
   }
@@ -78,55 +79,124 @@ const stockData = [
 
 export default function StockPage() {
   const [activeTab, setActiveTab] = useState("Tous");
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Simulation du chargement des données
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Simulation du chargement lors du changement d'onglet
+  const handleTabChange = (tab: string) => {
+    setIsLoading(true);
+    setActiveTab(tab);
+    // Petit délai pour simuler le chargement des données filtrées
+    setTimeout(() => setIsLoading(false), 300);
+  };
+
+  // Simulation du chargement lors de la recherche
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    if (query.length > 0) {
+      setIsLoading(true);
+      // Petit délai pour simuler la recherche
+      setTimeout(() => setIsLoading(false), 200);
+    }
+  };
+
+  const filteredData = stockData.filter(item =>
+    item.sku.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Filtrage par statut selon l'onglet actif
+  const getFilteredByStatus = (data: typeof stockData) => {
+    switch (activeTab) {
+      case "En Stock":
+        return data.filter(item => item.status === "En Stock");
+      case "Stock Faible":
+        return data.filter(item => item.status === "Stock Faible");
+      case "Rupture":
+        return data.filter(item => item.status === "Rupture");
+      default:
+        return data;
+    }
+  };
+
+  const displayData = getFilteredByStatus(filteredData);
 
   return (
-    <div className="bg-white min-h-screen pb-20 font-sans text-zinc-900">
-      
+    <PageLayout>
+
       <PageHeader
         title="Inventaire"
         description="Gestion des niveaux de stock et réapprovisionnement."
       >
         <div className="flex gap-3">
-          <ActionButton variant="ghost" icon={<LuRefreshCw className="w-4 h-4" />}>
+          <ActionButton variant="ghost" icon={<RefreshCw className="w-4 h-4" />}>
             Actualiser
           </ActionButton>
-          <ActionButton variant="primary" icon={<LuPlus className="w-4 h-4" />}>
+          <ActionButton variant="primary" icon={<Plus className="w-4 h-4" />}>
             Ajouter un produit
           </ActionButton>
         </div>
       </PageHeader>
 
+      {/* KPI SECTION */}
+      <KPI />
+
       <div className="max-w-350 mx-auto px-8 mt-12">
         
         {/* FILTRES & RECHERCHE */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-zinc-100 pb-4">
-          <div className="flex gap-8">
-            {["Tous", "En Stock", "Stock Faible", "Rupture"].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`text-base font-bold pb-4 -mb-4.25 transition-colors relative font-['Google_Sans'] ${
-                  activeTab === tab ? "text-zinc-900" : "text-zinc-400 hover:text-zinc-600"
-                }`}
-              >
-                {tab}
-                {activeTab === tab && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-zinc-900" />}
-              </button>
-            ))}
-          </div>
-          
-          <SearchBar 
-            placeholder="Rechercher par SKU ou nom..."
-            className="w-48 focus-within:w-64 transition-all"
+        <div className="mb-8 border-b border-zinc-100 pb-4">
+          <TabNavigation
+            tabs={["Tous", "En Stock", "Stock Faible", "Rupture"]}
+            activeTab={activeTab}
+            onTabChange={handleTabChange}
+            className="mb-4"
           />
+          <div className="flex justify-end">
+            <SearchBar
+              placeholder="Rechercher par SKU ou nom..."
+              className="w-48 focus-within:w-64 transition-all"
+            />
+          </div>
         </div>
 
-        {/* TABLEAU DES STOCKS */}
-        <DataTable 
-          columns={stockColumns} 
-          data={stockData} 
-          variant="clean"
-        />
+        {/* TABLEAU DES STOCKS OU SKELETON */}
+        <AnimatePresence mode="wait">
+          {isLoading ? (
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <SkeletonTable rows={6} columns={6} />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="table"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <DataTable
+                columns={stockColumns}
+                data={displayData}
+                variant="clean"
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* STATISTIQUES D'INVENTAIRE */}
         <div className="mt-20 pt-8 border-t border-zinc-100 flex justify-between items-center text-zinc-400">
@@ -145,11 +215,11 @@ export default function StockPage() {
                 </div>
             </div>
             <div className="flex items-center gap-2 text-xs font-['Google_Sans']">
-                <LuPackage className="w-4 h-4" />
+                <Package className="w-4 h-4" />
                 Dernier inventaire : Il y a 2 heures
             </div>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }
