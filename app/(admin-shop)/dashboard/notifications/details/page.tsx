@@ -34,12 +34,15 @@ export default function NotificationsDetailsPage() {
         title={notification.title}
         description={`Notification ${notification.category.toLowerCase()} • Log ID #${notification.id.toString().padStart(4, '0')}`}
       >
-        <ActionButton variant="secondary" icon={<LuShare2 className="w-4 h-4" />}>
-          Partager
-        </ActionButton>
-        <ActionButton variant="secondary" icon={<LuTrash2 className="w-4 h-4" />}>
-          Supprimer
-        </ActionButton>
+        <div className="flex gap-3">
+          <ActionButton variant="secondary" icon={<LuShare2 className="w-4 h-4" />}>
+            Partager
+          </ActionButton>
+          <ActionButton variant="secondary" icon={<LuTrash2 className="w-4 h-4" />}>
+            Supprimer
+          </ActionButton>
+        </div>
+
       </PageHeader>
 
       <div className="max-w-350 mx-auto px-8 mt-8">

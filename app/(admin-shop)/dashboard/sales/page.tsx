@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { DataTable, Column, KPI } from "../../../../components/data";
+import { DataTable, Column } from "../../../../components/data";
 import {
   LuPlus,
   LuSearch,
@@ -147,8 +147,6 @@ export default function SalesPage() {
         </div>
       </PageHeader>
 
-      {/* KPI SECTION */}
-      <KPI />
 
       <div className="max-w-350 mx-auto px-8 mt-12">
         

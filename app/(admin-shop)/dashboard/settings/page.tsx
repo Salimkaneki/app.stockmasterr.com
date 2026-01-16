@@ -21,6 +21,7 @@ import { Input, Select, FileInput, Checkbox } from "../../../../components/ui";
 import { PageHeader } from "../../../../components/ui";
 import { ActionButton } from "../../../../components/ui";
 import { PageLayout } from "../../../../components/ui";
+import { TabNavigation } from "../../../../components/ui";
 
 interface KPICardProps {
   title: string;
@@ -74,13 +75,7 @@ export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("Général");
   const [currency, setCurrency] = useState("FCFA");
 
-  const tabs = [
-    { key: "Général", icon: Store },
-    { key: "Paiement", icon: CreditCard },
-    { key: "Livraison", icon: Truck },
-    { key: "Notifications", icon: Bell },
-    { key: "Sécurité", icon: Shield }
-  ];
+  const tabs = ["Général", "Paiement", "Livraison", "Notifications", "Sécurité"];
 
   return (
     <PageLayout>
@@ -99,73 +94,16 @@ export default function SettingsPage() {
         </div>
       </PageHeader>
 
-      {/* KPI CARDS */}
-      <div className="border-b border-zinc-100 bg-white">
-        <div className="max-w-350 mx-auto px-8 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-            <KPICard title="Paramètres" value="87%" trend={5.2} icon={Settings} index={0} />
-            <KPICard title="Synchronisé" value="100%" trend={0} icon={Check} index={1} />
-            <KPICard title="Alertes" value="3" trend={-25} icon={TriangleAlert} index={2} />
-            <KPICard title="Sécurité" value="A+" trend={10} icon={Lock} index={3} />
-          </div>
-        </div>
-      </div>
+
 
       <div className="max-w-350 mx-auto px-8 mt-12">
-        
-        {/* FILTRES DISCRETS (TABS - Identique à Facturation) */}
-        <motion.div
-          className="flex flex-col md:flex-row justify-between items-center mb-12 border-b border-zinc-100 pb-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-        >
-          <div className="flex gap-8">
-            {tabs.map((tab, index) => (
-              <motion.button
-                key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
-                className={`text-base font-bold pb-4 -mb-4.25 transition-colors relative font-['Google_Sans'] flex items-center gap-2 ${
-                  activeTab === tab.key ? "text-zinc-900" : "text-zinc-400 hover:text-zinc-600"
-                }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8 + index * 0.1 }}
-              >
-                <motion.div
-                  animate={{
-                    rotate: activeTab === tab.key ? 360 : 0,
-                    scale: activeTab === tab.key ? 1.1 : 1
-                  }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <tab.icon className="w-4 h-4" />
-                </motion.div>
-                {tab.key}
-                {activeTab === tab.key && (
-                  <motion.div
-                    className="absolute bottom-0 left-0 w-full h-0.5 bg-zinc-900"
-                    layoutId="activeTab"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  />
-                )}
-              </motion.button>
-            ))}
-          </div>
-          
-          <div className="relative group">
-            <Search className="absolute left-0 top-1/2 -translate-y-1/2 text-zinc-300 group-focus-within:text-zinc-900 transition-colors w-4 h-4" />
-            <input 
-              type="text" 
-              placeholder="Rechercher un réglage..." 
-              className="pl-6 pr-4 py-2 text-base outline-none bg-transparent placeholder:text-zinc-300 w-48 focus:w-64 transition-all font-['Google_Sans']"
-            />
-          </div>
-        </motion.div>
+        {/* Onglets de navigation */}
+        <TabNavigation
+          tabs={tabs}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          searchPlaceholder="Rechercher un réglage..."
+        />
 
         {/* CONTENU DES PARAMÈTRES (Aéré et Propre) */}
         <AnimatePresence mode="wait">

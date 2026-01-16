@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { DataTable, Column, KPI } from "@/components/data";
+import { DataTable, Column } from "@/components/data";
 import {
   LuCheckCheck, LuZap, LuShoppingBag,
   LuPackage, LuArrowRight, LuFilter
@@ -108,9 +108,6 @@ export default function NotificationsPage() {
            </ActionButton>
         </div>
       </PageHeader>
-
-      {/* KPI SECTION */}
-      <KPI />
 
       <div className="max-w-3xl mx-auto px-8 mt-16">
         

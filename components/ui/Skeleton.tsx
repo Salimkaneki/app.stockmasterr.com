@@ -80,31 +80,31 @@ export function SkeletonCard({ className = "" }: { className?: string }) {
   );
 }
 
-export function SkeletonTable({ rows = 5, columns = 4, className = "" }: {
+export function SkeletonTable({ rows = 3, columns = 4, className = "" }: {
   rows?: number;
   columns?: number;
   className?: string;
 }) {
   return (
-    <div className={`space-y-3 ${className}`}>
-      {/* Header */}
-      <div className="flex gap-4">
-        {Array.from({ length: columns }).map((_, i) => (
-          <Skeleton key={i} variant="text" className="flex-1" height={16} />
-        ))}
+    <div className={`space-y-4 ${className}`}>
+      {/* Header simplifié */}
+      <div className="flex gap-4 pb-3 border-b border-zinc-100">
+        <Skeleton variant="rectangular" height={16} className="flex-1" />
+        <Skeleton variant="rectangular" height={16} className="flex-1" />
+        <Skeleton variant="rectangular" height={16} className="w-24" />
+        <Skeleton variant="rectangular" height={16} className="w-20" />
       </div>
 
-      {/* Rows */}
-      {Array.from({ length: rows }).map((_, rowIndex) => (
-        <div key={rowIndex} className="flex gap-4">
-          {Array.from({ length: columns }).map((_, colIndex) => (
-            <Skeleton
-              key={colIndex}
-              variant="text"
-              className="flex-1"
-              height={14}
-            />
-          ))}
+      {/* Rows simplifiées - moins de détails */}
+      {Array.from({ length: Math.min(rows, 3) }).map((_, rowIndex) => (
+        <div key={rowIndex} className="flex gap-4 items-center py-2">
+          <Skeleton variant="circular" width={32} height={32} />
+          <div className="flex-1 space-y-1">
+            <Skeleton variant="rectangular" height={14} className="w-3/4" />
+            <Skeleton variant="rectangular" height={12} className="w-1/2" />
+          </div>
+          <Skeleton variant="rectangular" height={20} className="w-16" />
+          <Skeleton variant="rectangular" height={20} className="w-12" />
         </div>
       ))}
     </div>
