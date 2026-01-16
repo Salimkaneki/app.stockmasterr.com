@@ -3,20 +3,20 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Save,
-  Download,
-  Search,
-  Store,
-  CreditCard,
-  Truck,
-  Bell,
-  Shield,
-  Image,
-  Settings,
-  Check,
-  TriangleAlert,
-  Lock
-} from "lucide-react";
+  LuSave,
+  LuDownload,
+  LuSearch,
+  LuStore,
+  LuCreditCard,
+  LuTruck,
+  LuBell,
+  LuShield,
+  LuImage,
+  LuSettings,
+  LuCheck,
+  LuTriangleAlert,
+  LuLock
+} from "react-icons/lu";
 import { Input, Select, FileInput, Checkbox } from "../../../../components/ui";
 import { PageHeader } from "../../../../components/ui";
 import { ActionButton } from "../../../../components/ui";
@@ -85,10 +85,10 @@ export default function SettingsPage() {
         description="Configuration globale de votre écosystème."
       >
         <div className="flex gap-3">
-          <ActionButton variant="outline" size="sm" icon={<Download className="w-4 h-4" />}>
+          <ActionButton variant="outline" size="sm" icon={<LuDownload className="w-4 h-4" />}>
             Exporter
           </ActionButton>
-          <ActionButton variant="primary" size="sm" icon={<Save className="w-4 h-4" />}>
+          <ActionButton variant="primary" size="sm" icon={<LuSave className="w-4 h-4" />}>
             Sauvegarder
           </ActionButton>
         </div>

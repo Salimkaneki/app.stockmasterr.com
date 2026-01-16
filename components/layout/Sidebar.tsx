@@ -7,7 +7,7 @@ import {
   LuLayoutDashboard, LuShoppingCart, LuUsers, 
   LuSettings, LuPackage, LuReceipt,
   LuChevronsUpDown, LuBell, LuUserCheck,
-  LuCreditCard, LuTruck, LuArchive
+  LuCreditCard, LuTruck, LuArchive, LuTag
 } from "react-icons/lu";
 
 interface MenuItem {
@@ -24,7 +24,7 @@ interface MenuGroup {
 
 const menuItems: MenuItem[] = [
   { name: "Tableau de bord", href: "/dashboard", icon: LuLayoutDashboard },
-  { name: "Inventaire", href: "/dashboard/inventory", icon: LuPackage },
+  { name: "Produits", href: "/dashboard/products", icon: LuTag },
   { name: "Stock", href: "/dashboard/stock", icon: LuArchive },
   { name: "Ventes", href: "/dashboard/sales", icon: LuShoppingCart },
   { name: "Clients", href: "/dashboard/customers", icon: LuUsers },

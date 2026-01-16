@@ -2,73 +2,18 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { DataTable, Column, KPI } from "../../../../components/data";
+import { DataTable } from "../../../../components/data";
+import { PageHeader, ActionButton, SearchBar, SkeletonTable, TabNavigation, PageLayout } from "../../../../components/ui";
+import { createStockColumns } from "../../../../components/columns";
 import {
-  Plus,
-  Search,
-  Download,
-  ChevronRight,
-  TriangleAlert,
-  Package,
-  RefreshCw,
-} from "lucide-react";
-import { PageHeader, ActionButton, SearchBar, StatusBadge, SkeletonTable, TabNavigation, PageLayout } from "../../../../components/ui";
+  LuPlus,
+  LuChevronRight,
+  LuPackage,
+  LuRefreshCw
+} from "react-icons/lu";
 
 // --- CONFIGURATION DES COLONNES STOCK ---
-const stockColumns: Column[] = [
-  {
-    key: "sku",
-    label: "SKU",
-    render: (val) => <span className="text-zinc-400 font-mono text-xs uppercase">{val as string}</span>
-  },
-  {
-    key: "name",
-    label: "Produit",
-    render: (_, row) => (
-      <div className="flex flex-col">
-        <span className="text-zinc-900 font-medium font-['Google_Sans'] text-base">{(row as any).name}</span>
-        <span className="text-xs text-zinc-400 font-['Google_Sans']">{(row as any).category}</span>
-      </div>
-    )
-  },
-  {
-    key: "quantity",
-    label: "Quantité",
-    render: (qty) => {
-      const quantity = qty as number;
-      const isLow = quantity <= 5;
-      return (
-        <div className="flex items-center gap-2">
-          <span className={`font-medium font-['Google_Sans'] ${isLow ? "text-rose-600" : "text-zinc-900"}`}>
-            {quantity} unités
-          </span>
-          {isLow && <TriangleAlert className="w-3 h-3 text-rose-500" />}
-        </div>
-      );
-    }
-  },
-  {
-    key: "status",
-    label: "Disponibilité",
-    render: (status) => <StatusBadge status={status as string} />
-  },
-  {
-    key: "price",
-    label: "Prix Unitaire",
-    align: "right",
-    render: (val) => <span className="font-medium text-zinc-900 font-['Google_Sans']">{val as string}</span>
-  },
-  {
-    key: "actions",
-    label: "",
-    align: "right",
-    render: () => (
-      <button className="p-2 hover:bg-zinc-100 rounded-lg transition-colors group">
-        <ChevronRight className="w-4 h-4 text-zinc-300 group-hover:text-zinc-900" />
-      </button>
-    )
-  }
-];
+const stockColumns = createStockColumns();
 
 const stockData = [
   { sku: "PRD-001", name: "Café Éthiopie Sidamo", category: "Grains", quantity: 45, price: "18,00 €", status: "En Stock" },
@@ -135,21 +80,18 @@ export default function StockPage() {
     <PageLayout>
 
       <PageHeader
-        title="Inventaire"
+        title="Stock"
         description="Gestion des niveaux de stock et réapprovisionnement."
       >
         <div className="flex gap-3">
-          <ActionButton variant="ghost" icon={<RefreshCw className="w-4 h-4" />}>
+          <ActionButton variant="ghost" icon={<LuRefreshCw className="w-4 h-4" />}>
             Actualiser
           </ActionButton>
-          <ActionButton variant="primary" icon={<Plus className="w-4 h-4" />}>
+          <ActionButton variant="primary" icon={<LuPlus className="w-4 h-4" />}>
             Ajouter un produit
           </ActionButton>
         </div>
       </PageHeader>
-
-      {/* KPI SECTION */}
-      <KPI />
 
       <div className="max-w-350 mx-auto px-8 mt-12">
         
@@ -215,7 +157,7 @@ export default function StockPage() {
                 </div>
             </div>
             <div className="flex items-center gap-2 text-xs font-['Google_Sans']">
-                <Package className="w-4 h-4" />
+                <LuPackage className="w-4 h-4" />
                 Dernier inventaire : Il y a 2 heures
             </div>
         </div>

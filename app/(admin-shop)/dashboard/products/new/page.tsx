@@ -14,7 +14,7 @@ import {
 import { Input, Select, Textarea, FileInput, Radio } from "@/components/ui";
 import { PageHeader } from "@/components/ui";
 
-export default function InventoryCreatePage() {
+export default function ProductsCreatePage() {
   const [category, setCategory] = useState("");
   const [status, setStatus] = useState("En stock");
 
@@ -29,16 +29,16 @@ export default function InventoryCreatePage() {
     <div className="bg-white min-h-screen pb-20 font-sans text-zinc-900">
       
       <PageHeader
-        title="Nouvel Article"
+        title="Nouveau Produit"
         description="Ajouter un produit au catalogue et définir son stock initial."
         backLink={{
-          href: "/dashboard/inventory",
-          label: "Retour à l'inventaire"
+          href: "/dashboard/products",
+          label: "Retour aux produits"
         }}
       >
         <button className="bg-zinc-900 text-white px-8 py-2.5 rounded-lg text-base font-bold hover:bg-zinc-800 transition-all shadow-sm flex items-center gap-2">
           <LuSave className="w-4 h-4" />
-          Enregistrer l&apos;article
+          Enregistrer le produit
         </button>
       </PageHeader>
 
@@ -57,7 +57,7 @@ export default function InventoryCreatePage() {
               
               <div className="grid grid-cols-1 gap-6">
                 <Input 
-                  label="Nom de l'article" 
+                  label="Nom du produit" 
                   placeholder="ex: Clavier Mécanique RGB" 
                   startIcon={<LuPackage className="w-4 h-4" />}
                 />
@@ -143,7 +143,7 @@ export default function InventoryCreatePage() {
                 <h2 className="font-bold text-sm uppercase tracking-widest text-zinc-500">Image Produit</h2>
               </div>
               <FileInput 
-                label="Photo de l'article"
+                label="Photo du produit"
                 helperText="Format carré recommandé (PNG, JPG)"
                 maxSize={2}
               />
@@ -163,7 +163,7 @@ export default function InventoryCreatePage() {
                 </div>
               </div>
               <p className="mt-6 text-[11px] text-zinc-500 italic leading-relaxed">
-                L&apos;article sera immédiatement ajouté à la liste de l&apos;inventaire après validation.
+                Le produit sera immédiatement ajouté à la liste des produits après validation.
               </p>
             </div>
           </div>

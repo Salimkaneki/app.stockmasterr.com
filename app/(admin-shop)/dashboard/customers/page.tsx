@@ -2,87 +2,28 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { DataTable, Column } from "../../../../components/data";
+import { DataTable } from "../../../../components/data";
 import {
   PageHeader,
   ActionButton,
-  StatusBadge,
   Modal,
   SkeletonTable,
   SkeletonCard,
   TabNavigation,
-  PageLayout,
-  UserProfile
+  PageLayout
 } from "../../../../components/ui";
+import { createCustomerColumns } from "../../../../components/columns";
 import {
-  Plus,
-  ChevronRight,
-  UserPlus,
-  Mail,
-  Edit,
-  Trash2,
-  Phone,
-  MapPin
-} from "lucide-react";
+  LuPlus,
+  LuChevronRight,
+  LuUserPlus,
+  LuMail,
+  LuPhone,
+  LuMapPin
+} from "react-icons/lu";
 
 // --- CONFIGURATION DES COLONNES ---
-const customerColumns: Column[] = [
-  {
-    key: "user",
-    label: "Client",
-    render: (_, customer) => (
-      <UserProfile
-        name={(customer as any).name}
-        email={(customer as any).email}
-        initials={(customer as any).initials}
-        avatar={(customer as any).avatar}
-        animated={true}
-      />
-    )
-  },
-  {
-    key: "status",
-    label: "Statut",
-    render: (status) => <StatusBadge status={status as string} />
-  },
-  {
-    key: "totalOrders",
-    label: "Commandes",
-    align: "center",
-    render: (val) => <span className="font-mono font-medium text-zinc-900">{val as string}</span>
-  },
-  {
-    key: "spent",
-    label: "Dépenses",
-    align: "right",
-    render: (val) => <span className="font-medium text-zinc-900 font-['Google_Sans']">{val as string} €</span>
-  },
-  {
-    key: "actions",
-    label: "",
-    align: "right",
-    render: (_, customer) => (
-      <div className="flex gap-1">
-        <motion.button
-          className="p-2 hover:bg-zinc-100 rounded-lg transition-colors group"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => {/* TODO: Ouvrir modal d'édition */}}
-        >
-          <Edit className="w-4 h-4 text-zinc-400 group-hover:text-zinc-600" />
-        </motion.button>
-        <motion.button
-          className="p-2 hover:bg-zinc-100 rounded-lg transition-colors group"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => {/* TODO: Ouvrir modal de suppression */}}
-        >
-          <Trash2 className="w-4 h-4 text-zinc-400 group-hover:text-rose-600" />
-        </motion.button>
-      </div>
-    )
-  }
-];
+const customerColumns = createCustomerColumns();
 
 const customerData = [
   { id: 1, name: "Marie Dupont", email: "marie@example.com", initials: "MD", status: "Actif", totalOrders: 12, spent: "1,450.00", avatar: null },
@@ -153,12 +94,12 @@ export default function CustomersPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <ActionButton variant="secondary" icon={<Mail className="w-4 h-4" />}>
+          <ActionButton variant="secondary" icon={<LuMail className="w-4 h-4" />}>
             Campagne Email
           </ActionButton>
           <ActionButton
             variant="primary"
-            icon={<UserPlus className="w-4 h-4" />}
+            icon={<LuUserPlus className="w-4 h-4" />}
             onClick={() => setIsAddModalOpen(true)}
           >
             Nouveau Client
@@ -281,7 +222,7 @@ export default function CustomersPage() {
               Email
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+              <LuMail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
               <input
                 type="email"
                 className="w-full pl-10 pr-3 py-2 border border-zinc-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -295,7 +236,7 @@ export default function CustomersPage() {
               Téléphone
             </label>
             <div className="relative">
-              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+              <LuPhone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
               <input
                 type="tel"
                 className="w-full pl-10 pr-3 py-2 border border-zinc-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -309,7 +250,7 @@ export default function CustomersPage() {
               Adresse
             </label>
             <div className="relative">
-              <MapPin className="absolute left-3 top-3 w-4 h-4 text-zinc-400" />
+              <LuMapPin className="absolute left-3 top-3 w-4 h-4 text-zinc-400" />
               <textarea
                 rows={3}
                 className="w-full pl-10 pr-3 py-2 border border-zinc-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"

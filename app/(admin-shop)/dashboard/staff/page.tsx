@@ -2,69 +2,18 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { DataTable, Column } from "../../../../components/data";
-import { PageHeader, ActionButton, StatusBadge, SkeletonTable, TabNavigation, PageLayout, UserProfile } from "../../../../components/ui";
+import { DataTable } from "../../../../components/data";
+import { PageHeader, ActionButton, SkeletonTable, TabNavigation, PageLayout } from "../../../../components/ui";
+import { createUserColumns } from "../../../../components/columns";
 import {
-  UserPlus,
-  ShieldCheck,
-  Activity,
-  MoveHorizontal,
-  Mail,
-  Phone,
-  Circle,
-  Search
-} from "lucide-react";
+  LuUserPlus,
+  LuMail,
+  LuPhone,
+  LuSearch
+} from "react-icons/lu";
 
 // --- CONFIGURATION DES COLONNES PERSONNEL ---
-const staffColumns: Column[] = [
-  {
-    key: "user",
-    label: "Membre",
-    render: (_, member) => (
-      <UserProfile
-        name={(member as any).name}
-        email={(member as any).email}
-        initials={(member as any).initials}
-        avatar={(member as any).avatar}
-      />
-    )
-  },
-  {
-    key: "role",
-    label: "Rôle",
-    render: (role) => (
-      <div className="flex items-center gap-2">
-        <ShieldCheck className="w-3 h-3 text-zinc-400" />
-        <span className="text-sm text-zinc-600 font-['Google_Sans']">{role as string}</span>
-      </div>
-    )
-  },
-  {
-    key: "status",
-    label: "Statut",
-    render: (status) => <StatusBadge status={status as string} />
-  },
-  {
-    key: "sales",
-    label: "Ventes",
-    align: "right",
-    render: (val) => (
-      <div className="font-mono font-medium text-zinc-900 text-base">
-        {val as string} <span className="text-xs text-zinc-300">F</span>
-      </div>
-    )
-  },
-  {
-    key: "actions",
-    label: "",
-    align: "right",
-    render: () => (
-      <button className="p-2 hover:bg-zinc-100 rounded-lg transition-colors group">
-        <MoveHorizontal className="w-4 h-4 text-zinc-300 group-hover:text-zinc-900" />
-      </button>
-    )
-  }
-];
+const staffColumns = createUserColumns();
 
 const staffData = [
   { id: 1, name: "Jean-Pierre Dubois", email: "jp@commerce.com", initials: "JD", role: "Administrateur", status: "Actif", sales: "1,250,000", avatar: null },
@@ -135,10 +84,10 @@ export default function StaffPage() {
         description="Gestion des membres de l'équipe et suivi des performances."
       >
         <div className="flex gap-3">
-          <ActionButton variant="secondary" icon={<Mail className="w-4 h-4" />}>
+          <ActionButton variant="secondary" icon={<LuMail className="w-4 h-4" />}>
             Message Équipe
           </ActionButton>
-          <ActionButton variant="primary" icon={<UserPlus className="w-4 h-4" />}>
+          <ActionButton variant="primary" icon={<LuUserPlus className="w-4 h-4" />}>
             Nouveau Membre
           </ActionButton>
         </div>

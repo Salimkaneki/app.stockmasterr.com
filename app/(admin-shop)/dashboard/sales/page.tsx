@@ -2,74 +2,17 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { DataTable, Column } from "../../../../components/data";
+import { DataTable } from "../../../../components/data";
+import { PageHeader, TabNavigation, SkeletonTable, PageLayout } from "../../../../components/ui";
+import { createSalesColumns } from "../../../../components/columns";
 import {
   LuPlus,
-  LuSearch,
   LuDownload,
-  LuChevronRight,
-  LuShoppingCart,
+  LuChevronRight
 } from "react-icons/lu";
-import { PageHeader, TabNavigation, SkeletonTable, PageLayout } from "../../../../components/ui";
 
 // --- CONFIGURATION DES COLONNES (Style Minimaliste) ---
-const salesColumns: Column[] = [
-  {
-    key: "orderNumber",
-    label: "Référence",
-    render: (val) => <span className="font-semibold text-zinc-900 font-['Google_Sans']">{val as string}</span>
-  },
-  {
-    key: "customer",
-    label: "Client",
-    render: (_, row) => (
-      <div className="flex flex-col">
-        <span className="text-zinc-900 font-medium font-['Google_Sans'] text-base">{(row as any).customer}</span>
-        <span className="text-xs text-zinc-400 uppercase tracking-tighter font-['Google_Sans']">{(row as any).date}</span>
-      </div>
-    )
-  },
-  {
-    key: "status",
-    label: "État",
-    render: (status) => {
-      const statusValue = status as string;
-      const statusStyles: Record<string, string> = {
-        "Payé": "bg-emerald-50 text-emerald-700 border-emerald-100",
-        "Terminées": "bg-emerald-50 text-emerald-700 border-emerald-100",
-        "En cours": "bg-amber-50 text-amber-700 border-amber-100",
-        "Annulées": "bg-rose-50 text-rose-700 border-rose-100",
-      };
-
-      return (
-        <span className={`px-2.5 py-1 rounded-full text-xs font-black border uppercase tracking-widest font-['Google_Sans'] ${statusStyles[statusValue] || "bg-zinc-50 text-zinc-500 border-zinc-200"}`}>
-          {statusValue}
-        </span>
-      );
-    }
-  },
-  {
-    key: "paymentMethod",
-    label: "Méthode",
-    render: (val) => <span className="text-zinc-500 text-xs font-['Google_Sans']">{val as string}</span>
-  },
-  {
-    key: "amount",
-    label: "Montant",
-    align: "right",
-    render: (val) => <span className="font-medium text-zinc-900 font-['Google_Sans']">{val as string}</span>
-  },
-  {
-    key: "actions",
-    label: "",
-    align: "right",
-    render: () => (
-      <button className="p-2 hover:bg-zinc-100 rounded-lg transition-colors group">
-        <LuChevronRight className="w-4 h-4 text-zinc-300 group-hover:text-zinc-900" />
-      </button>
-    )
-  }
-];
+const salesColumns = createSalesColumns();
 
 const salesData = [
   { orderNumber: "#V-2026-001", date: "09/01/2026", customer: "Marie Dupont", amount: "124,00 €", status: "Payé", paymentMethod: "Carte" },
