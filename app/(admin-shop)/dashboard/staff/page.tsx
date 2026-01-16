@@ -177,13 +177,11 @@ export default function StaffPage() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="rounded-2xl border border-zinc-100 overflow-hidden shadow-sm">
-                <DataTable
-                  columns={staffColumns}
-                  data={displayData}
-                  variant="clean"
-                />
-              </div>
+              <DataTable
+                columns={staffColumns}
+                data={displayData}
+                variant="clean"
+              />
             </motion.div>
           )}
         </AnimatePresence>
