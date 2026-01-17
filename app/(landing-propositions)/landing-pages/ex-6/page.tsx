@@ -21,7 +21,7 @@ export default function LandingPage() {
             <div className="w-7 h-7 bg-zinc-900 rounded-lg flex items-center justify-center">
                 <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
             </div>
-            <span className="text-sm font-black uppercase tracking-[0.3em] bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 to-zinc-500">
+            <span className="text-sm font-black uppercase tracking-[0.3em] bg-clip-text text-transparent bg-linear-to-r from-zinc-900 to-zinc-500">
                 Studio
             </span>
         </div>
@@ -91,10 +91,10 @@ export default function LandingPage() {
 
                 {/* Dashboard Preview avec effet de lueur */}
                 <div className="relative w-full max-w-6xl group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-zinc-200 to-zinc-100 rounded-[2rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-                    <div className="relative rounded-[2rem] border border-zinc-200 bg-white p-3 shadow-2xl">
-                        <div className="rounded-[1.5rem] bg-zinc-50 overflow-hidden aspect-video border border-zinc-100">
-                             <div className="h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] flex items-center justify-center">
+                    <div className="absolute -inset-1 bg-linear-to-r from-zinc-200 to-zinc-100 rounded-4xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                    <div className="relative rounded-4xl border border-zinc-200 bg-white p-3 shadow-2xl">
+                        <div className="rounded-3xl bg-zinc-50 overflow-hidden aspect-video border border-zinc-100">
+                             <div className="h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-size-[16px_16px] flex items-center justify-center">
                                  <span className="text-zinc-300 font-black text-4xl uppercase tracking-[1em] opacity-20">Preview v2</span>
                              </div>
                         </div>
@@ -108,7 +108,7 @@ export default function LandingPage() {
             <div className="grid grid-cols-12 gap-6">
                 
                 {/* Carte Principale: Inventaire */}
-                <div className="col-span-12 md:col-span-8 bg-zinc-50 rounded-[2.5rem] p-12 border border-zinc-100 flex flex-col justify-between min-h-[500px] group overflow-hidden">
+                <div className="col-span-12 md:col-span-8 bg-zinc-50 rounded-[2.5rem] p-12 border border-zinc-100 flex flex-col justify-between min-h-125 group overflow-hidden">
                     <div className="max-w-md">
                         <div className="w-12 h-12 bg-white rounded-2xl shadow-sm border border-zinc-100 flex items-center justify-center mb-8">
                             <LuLayers className="w-6 h-6 text-zinc-900" />
@@ -186,7 +186,7 @@ export default function LandingPage() {
                         ))}
                     </div>
                 </div>
-                <div className="aspect-square bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-[3rem] border border-zinc-800 flex items-center justify-center relative group overflow-hidden">
+                <div className="aspect-square bg-linear-to-br from-zinc-900 to-zinc-800 rounded-[3rem] border border-zinc-800 flex items-center justify-center relative group overflow-hidden">
                     <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
                     <LuScanBarcode className="w-32 h-32 text-zinc-700 group-hover:text-zinc-500 transition-colors duration-700" />
                 </div>
