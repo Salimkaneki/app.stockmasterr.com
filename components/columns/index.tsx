@@ -3,41 +3,59 @@ import { UserProfile, StatusBadge } from '../ui';
 import { formatPrice, formatQuantity, getStatusColor, getInitials } from '../helpers';
 import { LuShieldCheck, LuTriangleAlert, LuImage, LuPen, LuTrash } from 'react-icons/lu';
 
+interface User {
+  name: string;
+  email: string;
+  avatar?: string;
+  role: string;
+  status: string;
+  sales: number;
+}
+
+interface Customer {
+  name: string;
+  email: string;
+  avatar?: string;
+  status: string;
+  totalOrders: number;
+  totalSpent: number;
+}
+
 // --- COLONNES STANDARD POUR LES UTILISATEURS/MEMBRES ---
-export const createUserColumns = (onEdit?: (item: any) => void, onDelete?: (item: any) => void): Column[] => [
+export const createUserColumns = (onEdit?: (item: User) => void, onDelete?: (item: User) => void): Column<User>[] => [
   {
     key: "user",
     label: "Membre",
     render: (_, member) => (
       <UserProfile
-        name={(member as any).name}
-        email={(member as any).email}
-        initials={getInitials((member as any).name)}
-        avatar={(member as any).avatar}
+        name={member.name}
+        email={member.email}
+        initials={getInitials(member.name)}
+        avatar={member.avatar}
       />
     )
   },
   {
     key: "role",
     label: "Rôle",
-    render: (role) => (
+    render: (_, member) => (
       <div className="flex items-center gap-2">
         <LuShieldCheck className="w-3 h-3 text-zinc-400" />
-        <span className="text-sm text-zinc-600 font-['Google_Sans']">{role as string}</span>
+        <span className="text-sm text-zinc-600 font-['Google_Sans']">{member.role}</span>
       </div>
     )
   },
   {
     key: "status",
     label: "Statut",
-    render: (status) => <StatusBadge status={status as string} />
+    render: (_, member) => <StatusBadge status={member.status} />
   },
   {
     key: "sales",
     label: "Ventes",
-    render: (sales) => (
+    render: (_, member) => (
       <span className="text-sm font-medium text-zinc-900 font-['Google_Sans']">
-        {formatPrice(sales as number)}
+        {formatPrice(member.sales)}
       </span>
     )
   },
@@ -64,16 +82,16 @@ export const createUserColumns = (onEdit?: (item: any) => void, onDelete?: (item
 ];
 
 // --- COLONNES STANDARD POUR LES CLIENTS ---
-export const createCustomerColumns = (onEdit?: (item: any) => void, onDelete?: (item: any) => void): Column[] => [
+export const createCustomerColumns = (onEdit?: (item: Customer) => void, onDelete?: (item: Customer) => void): Column<Customer>[] => [
   {
     key: "user",
     label: "Client",
     render: (_, customer) => (
       <UserProfile
-        name={(customer as any).name}
-        email={(customer as any).email}
-        initials={getInitials((customer as any).name)}
-        avatar={(customer as any).avatar}
+        name={customer.name}
+        email={customer.email}
+        initials={getInitials(customer.name)}
+        avatar={customer.avatar}
         animated={true}
       />
     )
@@ -81,23 +99,23 @@ export const createCustomerColumns = (onEdit?: (item: any) => void, onDelete?: (
   {
     key: "status",
     label: "Statut",
-    render: (status) => <StatusBadge status={status as string} />
+    render: (_, customer) => <StatusBadge status={customer.status} />
   },
   {
     key: "totalOrders",
     label: "Commandes",
-    render: (orders) => (
+    render: (_, customer) => (
       <span className="text-sm font-medium text-zinc-900 font-['Google_Sans']">
-        {orders as number}
+        {customer.totalOrders}
       </span>
     )
   },
   {
     key: "totalSpent",
     label: "Total dépensé",
-    render: (spent) => (
+    render: (_, customer) => (
       <span className="text-sm font-medium text-zinc-900 font-['Google_Sans']">
-        {formatPrice(spent as number)}
+        {formatPrice(customer.totalSpent)}
       </span>
     )
   },
