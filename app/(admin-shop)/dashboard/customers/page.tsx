@@ -12,7 +12,7 @@ import {
   TabNavigation,
   PageLayout
 } from "../../../../components/ui";
-import { createCustomerColumns } from "../../../../components/columns";
+import { createCustomerColumns, Customer } from "../../../../components/columns";
 import {
   LuPlus,
   LuChevronRight,
@@ -25,10 +25,10 @@ import {
 // --- CONFIGURATION DES COLONNES ---
 const customerColumns = createCustomerColumns();
 
-const customerData = [
-  { id: 1, name: "Marie Dupont", email: "marie@example.com", initials: "MD", status: "Actif", totalOrders: 12, spent: "1,450.00", avatar: null },
-  { id: 2, name: "Jean Martin", email: "j.martin@mail.fr", initials: "JM", status: "Actif", totalOrders: 5, spent: "420.50", avatar: null },
-  { id: 3, name: "Lucas Bernard", email: "lucas@pme.com", initials: "LB", status: "Inactif", totalOrders: 1, spent: "89.00", avatar: null },
+const customerData: Customer[] = [
+  { id: 1, name: "Marie Dupont", email: "marie@example.com", initials: "MD", status: "Actif", totalOrders: 12, totalSpent: 1450.00, avatar: null },
+  { id: 2, name: "Jean Martin", email: "j.martin@mail.fr", initials: "JM", status: "Actif", totalOrders: 5, totalSpent: 420.50, avatar: null },
+  { id: 3, name: "Lucas Bernard", email: "lucas@pme.com", initials: "LB", status: "Inactif", totalOrders: 1, totalSpent: 89.00, avatar: null },
 ];
 
 export default function CustomersPage() {
@@ -138,7 +138,7 @@ export default function CustomersPage() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <DataTable
+              <DataTable<Customer>
                 columns={customerColumns}
                 data={displayData}
                 variant="clean"

@@ -5,7 +5,7 @@ import { KPI, DataTable, Column } from "../../../components/data";
 import { LuArrowRight, LuCircleDot } from "react-icons/lu";
 
 // --- COLONNES SALES (ULTRA-NETTES) ---
-const salesColumns: Column[] = [
+const salesColumns: Column<any>[] = [
   {
     key: "orderInfo",
     label: "Flux",
@@ -76,7 +76,7 @@ export default function DashboardPage() {
                 VOIR TOUT <LuArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
-            <DataTable
+            <DataTable<any>
               columns={salesColumns}
               data={salesData}
               variant="clean"

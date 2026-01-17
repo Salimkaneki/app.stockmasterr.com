@@ -3,22 +3,54 @@ import { UserProfile, StatusBadge } from '../ui';
 import { formatPrice, formatQuantity, getStatusColor, getInitials } from '../helpers';
 import { LuShieldCheck, LuTriangleAlert, LuImage, LuPen, LuTrash } from 'react-icons/lu';
 
-interface User {
+export interface User {
+  id: number;
   name: string;
   email: string;
-  avatar?: string;
+  avatar?: string | null;
+  initials: string;
   role: string;
   status: string;
   sales: number;
 }
 
-interface Customer {
+export interface Customer {
+  id: number;
   name: string;
   email: string;
-  avatar?: string;
+  avatar?: string | null;
+  initials: string;
   status: string;
   totalOrders: number;
   totalSpent: number;
+}
+
+export interface Sales {
+  orderNumber: string;
+  date: string;
+  customer: string;
+  amount: number;
+  status: string;
+  paymentMethod: string;
+}
+
+export interface Product {
+  id: number;
+  name: string;
+  sku: string;
+  category: string;
+  price: number;
+  stock: number;
+  status: string;
+}
+
+export interface Stock {
+  sku: string;
+  name: string;
+  category: string;
+  quantity: number;
+  price: number;
+  status: string;
 }
 
 // --- COLONNES STANDARD POUR LES UTILISATEURS/MEMBRES ---
@@ -142,7 +174,7 @@ export const createCustomerColumns = (onEdit?: (item: Customer) => void, onDelet
 ];
 
 // --- COLONNES STANDARD POUR LES PRODUITS ---
-export const createProductColumns = (onEdit?: (item: any) => void, onDelete?: (item: any) => void): Column[] => [
+export const createProductColumns = (onEdit?: (item: Product) => void, onDelete?: (item: Product) => void): Column<Product>[] => [
   {
     key: "name",
     label: "Article",
@@ -207,7 +239,7 @@ export const createProductColumns = (onEdit?: (item: any) => void, onDelete?: (i
 ];
 
 // --- COLONNES STANDARD POUR LE STOCK ---
-export const createStockColumns = (onEdit?: (item: any) => void, onDelete?: (item: any) => void): Column[] => [
+export const createStockColumns = (onEdit?: (item: Stock) => void, onDelete?: (item: Stock) => void): Column<Stock>[] => [
   {
     key: "sku",
     label: "SKU",
@@ -276,7 +308,7 @@ export const createStockColumns = (onEdit?: (item: any) => void, onDelete?: (ite
 ];
 
 // --- COLONNES STANDARD POUR LES VENTES ---
-export const createSalesColumns = (onEdit?: (item: any) => void, onDelete?: (item: any) => void): Column[] => [
+export const createSalesColumns = (onEdit?: (item: Sales) => void, onDelete?: (item: Sales) => void): Column<Sales>[] => [
   {
     key: "orderNumber",
     label: "Référence",

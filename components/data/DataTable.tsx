@@ -3,7 +3,7 @@
 import React from "react";
 import { LuArrowRight, LuInbox } from "react-icons/lu";
 
-export interface Column<T = Record<string, unknown>> {
+export interface Column<T> {
   key: string;
   label: string;
   align?: "left" | "center" | "right";
@@ -11,7 +11,7 @@ export interface Column<T = Record<string, unknown>> {
   render?: (value: unknown, row: T) => React.ReactNode;
 }
 
-interface DataTableProps<T = Record<string, unknown>> {
+interface DataTableProps<T> {
   columns: Column<T>[];
   data: T[];
   title?: string;
@@ -24,7 +24,7 @@ interface DataTableProps<T = Record<string, unknown>> {
   variant?: "default" | "clean";
 }
 
-export default function DataTable<T = Record<string, unknown>>({
+export default function DataTable<T>({
   columns,
   data,
   title,
@@ -35,7 +35,7 @@ export default function DataTable<T = Record<string, unknown>>({
   emptyMessage = "Aucune donnée disponible",
   className = "",
   variant = "default",
-}: DataTableProps) {
+}: DataTableProps<T>) {
   
   // Style minimaliste : fond blanc pur ou transparent
   const baseStyles = variant === "default" 
@@ -112,8 +112,8 @@ export default function DataTable<T = Record<string, unknown>>({
                     `}
                   >
                     {column.render
-                      ? column.render(row[column.key], row)
-                      : <span className="font-['Google_Sans'] text-zinc-900">{row[column.key] as string}</span>
+                      ? column.render((row as any)[column.key], row)
+                      : <span className="font-['Google_Sans'] text-zinc-900">{(row as any)[column.key] as string}</span>
                     }
                   </td>
                 ))}

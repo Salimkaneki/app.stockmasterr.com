@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { DataTable } from "../../../../components/data";
 import { PageHeader, TabNavigation, SkeletonTable, PageLayout, PageContainer, ActionButton } from "../../../../components/ui";
-import { createProductColumns } from "../../../../components/columns";
+import { createProductColumns, Product } from "../../../../components/columns";
 import {
   LuPlus,
   LuChevronRight
@@ -15,12 +15,12 @@ import {
 const productColumns = createProductColumns();
 
 // --- DONNÉES DE TEST ---
-const mockProducts = [
-  { id: 1, name: "Robe d'été fleurie", sku: "ROB-001", category: "Vêtements", price: "45 000", stock: 15, status: "En stock" },
-  { id: 2, name: "Jean slim noir", sku: "JEA-002", category: "Vêtements", price: "35 000", stock: 8, status: "En stock" },
-  { id: 3, name: "Sac à main cuir", sku: "SAC-003", category: "Accessoires", price: "75 000", stock: 3, status: "Faible" },
-  { id: 4, name: "Bottes en cuir", sku: "BOT-004", category: "Chaussures", price: "65 000", stock: 0, status: "Rupture" },
-  { id: 5, name: "Pull cachemire", sku: "PUL-005", category: "Vêtements", price: "95 000", stock: 12, status: "En stock" },
+const mockProducts: Product[] = [
+  { id: 1, name: "Robe d'été fleurie", sku: "ROB-001", category: "Vêtements", price: 45000, stock: 15, status: "En stock" },
+  { id: 2, name: "Jean slim noir", sku: "JEA-002", category: "Vêtements", price: 35000, stock: 8, status: "En stock" },
+  { id: 3, name: "Sac à main cuir", sku: "SAC-003", category: "Accessoires", price: 75000, stock: 3, status: "Faible" },
+  { id: 4, name: "Bottes en cuir", sku: "BOT-004", category: "Chaussures", price: 65000, stock: 0, status: "Rupture" },
+  { id: 5, name: "Pull cachemire", sku: "PUL-005", category: "Vêtements", price: 95000, stock: 12, status: "En stock" },
 ];
 
 export default function ProductsPage() {
@@ -97,7 +97,7 @@ export default function ProductsPage() {
         {loading ? (
           <SkeletonTable columns={productColumns.length} rows={5} />
         ) : (
-          <DataTable
+          <DataTable<Product>
             data={filteredProducts}
             columns={productColumns}
             variant="clean"

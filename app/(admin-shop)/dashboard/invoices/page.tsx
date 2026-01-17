@@ -15,7 +15,7 @@ import {
 } from "react-icons/lu";
 import { PageHeader, ActionButton, StatusBadge, TabNavigation, SkeletonTable, PageLayout } from "../../../../components/ui";
 
-const invoiceColumns: Column[] = [
+const invoiceColumns: Column<any>[] = [
   {
     key: "number",
     label: "Référence",
@@ -168,7 +168,7 @@ export default function InvoicesPage() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <DataTable
+              <DataTable<any>
                 columns={invoiceColumns}
                 data={displayData}
                 variant="clean"

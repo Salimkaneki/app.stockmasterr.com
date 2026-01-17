@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DataTable } from "../../../../components/data";
 import { PageHeader, ActionButton, SkeletonTable, TabNavigation, PageLayout } from "../../../../components/ui";
-import { createUserColumns } from "../../../../components/columns";
+import { createUserColumns, User } from "../../../../components/columns";
 import {
   LuUserPlus,
   LuMail,
@@ -15,12 +15,12 @@ import {
 // --- CONFIGURATION DES COLONNES PERSONNEL ---
 const staffColumns = createUserColumns();
 
-const staffData = [
-  { id: 1, name: "Jean-Pierre Dubois", email: "jp@commerce.com", initials: "JD", role: "Administrateur", status: "Actif", sales: "1,250,000", avatar: null },
-  { id: 2, name: "Marie-Louise Chen", email: "ml@commerce.com", initials: "MC", role: "Caissière Senior", status: "Actif", sales: "890,000", avatar: null },
-  { id: 3, name: "Abdoulaye Diallo", email: "ab@commerce.com", initials: "AD", role: "Caissier", status: "Actif", sales: "450,000", avatar: null },
-  { id: 4, name: "Sophie Martin", email: "sm@commerce.com", initials: "SM", role: "Manager", status: "En congé", sales: "720,000", avatar: null },
-  { id: 5, name: "Lucas Bernard", email: "lb@commerce.com", initials: "LB", role: "Caissier", status: "Actif", sales: "380,000", avatar: null },
+const staffData: User[] = [
+  { id: 1, name: "Jean-Pierre Dubois", email: "jp@commerce.com", initials: "JD", role: "Administrateur", status: "Actif", sales: 1250000, avatar: null },
+  { id: 2, name: "Marie-Louise Chen", email: "ml@commerce.com", initials: "MC", role: "Caissière Senior", status: "Actif", sales: 890000, avatar: null },
+  { id: 3, name: "Abdoulaye Diallo", email: "ab@commerce.com", initials: "AD", role: "Caissier", status: "Actif", sales: 450000, avatar: null },
+  { id: 4, name: "Sophie Martin", email: "sm@commerce.com", initials: "SM", role: "Manager", status: "En congé", sales: 720000, avatar: null },
+  { id: 5, name: "Lucas Bernard", email: "lb@commerce.com", initials: "LB", role: "Caissier", status: "Actif", sales: 380000, avatar: null },
 ];
 
 export default function StaffPage() {
@@ -126,7 +126,7 @@ export default function StaffPage() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <DataTable
+              <DataTable<User>
                 columns={staffColumns}
                 data={displayData}
                 variant="clean"

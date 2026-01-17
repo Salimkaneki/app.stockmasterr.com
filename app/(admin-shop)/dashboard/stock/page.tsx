@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DataTable } from "../../../../components/data";
 import { PageHeader, ActionButton, SearchBar, SkeletonTable, TabNavigation, PageLayout } from "../../../../components/ui";
-import { createStockColumns } from "../../../../components/columns";
+import { createStockColumns, Stock } from "../../../../components/columns";
 import {
   LuPlus,
   LuChevronRight,
@@ -15,11 +15,11 @@ import {
 // --- CONFIGURATION DES COLONNES STOCK ---
 const stockColumns = createStockColumns();
 
-const stockData = [
-  { sku: "PRD-001", name: "Café Éthiopie Sidamo", category: "Grains", quantity: 45, price: "18,00 €", status: "En Stock" },
-  { sku: "PRD-002", name: "Filtres V60 (x100)", category: "Accessoires", quantity: 3, price: "7,50 €", status: "Stock Faible" },
-  { sku: "PRD-003", name: "Moulin Manuel Hario", category: "Équipement", quantity: 0, price: "45,00 €", status: "Rupture" },
-  { sku: "PRD-004", name: "Tasse Céramique", category: "Art de la table", quantity: 12, price: "12,00 €", status: "En Stock" },
+const stockData: Stock[] = [
+  { sku: "PRD-001", name: "Café Éthiopie Sidamo", category: "Grains", quantity: 45, price: 18.00, status: "En Stock" },
+  { sku: "PRD-002", name: "Filtres V60 (x100)", category: "Accessoires", quantity: 3, price: 7.50, status: "Stock Faible" },
+  { sku: "PRD-003", name: "Moulin Manuel Hario", category: "Équipement", quantity: 0, price: 45.00, status: "Rupture" },
+  { sku: "PRD-004", name: "Tasse Céramique", category: "Art de la table", quantity: 12, price: 12.00, status: "En Stock" },
 ];
 
 export default function StockPage() {
@@ -131,7 +131,7 @@ export default function StockPage() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <DataTable
+              <DataTable<Stock>
                 columns={stockColumns}
                 data={displayData}
                 variant="clean"

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DataTable } from "../../../../components/data";
 import { PageHeader, TabNavigation, SkeletonTable, PageLayout } from "../../../../components/ui";
-import { createSalesColumns } from "../../../../components/columns";
+import { createSalesColumns, Sales } from "../../../../components/columns";
 import {
   LuPlus,
   LuDownload,
@@ -14,10 +14,10 @@ import {
 // --- CONFIGURATION DES COLONNES (Style Minimaliste) ---
 const salesColumns = createSalesColumns();
 
-const salesData = [
-  { orderNumber: "#V-2026-001", date: "09/01/2026", customer: "Marie Dupont", amount: "124,00 €", status: "Payé", paymentMethod: "Carte" },
-  { orderNumber: "#V-2026-002", date: "09/01/2026", customer: "Jean Martin", amount: "89,50 €", status: "Payé", paymentMethod: "Comptant" },
-  { orderNumber: "#V-2026-003", date: "08/01/2026", customer: "Sophie Bernard", amount: "156,00 €", status: "Payé", paymentMethod: "Carte" },
+const salesData: Sales[] = [
+  { orderNumber: "#V-2026-001", date: "09/01/2026", customer: "Marie Dupont", amount: 124.00, status: "Payé", paymentMethod: "Carte" },
+  { orderNumber: "#V-2026-002", date: "09/01/2026", customer: "Jean Martin", amount: 89.50, status: "Payé", paymentMethod: "Comptant" },
+  { orderNumber: "#V-2026-003", date: "08/01/2026", customer: "Sophie Bernard", amount: 156.00, status: "Payé", paymentMethod: "Carte" },
 ];
 
 export default function SalesPage() {
@@ -123,7 +123,7 @@ export default function SalesPage() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <DataTable
+              <DataTable<Sales>
                 columns={salesColumns}
                 data={displayData}
                 variant="clean"
