@@ -4,13 +4,15 @@ import { PageContainer } from '@/components/ui/layout/PageContainer'
 import { InfoCard } from '@/components/ui/layout/InfoCard'
 import { LuArrowLeft, LuDownload, LuPrinter, LuFileText, LuUser, LuCalendar, LuDollarSign, LuCreditCard } from 'react-icons/lu'
 import Link from 'next/link'
+import { use } from 'react'
 
-export default function InvoiceDetailPage({ params }: { params: { id: string } }) {
+export default function InvoiceDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params)
   return (
     <PageLayout>
       <PageHeader
         title="Détail Facture"
-        description={`Facture #${params.id}`}
+        description={`Facture #${id}`}
         backLink={{
           href: '/dashboard/invoices',
           label: 'Retour aux factures'
@@ -36,7 +38,7 @@ export default function InvoiceDetailPage({ params }: { params: { id: string } }
             <div className="bg-white border border-zinc-200 rounded-xl p-6">
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h2 className="text-2xl font-bold text-zinc-900">Facture #{params.id}</h2>
+                  <h2 className="text-2xl font-bold text-zinc-900">Facture #{id}</h2>
                   <div className="flex items-center gap-4 mt-2">
                     <div className="flex items-center gap-2">
                       <LuCalendar className="w-4 h-4 text-zinc-400" />
@@ -44,7 +46,7 @@ export default function InvoiceDetailPage({ params }: { params: { id: string } }
                     </div>
                     <div className="flex items-center gap-2">
                       <LuUser className="w-4 h-4 text-zinc-400" />
-                      <span className="text-sm text-zinc-600">Client #{params.id}</span>
+                      <span className="text-sm text-zinc-600">Client #{id}</span>
                     </div>
                   </div>
                 </div>
@@ -107,16 +109,16 @@ export default function InvoiceDetailPage({ params }: { params: { id: string } }
                 <div>
                   <h4 className="font-medium text-zinc-900 mb-2">Facturation</h4>
                   <div className="text-sm text-zinc-600">
-                    <p>Client Exemple #{params.id}</p>
+                    <p>Client Exemple #{id}</p>
                     <p>123 Rue de la Paix</p>
                     <p>75001 Paris</p>
-                    <p>client{params.id}@example.com</p>
+                    <p>client{id}@example.com</p>
                   </div>
                 </div>
                 <div>
                   <h4 className="font-medium text-zinc-900 mb-2">Livraison</h4>
                   <div className="text-sm text-zinc-600">
-                    <p>Client Exemple #{params.id}</p>
+                    <p>Client Exemple #{id}</p>
                     <p>123 Rue de la Paix</p>
                     <p>75001 Paris</p>
                   </div>

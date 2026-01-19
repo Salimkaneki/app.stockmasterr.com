@@ -4,13 +4,15 @@ import { PageContainer } from '@/components/ui/layout/PageContainer'
 import { InfoCard } from '@/components/ui/layout/InfoCard'
 import { LuArrowLeft, LuPencil, LuTrash2, LuPackage, LuDollarSign, LuTag } from 'react-icons/lu'
 import Link from 'next/link'
+import { use } from 'react'
 
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
+export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params)
   return (
     <PageLayout>
       <PageHeader
         title="Détail Produit"
-        description={`Produit #${params.id}`}
+        description={`Produit #${id}`}
         backLink={{
           href: '/dashboard/products',
           label: 'Retour aux produits'
@@ -18,7 +20,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
       >
         <div className="flex gap-2">
           <Link
-            href={`/dashboard/products/${params.id}/edit`}
+            href={`/dashboard/products/${id}/edit`}
             className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800 transition-colors"
           >
             <LuPencil className="w-4 h-4" />
@@ -41,12 +43,12 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
                   <LuPackage className="w-12 h-12 text-zinc-400" />
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-zinc-900">Produit Exemple #{params.id}</h2>
+                  <h2 className="text-2xl font-bold text-zinc-900">Produit Exemple #{id}</h2>
                   <p className="text-zinc-600 mt-2">Description détaillée du produit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                   <div className="flex items-center gap-4 mt-4">
                     <div className="flex items-center gap-2">
                       <LuTag className="w-4 h-4 text-zinc-400" />
-                      <span className="text-sm text-zinc-600">SKU: PROD-{params.id}</span>
+                      <span className="text-sm text-zinc-600">SKU: PROD-{id}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <LuDollarSign className="w-4 h-4 text-zinc-400" />

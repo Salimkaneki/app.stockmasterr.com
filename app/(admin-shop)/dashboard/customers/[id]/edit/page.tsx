@@ -8,15 +8,17 @@ import { Input } from '@/components/ui/forms/Input'
 import { Select } from '@/components/ui/forms/Select'
 import { LuArrowLeft, LuSave, LuX } from 'react-icons/lu'
 import Link from 'next/link'
+import { use } from 'react'
 
-export default function CustomerEditPage({ params }: { params: { id: string } }) {
+export default function CustomerEditPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params)
   return (
     <PageLayout>
       <PageHeader
         title="Modifier Client"
-        description={`Client #${params.id}`}
+        description={`Client #${id}`}
         backLink={{
-          href: `/dashboard/customers/${params.id}`,
+          href: `/dashboard/customers/${id}`,
           label: 'Retour au détail'
         }}
       >
@@ -26,7 +28,7 @@ export default function CustomerEditPage({ params }: { params: { id: string } })
             Sauvegarder
           </button>
           <Link
-            href={`/dashboard/customers/${params.id}`}
+            href={`/dashboard/customers/${id}`}
             className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-100 text-zinc-900 rounded-lg hover:bg-zinc-200 transition-colors"
           >
             <LuX className="w-4 h-4" />
@@ -47,13 +49,13 @@ export default function CustomerEditPage({ params }: { params: { id: string } })
               <Input
                 label="Nom"
                 placeholder="Nom du client"
-                defaultValue={`Dupont #${params.id}`}
+                defaultValue={`Dupont #${id}`}
               />
               <Input
                 label="Email"
                 type="email"
                 placeholder="email@exemple.com"
-                defaultValue={`client${params.id}@example.com`}
+                defaultValue={`client${id}@example.com`}
               />
               <Input
                 label="Téléphone"

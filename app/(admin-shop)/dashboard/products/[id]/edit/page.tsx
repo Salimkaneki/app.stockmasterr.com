@@ -9,15 +9,17 @@ import { Textarea } from '@/components/ui/forms/Textarea'
 import { Select } from '@/components/ui/forms/Select'
 import { LuArrowLeft, LuSave, LuX } from 'react-icons/lu'
 import Link from 'next/link'
+import { use } from 'react'
 
-export default function ProductEditPage({ params }: { params: { id: string } }) {
+export default function ProductEditPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params)
   return (
     <PageLayout>
       <PageHeader
         title="Modifier Produit"
-        description={`Produit #${params.id}`}
+        description={`Produit #${id}`}
         backLink={{
-          href: `/dashboard/products/${params.id}`,
+          href: `/dashboard/products/${id}`,
           label: 'Retour au détail'
         }}
       >
@@ -27,7 +29,7 @@ export default function ProductEditPage({ params }: { params: { id: string } }) 
             Sauvegarder
           </button>
           <Link
-            href={`/dashboard/products/${params.id}`}
+            href={`/dashboard/products/${id}`}
             className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-100 text-zinc-900 rounded-lg hover:bg-zinc-200 transition-colors"
           >
             <LuX className="w-4 h-4" />
@@ -43,12 +45,12 @@ export default function ProductEditPage({ params }: { params: { id: string } }) 
               <Input
                 label="Nom du produit"
                 placeholder="Entrez le nom du produit"
-                defaultValue={`Produit Exemple #${params.id}`}
+                defaultValue={`Produit Exemple #${id}`}
               />
               <Input
                 label="SKU"
                 placeholder="Code produit unique"
-                defaultValue={`PROD-${params.id}`}
+                defaultValue={`PROD-${id}`}
               />
               <Select
                 label="Catégorie"
