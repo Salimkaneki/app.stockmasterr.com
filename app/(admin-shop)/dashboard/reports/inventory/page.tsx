@@ -1,8 +1,8 @@
-import { PageLayout } from '../../../../components/ui/layout/PageLayout'
-import { PageHeader } from '../../../../components/ui/layout/PageHeader'
-import { PageContainer } from '../../../../components/ui/layout/PageContainer'
-import DataTable, { Column } from '../../../../components/data/DataTable'
-import KPI from '../../../../components/data/KPI'
+import { PageLayout } from '@/components/ui/layout/PageLayout'
+import { PageHeader } from '@/components/ui/layout/PageHeader'
+import { PageContainer } from '@/components/ui/layout/PageContainer'
+import DataTable, { Column } from '@/components/data/DataTable'
+import KPI from '@/components/data/KPI'
 
 const invColumns: Column<{ sku: string; name: string; qty: number }>[] = [
   { key: 'sku', label: 'SKU' },

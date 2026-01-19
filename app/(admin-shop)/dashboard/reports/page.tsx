@@ -1,9 +1,9 @@
-import { PageLayout } from '../../../../components/ui/layout/PageLayout'
-import { PageHeader } from '../../../../components/ui/layout/PageHeader'
-import { PageContainer } from '../../../../components/ui/layout/PageContainer'
-import KPI from '../../../../components/data/KPI'
-import DataTable, { Column } from '../../../../components/data/DataTable'
-import { InfoCard } from '../../../../components/ui/layout/InfoCard'
+import { PageLayout } from '@/components/ui/layout/PageLayout'
+import { PageHeader } from '@/components/ui/layout/PageHeader'
+import { PageContainer } from '@/components/ui/layout/PageContainer'
+import KPI from '@/components/data/KPI'
+import DataTable, { Column } from '@/components/data/DataTable'
+import { InfoCard } from '@/components/ui/layout/InfoCard'
 import Link from 'next/link'
 
 const latestColumns: Column<{ id: string; date: string; total: string; }>[] = [
