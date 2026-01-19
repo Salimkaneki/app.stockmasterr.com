@@ -1,3 +1,5 @@
+"use client";
+
 import { PageLayout } from '@/components/ui/layout/PageLayout'
 import { PageHeader } from '@/components/ui/layout/PageHeader'
 import { PageContainer } from '@/components/ui/layout/PageContainer'
