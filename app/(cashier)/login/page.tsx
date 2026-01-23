@@ -1,118 +1,140 @@
 "use client";
 
-import { useState } from 'react';
-import { LuUser, LuLock, LuEye, LuEyeOff, LuStore } from 'react-icons/lu';
+import React, { useState, useEffect } from 'react';
+import { LuDelete, LuLock, LuUser, LuChevronRight, LuFingerprint, LuCornerDownLeft } from 'react-icons/lu';
 
-export default function CashierLoginPage() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    username: '',
-    password: ''
-  });
+export default function PinLoginScreen() {
+  const [pin, setPin] = useState<string>('');
+  const [error, setError] = useState<boolean>(false);
+  const PIN_LENGTH = 4;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: Implement login logic
-    console.log('Login attempt:', formData);
+  const handleKeyPress = (num: string) => {
+    if (pin.length < PIN_LENGTH) {
+      setPin(prev => prev + num);
+      setError(false);
+    }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
+  const handleDelete = () => setPin(prev => prev.slice(0, -1));
+
+  useEffect(() => {
+    if (pin.length === PIN_LENGTH) {
+      if (pin === "1234") {
+        // Redirection logique
+      } else {
+        setError(true);
+        setTimeout(() => setPin(''), 600);
+      }
+    }
+  }, [pin]);
 
   return (
-    <div className="min-h-screen w-full bg-linear-to-br from-zinc-900 via-zinc-800 to-zinc-900 flex items-center justify-center p-6">
-      <div className="w-full max-w-md">
-        {/* Logo/Brand */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full mb-4">
-            <LuStore className="w-8 h-8 text-zinc-900" />
+    <div className="h-screen w-full bg-white text-zinc-900 flex overflow-hidden">
+      
+      {/* Côté Gauche : Branding Minimaliste */}
+      <div className="flex-1 flex flex-col justify-between p-16">
+        <div>
+          <div className="flex items-center gap-3 mb-20">
+            <div className="w-10 h-10 bg-zinc-900 flex items-center justify-center rounded-sm">
+              <div className="w-4 h-1 bg-white" />
+            </div>
+            <span className="font-black text-2xl tracking-[0.2em]">Ma Boutik</span>
           </div>
-          <h1 className="text-3xl font-black text-white uppercase tracking-wider">Point de Vente</h1>
-          <p className="text-zinc-400 mt-2">Connexion Caissier</p>
-        </div>
 
-        {/* Login Form */}
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Username Field */}
-            <div>
-              <label className="block text-sm font-bold text-zinc-700 uppercase tracking-wider mb-2">
-                Nom d'utilisateur
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <LuUser className="w-5 h-5 text-zinc-400" />
-                </div>
-                <input
-                  type="text"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  className="w-full pl-12 pr-4 py-4 border-2 border-zinc-200 rounded-xl focus:border-zinc-900 focus:ring-0 text-lg font-medium transition-colors"
-                  placeholder="Votre identifiant"
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Password Field */}
-            <div>
-              <label className="block text-sm font-bold text-zinc-700 uppercase tracking-wider mb-2">
-                Mot de passe
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <LuLock className="w-5 h-5 text-zinc-400" />
-                </div>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="w-full pl-12 pr-12 py-4 border-2 border-zinc-200 rounded-xl focus:border-zinc-900 focus:ring-0 text-lg font-medium transition-colors"
-                  placeholder="Votre mot de passe"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center"
-                >
-                  {showPassword ? (
-                    <LuEyeOff className="w-5 h-5 text-zinc-400 hover:text-zinc-600" />
-                  ) : (
-                    <LuEye className="w-5 h-5 text-zinc-400 hover:text-zinc-600" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Login Button */}
-            <button
-              type="submit"
-              className="w-full bg-zinc-900 text-white py-4 rounded-xl font-bold text-lg uppercase tracking-wider hover:bg-zinc-800 transition-colors active:scale-95"
-            >
-              Se connecter
-            </button>
-          </form>
-
-          {/* Additional Info */}
-          <div className="mt-6 text-center">
-            <p className="text-sm text-zinc-500">
-              En cas de problème, contactez votre superviseur
+          <div className="space-y-4">
+            <h1 className="text-7xl font-light tracking-tighter text-zinc-900">
+              Session <br />
+              <span className="font-serif italic text-zinc-400 text-6xl">Verrouillée</span>
+            </h1>
+            <p className="text-zinc-500 max-w-xs leading-relaxed">
+              Veuillez saisir votre identifiant personnel pour accéder au terminal de vente.
             </p>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="text-center mt-8">
-          <p className="text-zinc-500 text-sm">
-            © 2026 - Système de Gestion Commerciale
-          </p>
+        <div className="space-y-8">
+          <div className="flex items-center gap-5 p-4 -ml-4 rounded-2xl border border-transparent hover:border-zinc-100 transition-all cursor-pointer group">
+            <div className="w-14 h-14 rounded-full bg-zinc-100 flex items-center justify-center group-hover:bg-zinc-900 group-hover:text-white transition-all duration-300">
+              <LuUser className="w-6 h-6" />
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-widest text-zinc-400 font-bold">Opérateur</p>
+              <p className="text-lg font-medium">Marc-Antoine K.</p>
+            </div>
+            <LuChevronRight className="ml-auto text-zinc-300 group-hover:text-zinc-900" />
+          </div>
+        </div>
+      </div>
+
+      {/* Côté Droit : Interface de saisie ultra-claire */}
+      <div className="w-150 bg-zinc-50 flex flex-col items-center justify-center p-16 relative border-l border-zinc-100">
+        
+        {/* Indicateurs de PIN - Modernes */}
+        <div className="mb-20 flex flex-col items-center">
+          <div className="flex gap-4">
+            {[...Array(PIN_LENGTH)].map((_, i) => (
+              <div
+                key={i}
+                className={`h-16 w-12 flex items-center justify-center border-b-2 transition-all duration-500 ${
+                  i < pin.length 
+                    ? 'border-zinc-900 transform -translate-y-2' 
+                    : 'border-zinc-200'
+                } ${error ? 'border-red-500 text-red-500' : ''}`}
+              >
+                {i < pin.length ? (
+                  <span className="text-2xl font-light">●</span>
+                ) : (
+                  <span className="text-zinc-100 text-2xl font-light">0</span>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="h-6 mt-4">
+            {error && <span className="text-red-500 text-xs font-bold uppercase tracking-[0.2em]">Accès Refusé</span>}
+          </div>
+        </div>
+
+        {/* Clavier Numérique Épuré */}
+        <div className="grid grid-cols-3 gap-x-12 gap-y-6">
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+            <button
+              key={num}
+              onClick={() => handleKeyPress(num.toString())}
+              className="h-20 w-20 flex items-center justify-center text-3xl font-light text-zinc-400 hover:text-zinc-900 transition-colors active:scale-90"
+            >
+              {num}
+            </button>
+          ))}
+          <button 
+            onClick={() => setPin('')}
+            className="h-20 w-20 flex items-center justify-center"
+          >
+            <span className="text-[10px] uppercase tracking-widest font-bold text-zinc-300 hover:text-red-500 transition-colors">Vider</span>
+          </button>
+          <button
+            onClick={() => handleKeyPress('0')}
+            className="h-20 w-20 flex items-center justify-center text-3xl font-light text-zinc-400 hover:text-zinc-900 transition-colors active:scale-90"
+          >
+            0
+          </button>
+          <button
+            onClick={handleDelete}
+            className="h-20 w-20 flex items-center justify-center text-zinc-300 hover:text-zinc-900 transition-colors"
+          >
+            <LuDelete className="w-6 h-6" />
+          </button>
+        </div>
+
+        {/* Aide mémoire / Sécurité */}
+        <div className="mt-20 flex flex-col items-center gap-4">
+          <button className="flex items-center gap-3 text-zinc-400 hover:text-zinc-600 transition-colors">
+            <LuFingerprint className="w-5 h-5" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Touch ID</span>
+          </button>
+          <div className="flex items-center gap-2 text-[10px] text-zinc-300 uppercase tracking-widest mt-4">
+            <LuLock className="w-3 h-3" />
+            <span>Cryptage AES-256 actif</span>
+          </div>
         </div>
       </div>
     </div>
