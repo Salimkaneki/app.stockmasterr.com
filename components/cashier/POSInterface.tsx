@@ -31,6 +31,7 @@ export default function POSInterface() {
   const [discount, setDiscount] = useState(0);
   const [cashReceived, setCashReceived] = useState(0);
   const barcodeRef = useRef<HTMLInputElement>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
 
   // Mock products data
   const products: Product[] = [
@@ -98,7 +99,7 @@ export default function POSInterface() {
   );
 
   return (
-    <div className="h-screen w-full bg-white flex font-sans text-zinc-900 overflow-hidden">
+    <div className="h-full w-full flex overflow-hidden">
       {/* Catalogue Section */}
       <div className="flex-1 flex flex-col border-r-2 border-zinc-200">
         {/* Header with search and barcode */}
@@ -121,6 +122,7 @@ export default function POSInterface() {
           <div className="flex items-center gap-3">
             <LuSearch className="w-5 h-5 text-zinc-600" />
             <input
+              ref={searchRef}
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
