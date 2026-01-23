@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
-import { LuScan, LuSearch, LuX, LuPlus, LuMinus, LuCreditCard, LuWallet, LuBanknote, LuPrinter, LuUser, LuPercent } from 'react-icons/lu';
+import { LuSearch, LuX, LuPlus, LuMinus, LuCreditCard, LuWallet, LuBanknote, LuPrinter, LuUser, LuPercent } from 'react-icons/lu';
 
 interface Product {
   id: number;
@@ -26,11 +26,9 @@ interface PaymentMethod {
 export default function POSInterface() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [barcodeInput, setBarcodeInput] = useState('');
   const [selectedPayment, setSelectedPayment] = useState<string>('');
   const [discount, setDiscount] = useState(0);
   const [cashReceived, setCashReceived] = useState(0);
-  const barcodeRef = useRef<HTMLInputElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
 
   // Mock products data
@@ -76,18 +74,6 @@ export default function POSInterface() {
     setCart(prev => prev.filter(item => item.id !== id));
   };
 
-  const handleBarcodeScan = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && barcodeInput.trim()) {
-      const product = products.find(p => p.barcode === barcodeInput.trim());
-      if (product) {
-        addToCart(product);
-        setBarcodeInput('');
-      } else {
-        alert('Produit non trouvé');
-      }
-    }
-  };
-
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
   const discountAmount = (subtotal * discount) / 100;
   const total = subtotal - discountAmount;
@@ -102,24 +88,11 @@ export default function POSInterface() {
     <div className="h-full w-full flex overflow-hidden">
       {/* Catalogue Section */}
       <div className="flex-1 flex flex-col border-r-2 border-zinc-200">
-        {/* Header with search and barcode */}
-        <header className="h-32 px-6 py-4 bg-white border-b border-zinc-200 space-y-3">
-          {/* Barcode Scanner */}
-          <div className="flex items-center gap-3">
-            <LuScan className="w-5 h-5 text-zinc-600" />
-            <input
-              ref={barcodeRef}
-              type="text"
-              value={barcodeInput}
-              onChange={(e) => setBarcodeInput(e.target.value)}
-              onKeyPress={handleBarcodeScan}
-              placeholder="Scanner un code-barres..."
-              className="flex-1 px-4 py-2 border border-zinc-300 rounded-lg focus:border-zinc-900 focus:ring-0"
-            />
-          </div>
-
+        {/* Header with search */}
+        {/* Changement : h-32 -> h-20 et réduction du padding/espacement */}
+        <header className="h-20 px-6 py-0 bg-white border-b border-zinc-200 flex items-center">
           {/* Search */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 w-full">
             <LuSearch className="w-5 h-5 text-zinc-600" />
             <input
               ref={searchRef}
@@ -133,30 +106,51 @@ export default function POSInterface() {
         </header>
 
         {/* Products Grid */}
-        <div className="flex-1 overflow-y-auto p-6 grid grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="flex-1 overflow-y-auto p-4 grid grid-cols-2 xl:grid-cols-3 gap-3 content-start">
           {filteredProducts.map((product) => (
             <button
               key={product.id}
               onClick={() => addToCart(product)}
-              className="bg-white border-2 border-zinc-200 p-4 rounded-lg hover:border-zinc-900 hover:shadow-lg transition-all text-left group"
+              // Hauteur fixée à 180px
+              className="bg-white border-2 border-zinc-200 p-4 rounded-xl hover:border-zinc-900 hover:shadow-lg transition-all text-left group flex flex-col h-45 relative overflow-hidden"
             >
+              {/* En-tête : Catégorie et Stock */}
               <div className="flex justify-between items-start mb-2">
-                <span className={`text-xs font-bold px-2 py-1 rounded ${
+                <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                  {product.category}
+                </span>
+                <span className={`text-xs font-bold px-2 py-0.5 rounded-md ${
                   product.stock > 10 ? 'bg-green-100 text-green-800' :
                   product.stock > 5 ? 'bg-yellow-100 text-yellow-800' :
                   'bg-red-100 text-red-800'
                 }`}>
-                  Stock: {product.stock}
-                </span>
-                <span className="text-lg font-bold text-zinc-900">
-                  {product.price.toLocaleString()} F
+                  {product.stock} dispo.
                 </span>
               </div>
-              <h3 className="font-bold text-zinc-900 mb-1 leading-tight">{product.name}</h3>
-              <p className="text-sm text-zinc-500">{product.category}</p>
-              {product.barcode && (
-                <p className="text-xs text-zinc-400 mt-1 font-mono">{product.barcode}</p>
-              )}
+
+              {/* Corps : Nom du produit (au centre) */}
+              <div className="flex-1 flex flex-col justify-center">
+                <h3 className="font-bold text-zinc-900 text-lg leading-tight line-clamp-2 group-hover:text-zinc-900">
+                  {product.name}
+                </h3>
+                {product.barcode && (
+                  <span className="text-[11px] text-zinc-400 font-mono mt-1">
+                    {product.barcode}
+                  </span>
+                )}
+              </div>
+
+              {/* Pied de carte : Prix imposant */}
+              <div className="mt-auto pt-3 border-t border-zinc-50 flex justify-between items-center">
+                <p className="text-xl font-black text-zinc-900">
+                  {product.price.toLocaleString()} <span className="text-sm font-bold text-zinc-500">F</span>
+                </p>
+                
+                {/* Icône d'ajout discrète qui s'anime au survol */}
+                <div className="bg-zinc-100 p-2 rounded-lg group-hover:bg-zinc-900 group-hover:text-white transition-colors">
+                  <LuPlus className="w-5 h-5" />
+                </div>
+              </div>
             </button>
           ))}
         </div>

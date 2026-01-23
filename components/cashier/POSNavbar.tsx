@@ -44,17 +44,17 @@ export default function POSNavbar({ onNewTicket, onFocusSearch, onFocusBarcode, 
         </button>
 
         {/* Navigation buttons */}
-        <Link href="/history" className="px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-md flex items-center gap-2 hover:bg-zinc-100">
+        <Link href="/cashier/history" className="px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-md flex items-center gap-2 hover:bg-zinc-100">
           <LuHistory className="w-4 h-4 text-zinc-600" />
           Historique
         </Link>
 
-        <Link href="/till" className="px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-md flex items-center gap-2 hover:bg-zinc-100">
+        <Link href="/cashier/till" className="px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-md flex items-center gap-2 hover:bg-zinc-100">
           <LuLock className="w-4 h-4 text-zinc-600" />
           Caisse
         </Link>
 
-        <Link href="/login" className="px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-md flex items-center gap-2 hover:bg-zinc-100">
+        <Link href="/cashier/login" className="px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-md flex items-center gap-2 hover:bg-zinc-100">
           <LuLogOut className="w-4 h-4 text-zinc-600" />
           Déconnexion
         </Link>
