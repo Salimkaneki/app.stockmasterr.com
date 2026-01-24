@@ -7,7 +7,8 @@ import {
   LuLayoutDashboard, LuShoppingCart, LuUsers, 
   LuSettings, LuPackage, LuReceipt,
   LuChevronsUpDown, LuBell, LuUserCheck,
-  LuCreditCard, LuTruck, LuArchive, LuTag
+  LuCreditCard, LuTruck, LuArchive, LuTag,
+  // LuChartBar
 } from "react-icons/lu";
 
 interface MenuItem {
@@ -27,10 +28,12 @@ const menuItems: MenuItem[] = [
   { name: "Produits", href: "/dashboard/products", icon: LuTag },
   { name: "Stock", href: "/dashboard/stock", icon: LuArchive },
   { name: "Ventes", href: "/dashboard/sales", icon: LuShoppingCart },
+  // { name: "Analytics", href: "/dashboard/analytics", icon: LuChartBar },
   { name: "Clients", href: "/dashboard/customers", icon: LuUsers },
   { name: "Personnel", href: "/dashboard/staff", icon: LuUserCheck },
   { name: "Fournisseurs", href: "/dashboard/suppliers", icon: LuTruck },
   { name: "Notifications", href: "/dashboard/notifications", icon: LuBell },
+  { name: "Solde", href: "/dashboard/balance", icon: LuCreditCard },
 ];
 
 const menuGroups: MenuGroup[] = [

@@ -2,14 +2,14 @@
 import React from "react";
 import { LuDollarSign, LuUsers, LuShoppingCart, LuPackage, LuArrowUpRight, LuArrowDownRight } from "react-icons/lu";
 
-interface KPICardProps {
+export interface KPICardProps {
   title: string;
   value: string | number;
   trend: number;
   icon: React.ComponentType<{ className?: string }>;
 }
 
-const KPICard = ({ title, value, trend, icon: Icon }: KPICardProps) => {
+export const KPICard = ({ title, value, trend, icon: Icon }: KPICardProps) => {
   const isPositive = trend > 0;
   return (
     <div className="group py-2">
