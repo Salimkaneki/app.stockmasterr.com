@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { LuArrowRight, LuArrowLeft, LuCheck, LuTerminal } from "react-icons/lu";
 import { Input, FileInput } from "@/components/ui";
@@ -80,14 +80,14 @@ function RegisterForm() {
                           placeholder="Dupont" 
                           className="font-['Google_Sans']"
                           value={formData.lastName}
-                          onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, lastName: e.target.value})}
                         />
                         <Input 
                           label={<span className="font-mono text-[10px] tracking-widest text-zinc-400">PRÉNOM</span>} 
                           placeholder="Jean" 
                           className="font-['Google_Sans']"
                           value={formData.firstName}
-                          onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, firstName: e.target.value})}
                         />
                       </div>
                       <Input label={<span className="font-mono text-[10px] tracking-widest text-zinc-400">EMAIL_PRO</span>} type="email" placeholder="admin@sync.com" />

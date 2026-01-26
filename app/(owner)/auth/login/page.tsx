@@ -76,7 +76,7 @@ export default function LoginPage() {
               type="email" 
               placeholder="admin@sync.com"
               value={formData.email}
-              onChange={(e) => handleInputChange('email', e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange('email', e.target.value)}
               error={errors.email}
               disabled={loading}
               className="font-['Google_Sans']"
@@ -88,7 +88,7 @@ export default function LoginPage() {
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••••••"
                 value={formData.password}
-                onChange={(e) => handleInputChange('password', e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange('password', e.target.value)}
                 error={errors.password}
                 disabled={loading}
                 className="font-['Google_Sans'] pr-12"
