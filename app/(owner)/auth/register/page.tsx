@@ -3,7 +3,7 @@
 import { useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { LuArrowRight, LuArrowLeft, LuCheck, LuTerminal } from "react-icons/lu";
-import { Input, Select, FileInput } from "@/components/ui";
+import { Input, FileInput } from "@/components/ui";
 
 function RegisterForm() {
   const searchParams = useSearchParams();
@@ -13,13 +13,12 @@ function RegisterForm() {
 
   const [formData, setFormData] = useState({
     firstName: "", lastName: "", email: "", password: "", storeName: "",
-    currency: "XOF", address: "", phone: "",
+    address: "", phone: "",
   });
 
   return (
     <div className="h-screen w-full bg-zinc-50 flex overflow-hidden font-sans text-zinc-900">
       
-      {/* SIDEBAR : NAVIGATION STATIQUE */}
       <div className="w-85 bg-white border-r border-zinc-200/60 flex flex-col justify-between p-12">
         <div>
           <div className="flex items-center gap-3 mb-24">
@@ -53,10 +52,7 @@ function RegisterForm() {
         </div>
       </div>
 
-      {/* ZONE CENTRALE : CONTENU FIXE */}
       <div className="flex-1 flex flex-col relative">
-        
-        {/* PROGRESS INDICATOR (BARRE FINE) */}
         <div className="absolute top-0 left-0 w-full h-1 bg-zinc-200/50">
           <div 
             className="h-full bg-zinc-900 transition-all duration-700 ease-in-out" 
@@ -75,7 +71,6 @@ function RegisterForm() {
               </h2>
             </header>
 
-            {/* CHAMPS SANS SCROLL */}
             <div className="space-y-8 min-h-75">
                {step === 1 && (
                   <div className="space-y-8 animate-in fade-in duration-500">
@@ -130,7 +125,6 @@ function RegisterForm() {
                )}
             </div>
 
-            {/* ACTIONS FOOTER */}
             <div className="flex items-center justify-between mt-16 pt-8">
                {step > 1 ? (
                   <button onClick={() => setStep(step - 1)} className="font-mono text-[11px] font-black tracking-widest text-zinc-400 hover:text-zinc-900 flex items-center gap-2">
@@ -150,7 +144,6 @@ function RegisterForm() {
           </div>
         </div>
 
-        {/* METADATA BAS DE PAGE */}
         <div className="px-12 py-8 flex justify-between items-center opacity-30 font-mono text-[8px] tracking-[0.4em] uppercase">
            <span>Session_Encrypted</span>
            <span>Sync_OS_Build_2026</span>
