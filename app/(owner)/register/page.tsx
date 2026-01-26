@@ -12,7 +12,7 @@ function RegisterForm() {
   const [step, setStep] = useState(1);
 
   const [formData, setFormData] = useState({
-    ownerName: "", email: "", password: "", storeName: "",
+    firstName: "", lastName: "", email: "", password: "", storeName: "",
     currency: "XOF", address: "", phone: "",
   });
 
@@ -79,7 +79,22 @@ function RegisterForm() {
             <div className="space-y-8 min-h-75">
                {step === 1 && (
                   <div className="space-y-8 animate-in fade-in duration-500">
-                      <Input label={<span className="font-mono text-[10px] tracking-widest text-zinc-400">NOM_UTILISATEUR</span>} placeholder="Jean Dupont" className="font-['Google_Sans']" />
+                      <div className="grid grid-cols-2 gap-8">
+                        <Input 
+                          label={<span className="font-mono text-[10px] tracking-widest text-zinc-400">NOM</span>} 
+                          placeholder="Dupont" 
+                          className="font-['Google_Sans']"
+                          value={formData.lastName}
+                          onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                        />
+                        <Input 
+                          label={<span className="font-mono text-[10px] tracking-widest text-zinc-400">PRÉNOM</span>} 
+                          placeholder="Jean" 
+                          className="font-['Google_Sans']"
+                          value={formData.firstName}
+                          onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                        />
+                      </div>
                       <Input label={<span className="font-mono text-[10px] tracking-widest text-zinc-400">EMAIL_PRO</span>} type="email" placeholder="admin@sync.com" />
                       <Input label={<span className="font-mono text-[10px] tracking-widest text-zinc-400">MOT_DE_PASSE</span>} type="password" placeholder="••••••••" />
                   </div>
@@ -88,10 +103,7 @@ function RegisterForm() {
                {step === 2 && (
                   <div className="space-y-8 animate-in fade-in duration-500">
                       <Input label={<span className="font-mono text-[10px] tracking-widest text-zinc-400">NOM_ENSEIGNE</span>} placeholder="Ma Boutique" />
-                      <div className="grid grid-cols-2 gap-8">
-                        <Select label={<span className="font-mono text-[10px] tracking-widest text-zinc-400">DEVISE</span>} options={[{value: "XOF", label: "F CFA"}]} value={formData.currency} onChange={(value) => setFormData({...formData, currency: value})} />
-                        <Input label={<span className="font-mono text-[10px] tracking-widest text-zinc-400">CONTACT_TEL</span>} placeholder="+225" />
-                      </div>
+                      <Input label={<span className="font-mono text-[10px] tracking-widest text-zinc-400">CONTACT_TEL</span>} placeholder="+225" />
                       <FileInput label="LOGO_BOUTIQUE" />
                   </div>
                )}
