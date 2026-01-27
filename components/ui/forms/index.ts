@@ -14,3 +14,5 @@ export type { DropdownItem } from "./Dropdown";
 export type { TextareaProps } from "./Textarea";
 export type { CheckboxProps } from "./Checkbox";
 export type { RadioProps } from "./Radio";
+export { default as OtpInput } from "./OtpInput";
+export type { OtpInputProps } from "./OtpInput";
