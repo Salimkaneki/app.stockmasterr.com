@@ -74,6 +74,7 @@ const KPICard = ({ title, value, trend, icon: Icon, index = 0 }: KPICardProps) =
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("Général");
   const [currency, setCurrency] = useState("FCFA");
+  const [accentColor, setAccentColor] = useState('#2563eb');
 
   const tabs = ["Général", "Paiement", "Livraison", "Notifications", "Sécurité"];
 
@@ -133,7 +134,21 @@ export default function SettingsPage() {
                   <h3 className="text-base font-black uppercase tracking-[0.2em] text-zinc-400 mb-6">Visuels</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <FileInput label="Logo Principal" maxSize={2} helperText="PNG transparent de préférence" />
-                    <FileInput label="Bannière" maxSize={5} />
+                  </div>
+                  <div className="mt-6">
+                    <label className="block text-sm font-medium text-zinc-700">Couleur par défaut</label>
+                    <div className="mt-3 flex items-center gap-4">
+                      <Input
+                        type="color"
+                        value={accentColor}
+                        onChange={(e) => setAccentColor(e.target.value)}
+                        className="h-10 w-14 p-0"
+                      />
+                      <div className="flex-1">
+                        <p className="text-sm text-zinc-500">Couleur utilisée pour actions rapides et factures.</p>
+                      </div>
+                      <div className="w-12 h-8 rounded border" style={{ background: accentColor }} />
+                    </div>
                   </div>
                 </div>
               </section>
