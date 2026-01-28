@@ -70,7 +70,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     const combinedClasses = `${baseClasses} ${errorClasses} ${className}`.trim();
 
     return (
-      <div className="space-y-2">
+      <div className="space-y-2 md:col-span-2">
         {label && (
           <label className="text-sm font-medium text-zinc-700 font-['Google_Sans']">
             {label}

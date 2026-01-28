@@ -76,6 +76,15 @@ export default function SettingsPage() {
   const [currency, setCurrency] = useState("FCFA");
   const [accentColor, setAccentColor] = useState('#2563eb');
 
+  const colorOptions = [
+    '#0EA5A4', // Bleu pétrole
+    '#4F46E5', // Indigo profond
+    '#10B981', // Émeraude
+    '#F59E0B', // Ambre chaleureux
+    '#64748B', // Gris ardoise
+    '#FB7185'  // Corail
+  ];
+
   const tabs = ["Général", "Paiement", "Livraison", "Notifications", "Sécurité"];
 
   return (
@@ -138,12 +147,18 @@ export default function SettingsPage() {
                   <div className="mt-6">
                     <label className="block text-sm font-medium text-zinc-700">Couleur par défaut</label>
                     <div className="mt-3 flex items-center gap-4">
-                      <Input
-                        type="color"
-                        value={accentColor}
-                        onChange={(e) => setAccentColor(e.target.value)}
-                        className="h-10 w-14 p-0"
-                      />
+                      <div className="flex items-center gap-2">
+                        {colorOptions.map((c) => (
+                          <button
+                            key={c}
+                            type="button"
+                            onClick={() => setAccentColor(c)}
+                            className={`w-10 h-10 rounded-full border transition-shadow ${accentColor === c ? 'ring-2 ring-offset-1 ring-zinc-900' : 'border-zinc-200'}`}
+                            style={{ background: c }}
+                            aria-label={c}
+                          />
+                        ))}
+                      </div>
                       <div className="flex-1">
                         <p className="text-sm text-zinc-500">Couleur utilisée pour actions rapides et factures.</p>
                       </div>
