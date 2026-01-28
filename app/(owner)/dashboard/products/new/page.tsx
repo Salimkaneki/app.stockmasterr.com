@@ -2,28 +2,43 @@
 
 import React, { useState } from "react";
 import {
-  LuInfo, 
-  LuPackage, 
-  LuTag, 
-  LuDollarSign, 
+  LuInfo,
+  LuPackage,
+  LuTag,
+  LuDollarSign,
   LuLayers,
-  LuSave
+  LuSave,
+  LuPlus
 } from "react-icons/lu";
 
 // Import de vos composants personnalisés
-import { Input, Select, Textarea, FileInput, Radio } from "@/components/ui";
+import { Input, Select, Textarea, FileInput, Radio, Modal } from "@/components/ui";
 import { PageHeader } from "@/components/ui";
 
 export default function ProductsCreatePage() {
   const [category, setCategory] = useState("");
   const [status, setStatus] = useState("En stock");
 
-  const categories = [
+  const [categories, setCategories] = useState([
     { value: "elec", label: "Électronique" },
     { value: "acc", label: "Accessoires" },
     { value: "bur", label: "Bureau" },
     { value: "serv", label: "Services" },
-  ];
+  ]);
+
+  const [isCatModalOpen, setCatModalOpen] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState("");
+
+  const addCategory = () => {
+    const name = newCategoryName.trim();
+    if (!name) return;
+    const value = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 30);
+    const item = { value, label: name };
+    setCategories(prev => [...prev, item]);
+    setCategory(value);
+    setNewCategoryName("");
+    setCatModalOpen(false);
+  };
 
   return (
     <div className="bg-white min-h-screen pb-20 font-sans text-zinc-900">
@@ -68,13 +83,28 @@ export default function ProductsCreatePage() {
                     placeholder="ex: ELEC-001" 
                     className="font-mono uppercase"
                   />
-                  <Select 
-                    label="Catégorie" 
-                    options={categories} 
-                    value={category} 
-                    onChange={setCategory} 
-                    placeholder="Choisir une catégorie"
-                  />
+                  <div>
+                    <label className="block text-sm font-medium text-zinc-700 mb-2">Catégorie</label>
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1">
+                        <Select
+                          options={categories}
+                          value={category}
+                          onChange={setCategory}
+                          placeholder="Choisir une catégorie"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setCatModalOpen(true)}
+                        className="w-10 h-10 bg-linear-to-br from-zinc-900 to-zinc-700 text-white rounded-lg flex items-center justify-center hover:from-zinc-800 shadow-sm hover:shadow-md transition-all ring-1 ring-zinc-900/10"
+                        aria-label="Ajouter une catégorie"
+                        title="Ajouter une catégorie rapidement"
+                      >
+                        <LuPlus className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
                 <Textarea 
@@ -176,6 +206,26 @@ export default function ProductsCreatePage() {
                 Système de gestion d'inventaire v2.0
             </div>
         </div>
+        {/* Modal quick action: add category */}
+        <Modal isOpen={isCatModalOpen} onClose={() => setCatModalOpen(false)} title="Ajouter une catégorie" size="sm">
+          <div className="space-y-4">
+            <p className="text-sm text-zinc-500">Action rapide : ajoutez une nouvelle catégorie sans quitter le formulaire.</p>
+            <Input
+              label="Nom de la catégorie"
+              value={newCategoryName}
+              onChange={(e) => setNewCategoryName(e.target.value)}
+              placeholder="Ex: Chaussures"
+              autoFocus
+            />
+            <div className="flex justify-end gap-3">
+              <button onClick={() => setCatModalOpen(false)} className="px-4 py-2 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50">Annuler</button>
+              <button onClick={addCategory} className="px-4 py-2 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 flex items-center gap-2">
+                <LuPlus className="w-4 h-4" />
+                Ajouter
+              </button>
+            </div>
+          </div>
+        </Modal>
       </div>
     </div>
   );

@@ -27,7 +27,7 @@ export function PageHeader({ title, description, backLink, children, className =
               {backLink.label}
             </Link>
           )}
-          <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900">{title}</h1>
           {description && (
             <p className="text-zinc-400 text-base mt-1 font-['Google_Sans']">{description}</p>
           )}
