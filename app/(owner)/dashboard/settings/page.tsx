@@ -75,6 +75,7 @@ export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("Général");
   const [currency, setCurrency] = useState("FCFA");
   const [accentColor, setAccentColor] = useState('#2563eb');
+  const [payments, setPayments] = useState({ yas: false, moov: false, virement: false });
 
   const colorOptions = [
     '#0EA5A4', // Bleu pétrole
@@ -85,7 +86,7 @@ export default function SettingsPage() {
     '#FB7185'  // Corail
   ];
 
-  const tabs = ["Général", "Paiement", "Livraison", "Notifications", "Sécurité"];
+  const tabs = ["Général", "Paiement", "Livraison"];
 
   return (
     <PageLayout>
@@ -171,55 +172,55 @@ export default function SettingsPage() {
           )}
 
           {activeTab === "Paiement" && (
-            <section className="space-y-8">
-              <div>
-                <h3 className="text-base font-black uppercase tracking-[0.2em] text-zinc-400 mb-6">Configuration Financière</h3>
+              <section className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <Select
-                    label="Devise de référence"
-                    options={[
-                      { value: "FCFA", label: "Franc CFA (XOF)" },
-                      { value: "EUR", label: "Euro (€)" },
-                      { value: "USD", label: "Dollar ($)" }
-                    ]}
-                    value={currency}
-                    onChange={setCurrency}
-                  />
-                  <Input label="TVA (%)" type="number" defaultValue="18" />
-                </div>
-              </div>
-
-              <div className="pt-8 border-t border-zinc-50">
-                <h3 className="text-base font-black uppercase tracking-[0.2em] text-zinc-400 mb-6">Méthodes de Paiement</h3>
-                <div className="space-y-4">
-                  <Checkbox label="Activer Orange Money & Wave" defaultChecked />
-                  <Checkbox label="Paiement par carte bancaire (Stripe)" />
-                  <Checkbox label="Paiement à la livraison" defaultChecked />
-                </div>
-              </div>
-            </section>
-          )}
-
-          {activeTab === "Notifications" && (
-            <section className="space-y-6">
-              <h3 className="text-base font-black uppercase tracking-[0.2em] text-zinc-400 mb-6">Préférences d&apos;alertes</h3>
-              {[
-                { title: "Commandes clients", desc: "Recevoir un mail pour chaque vente", active: true },
-                { title: "Stocks", desc: "Alerte automatique si rupture proche", active: true },
-                { title: "Newsletter", desc: "Rapports hebdomadaires d'activité", active: false }
-              ].map((item, i) => (
-                <div key={i} className="flex items-center justify-between p-5 rounded-2xl border border-zinc-100 bg-zinc-50/30">
                   <div>
-                    <p className="font-bold text-zinc-900 font-['Google_Sans']">{item.title}</p>
-                    <p className="text-sm text-zinc-400 font-['Google_Sans']">{item.desc}</p>
+                    <h3 className="text-base font-black uppercase tracking-[0.2em] text-zinc-400 mb-6">Configuration Financière</h3>
+                    <div className="grid grid-cols-1 gap-4">
+                      <Select
+                        label="Devise de référence"
+                        options={[
+                          { value: "FCFA", label: "Franc CFA (XOF)" },
+                          { value: "EUR", label: "Euro (€)" },
+                          { value: "USD", label: "Dollar ($)" }
+                        ]}
+                        value={currency}
+                        onChange={setCurrency}
+                      />
+                    </div>
                   </div>
-                  <button className={`w-10 h-6 rounded-full relative p-1 transition-all ${item.active ? 'bg-zinc-900' : 'bg-zinc-200'}`}>
-                    <div className={`w-4 h-4 bg-white rounded-full transition-all ${item.active ? 'translate-x-4' : 'translate-x-0'}`} />
-                  </button>
+
+                  <div>
+                    <h3 className="text-base font-black uppercase tracking-[0.2em] text-zinc-400 mb-6">Méthodes de Paiement</h3>
+                    <div className="space-y-4 mt-3">
+                      <Checkbox
+                        label="YAS Togo"
+                        checked={payments.yas}
+                        onChange={(e) => setPayments(prev => ({ ...prev, yas: e.target.checked }))}
+                      />
+                      <Checkbox
+                        label="Moov Money"
+                        checked={payments.moov}
+                        onChange={(e) => setPayments(prev => ({ ...prev, moov: e.target.checked }))}
+                      />
+                      <Checkbox
+                        label="Virement bancaire"
+                        checked={payments.virement}
+                        onChange={(e) => setPayments(prev => ({ ...prev, virement: e.target.checked }))}
+                      />
+
+                      {payments.virement && (
+                        <div className="mt-4 space-y-3 p-4 border border-zinc-100 rounded-lg bg-zinc-50">
+                          <Input label="Nom de la banque" placeholder="Ex: Banque Nationale" />
+                          <Input label="N° de compte / IBAN" placeholder="Ex: TG00 0000 0000" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              ))}
-            </section>
+              </section>
           )}
+
         </motion.div>
       </AnimatePresence>
 
